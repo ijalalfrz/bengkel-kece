@@ -20,6 +20,10 @@ class CreateTransaksisTable extends Migration
             $table->integer("total_harga");
             $table->enum("jenis",["service","beli"]);
             $table->timestamps();
+
+            $table->foreign('id_pelanggan')->references('id')->on('pelanggans');
+            $table->foreign('id_montir')->references('id')->on('montirs');
+
         });
     }
 
