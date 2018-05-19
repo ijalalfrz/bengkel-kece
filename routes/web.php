@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::group(['prefix' => 'manager',  'middleware' => 'auth-manager'], function() {
+
+    Route::get('dashboard', 'Manager\HomeController@index')->name('manager.home');
+});
+
