@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\AuthKasir;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -37,6 +37,15 @@ class LoginController extends Controller
     }
 
     public function showLoginForm(){
-        return view('kasir.login');
+        return view('kasir.login-kasir');
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        if ( $user->role=='kasir' ) {// do your margic here
+            return redirect()->route('kasir.dashboard');
+        }
+
+        return redirect('/home');
     }
 }

@@ -15,7 +15,7 @@ class ManagerMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->role == 'manager')
+        if(Auth::check() && Auth::user()->role == 'manager')
             return $next($request);
         return redirect('/login');
     }
