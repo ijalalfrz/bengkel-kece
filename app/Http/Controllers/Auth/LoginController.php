@@ -45,7 +45,7 @@ class LoginController extends Controller
     {
 
         if ( $user->role=='manager' ) {// do your margic here
-            return redirect()->route('manager.dashboard');
+            return redirect()->route('manager.home');
         }
 
         return redirect('/manager/dashboard');
