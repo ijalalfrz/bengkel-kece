@@ -69,8 +69,8 @@
           @foreach($kasir as $itm)
             <tr>
               <td>{{$i}}</td>
-              <td>{{$itm->no_ktp}}</td>
-              <td>{{$itm->nama}}</td>
+              <td>{{$itm->email}}</td>
+              <td>{{$itm->name}}</td>
               <td>{{$itm->alamat}}</td>
               <td>{{$itm->no_hp}}</td>
               <td><img src="{{$itm->foto}}" height="100"> </td>

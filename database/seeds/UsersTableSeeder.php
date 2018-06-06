@@ -17,6 +17,9 @@ class UsersTableSeeder extends Seeder
           'email' => 'manager@gmail.com',
           'password' => bcrypt('manager123'),
           'role' => 'manager',
+          'foto' => '-',
+          'alamat' => '-',
+          'no_hp' => '-'
       ]);
     }
 }
