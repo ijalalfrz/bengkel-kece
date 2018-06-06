@@ -10,13 +10,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="shortcut icon" href="{{asset('img/logo-fav.png')}}">
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{-- {{ config('app.name', 'Laravel') }} --}}Bengkel Kece </title>
     <link rel="stylesheet" type="text/css" href="{{asset('lib/perfect-scrollbar/css/perfect-scrollbar.min.css')}}"/>
     <link rel="stylesheet" type="text/css" href="{{asset('lib/material-design-icons/css/material-design-iconic-font.min.css')}}"/><!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('lib/datatables/css/dataTables.bootstrap.min.css') }}"/>
+
     <link rel="stylesheet" href="{{asset('css/style.css')}}" type="text/css"/>
+    <link rel="stylesheet" href="{{asset('css/mine.css')}}" type="text/css"/>
 </head>
 <body>
 <div class="be-wrapper">
@@ -101,12 +104,13 @@
             <ul class="sidebar-elements">
               <li class="divider">Menu</li>
 
-              <li class="{{ \Request::is('manager/dashboard')?'active':'' }}"><a href="{{route('manager.home')}}"><i class="icon mdi mdi-home"></i><span>Dashboard</span></a></li>
-              <li class="{{ \Request::is('manager/sparepart')?'active':'' }}"><a href="{{url('manager/sparepart')}}"><i class="icon mdi mdi-shape"></i><span>Spare Part</span></a></li>
-              <li class="{{ \Request::is('manager/transaksi')?'active':'' }}"><a href="{{url('manager/transaksi')}}"><i class="icon mdi mdi-money-box"></i><span>Transaksi</span></a></li>
-              <li class="{{ \Request::is('manager/montir')?'active':'' }}"><a href="{{url('manager/montir')}}"><i class="icon mdi mdi-accounts-alt"></i><span>Montir</span></a></li>
-              <li class="{{ \Request::is('manager/kasir')?'active':'' }}"><a href="{{url('manager/kasir')}}"><i class="icon mdi mdi-face"></i><span>Kasir</span></a></li>
-              <li class="{{ \Request::is('manager/laporan')?'active':'' }}"><a href="{{url('manager/laporan')}}"><i class="icon mdi mdi-book"></i><span>Laporan</span></a></li>
+              <li class="{{ \Request::is('manager/dashboard*') ?'active':'' }}"><a href="{{route('manager.home')}}"><i class="icon mdi mdi-home"></i><span>Dashboard</span></a></li>
+              <li class="{{ \Request::is('manager/sparepart*') ?'active':'' }}"><a href="{{url('manager/sparepart')}}"><i class="icon mdi mdi-shape"></i><span>Spare Part</span></a></li>
+              <li class="{{ \Request::is('manager/servis*') ?'active':'' }}"><a href="{{url('manager/servis')}}"><i class="icon mdi mdi-bike"></i><span>Service</span></a></li>
+              <li class="{{ \Request::is('manager/montir*') ?'active':'' }}"><a href="{{url('manager/montir')}}"><i class="icon mdi mdi-accounts-alt"></i><span>Montir</span></a></li>
+              <li class="{{ \Request::is('manager/kasir*') ?'active':'' }}"><a href="{{url('manager/kasir')}}"><i class="icon mdi mdi-face"></i><span>Kasir</span></a></li>
+              <li class="{{ \Request::is('manager/transaksi*') ?'active':'' }}"><a href="{{url('manager/transaksi')}}"><i class="icon mdi mdi-money-box"></i><span>Transaksi</span></a></li>
+              <li class="{{ \Request::is('manager/laporan*') ?'active':'' }}"><a href="{{url('manager/laporan')}}"><i class="icon mdi mdi-book"></i><span>Laporan</span></a></li>
 
             </ul>
           </div>
@@ -322,12 +326,52 @@
 <script src="{{asset('lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('js/main.js')}}" type="text/javascript"></script>
 <script src="{{asset('lib/bootstrap/dist/js/bootstrap.min.js')}}" type="text/javascript"></script>
+<script src="{{ asset('lib/datatables/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('lib/datatables/js/dataTables.bootstrap.min.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         //initialize the javascript
-        App.init();
+      App.init();
+      $(".numeric").keydown(function (e) {
+          // Allow: backspace, delete, tab, escape, enter and .
+          if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+               // Allow: Ctrl+A, Command+A
+              (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+               // Allow: home, end, left, right, down, up
+              (e.keyCode >= 35 && e.keyCode <= 40)) {
+                   // let it happen, don't do anything
+                   return;
+          }
+          // Ensure that it is a number and stop the keypress
+          if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+              e.preventDefault();
+          }
+
+      });
+      $(".img-prev").click(function(){
+        $(this).prev().click();
+      });
+      $(".file-hidden").change(function() {
+        readURL(this);
+      });
+
     });
+    function readURL(input) {
+
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+          $(input).next().attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
 
 </script>
+@yield('script')
+
 </body>
 </html>
