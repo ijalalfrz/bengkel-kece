@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AuthKasir;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -32,8 +33,14 @@ class LoginController extends Controller
      *
      * @return void
      */
+
+    public function __construct()
+    {
+        $this->middleware('guest-kasir')->except('logout');
+    }
+
     protected function guard(){
-        return auth()->guard('admin');
+        return auth()->guard('kasir');
     }
 
     public function showLoginForm(){
@@ -43,9 +50,18 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         if ( $user->role=='kasir' ) {// do your margic here
-            return redirect()->route('kasir.dashboard');
+            return redirect()->route('kasir.home');
         }
 
-        return redirect('/home');
+        return redirect('/kasir/dashboard');
+    }
+
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        return redirect('/kasir/login');
     }
 }
