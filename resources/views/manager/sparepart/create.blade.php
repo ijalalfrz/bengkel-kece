@@ -28,10 +28,6 @@
       <form method="POST" action="{{ url('/manager/sparepart') }}" >
         @csrf
         <div class="form-group">
-          <label>Nomor Part</label>
-          <input type="text" name="nomor_part" class="form-control" required value="{{ old('nomor_part') }}">
-        </div>
-        <div class="form-group">
           <label>Nama</label>
           <input type="text" name="nama" class="form-control" required value="{{ old('nama') }}">
         </div>

@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Part extends Model
 {
     //
-  protected $fillable = ['nomor_part','nama','harga'];
+  protected $fillable = ['nama','harga'];
 
   public function detail()
   {
-      return $this->hasOne('App\DetailPart','id_part','id');
+      return $this->hasMany('App\DetailPart','id_part','id');
   }
 }
