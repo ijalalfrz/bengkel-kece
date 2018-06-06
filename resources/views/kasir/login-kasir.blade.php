@@ -29,7 +29,7 @@
                         <span class="splash-description">Please enter your user information.</span>
                     </div>
                     <div class="panel-body">
-                        <form method="POST" action="{{ route('login') }}">
+                        <form method="POST" action="{{ url('kasir/login') }}">
                             @csrf
                             <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
                                 <input name="email" id="email"  placeholder="Email" type="email" autocomplete="off" class="form-control">

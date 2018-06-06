@@ -18,7 +18,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::group(['prefix' => 'kasir',  'middleware' => 'auth-kasir'], function() {
+   Route::get('dashboard', 'Kasir\HomeController@index')->name('kasir.home');
+});
+
 Route::group(['prefix' => 'kasir'], function() {
+
 
 // Login Routes...
     Route::get('login', ['as' => 'kasir.login', 'uses' => 'AuthKasir\LoginController@showLoginForm']);
