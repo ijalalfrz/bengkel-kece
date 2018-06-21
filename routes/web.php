@@ -52,6 +52,7 @@ Route::group(['prefix' => 'manager',  'middleware' => 'auth-manager'], function(
     Route::put('sparepart/{id}/stok', 'Manager\SparePartController@updateStok')->name('sparepart.stok');
     Route::resource('transaksi', 'Manager\TransaksiController');
     Route::resource('pelanggan', 'Manager\PelangganController');
+    Route::resource('laporan', 'Manager\LaporanController');
 
 });
 
