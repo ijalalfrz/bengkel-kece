@@ -28,10 +28,7 @@
       <form method="POST" action="{{ url('/manager/sparepart/'.$part->id) }}" >
         @csrf
         <input type="hidden" name="_method" value="PUT">
-        <div class="form-group">
-          <label>Nomor Part</label>
-          <input type="text" name="nomor_part" class="form-control" required value="{{ $part->nomor_part }}">
-        </div>
+
         <div class="form-group">
           <label>Nama</label>
           <input type="text" name="nama" class="form-control" required value="{{ $part->nama }}">

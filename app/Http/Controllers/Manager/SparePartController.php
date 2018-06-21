@@ -95,7 +95,6 @@ class SparePartController extends Controller
     {
         //
         $data = Part::findOrFail($id);
-        $data->nomor_part = $request->nomor_part;
         $data->nama = $request->nama;
         $data->harga = $request->harga;
         if($data->save()){
@@ -111,19 +110,16 @@ class SparePartController extends Controller
     public function updateStok(Request $request, $id)
     {
         //
-        $data = DetailPart::where('id_part', $id)->first();
-        if($data==null){
-            $data = new DetailPart();
-            $data->id_part = $id;
-        }
+        $data = new DetailPart();
+        $data->id_part = $id;
 
-        $data->stok = $request->stok;
+        $data->nomor_part = $request->nomor_part;
         if($data->save()){
-            $request->session()->flash('msg', "Sukses mengubah stok");
+            $request->session()->flash('msg', "Sukses menambah stok");
             return redirect()->route('sparepart.index');
         }else{
             return back()
-            ->withErrors(['sistem', 'Gagal mengubah stok'])
+            ->withErrors(['sistem', 'Gagal menambah stok'])
             ->withInput();
         }
     }
