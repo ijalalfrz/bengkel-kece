@@ -74,7 +74,6 @@
               <td>{{$itm->merk_kendaraan}}</td>
               <td>{{$itm->tahun}}</td>
               <td>{{$itm->alamat}}</td>
-              <td></td>
               <td>
                 <p class="text-right">
                   <a href="{{ url('/manager/pelanggan/'.$itm->id.'/edit') }}" class="btn btn-info"><span class="mdi mdi-edit"></span></a>

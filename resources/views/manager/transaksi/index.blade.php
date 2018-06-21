@@ -68,9 +68,27 @@
           @foreach($transaksi as $itm)
             <tr>
               <td>{{$i}}</td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td>
+                @foreach($pelanggan as $pel)
+                  @if($pel->id == $itm->id_pelanggan)
+                    {{$pel->nama}}
+                  @endif
+                @endforeach
+              </td>
+              <td>
+                @foreach($pelanggan as $pel)
+                  @if($pel->id == $itm->id_pelanggan)
+                    {{$pel->no_kendaraan}}
+                  @endif
+                @endforeach
+              </td>
+              <td>
+                @foreach($montir as $mon)
+                  @if($mon->id == $itm->id_montir)
+                    {{$mon->nama}}
+                  @endif
+                @endforeach
+              </td>
               <td>{{$itm->total_harga}}</td>
               <td>{{$itm->jenis}}</td>
               <td>
@@ -89,4 +107,24 @@
     </div>
   </div>
 </div>
+@endsection
+
+@section('script')
+
+<script type="text/javascript">
+  $(function(){
+    $('#datatab').DataTable();
+    $('.btnDelete').click(function(){
+      var url = $(this).data('url');
+      $('#modal-delete').find('form').attr('action', url);
+    });
+
+    $('.btnStok').click(function(){
+      var url = $(this).data('url');
+      var stok = $(this).data('stok');
+      $('#modal-stok').find('form').attr('action', url);
+      $('#modal-stok').find('input').val(stok);
+    });
+  });
+</script>
 @endsection

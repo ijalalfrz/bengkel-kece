@@ -76,6 +76,8 @@ class PelangganController extends Controller
     public function edit($id)
     {
         //
+        $data = Pelanggan::findOrFail($id);
+        return view('manager.pelanggan.edit',['pelanggan'=>$data]);
     }
 
     /**
@@ -88,6 +90,22 @@ class PelangganController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $data = Pelanggan::findOrFail($id);
+
+        $data->nama = $request->nama;
+        $data->no_kendaraan = $request->no_kendaraan;
+        $data->merk_kendaraan = $request->merk_kendaraan;
+        $data->tahun = $request->tahun;
+        $data->alamat = $request->alamat;
+
+        if($data->save()){
+            $request->session()->flash('msg', "Sukses mengubah pelanggan");
+            return redirect()->route('pelanggan.index');
+        }else{
+            return back()
+            ->withErrors(['sistem', 'Gagal mengubah pelanggan'])
+            ->withInput();
+        }
     }
 
     /**
