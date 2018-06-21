@@ -34,6 +34,10 @@
           <input type="text" name="nama" class="form-control" required value="{{ $part->nama }}">
         </div>
         <div class="form-group">
+          <label>Satuan</label>
+          <input type="text" name="satuan" class="form-control" required value="{{ $part->satuan }}">
+        </div>
+        <div class="form-group">
           <label>Harga Satuan</label>
           <input step="1" min="1" type="number" name="harga" class="form-control" required value="{{ (int)$part->harga }}">
         </div>

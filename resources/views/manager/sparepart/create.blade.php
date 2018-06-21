@@ -32,6 +32,10 @@
           <input type="text" name="nama" class="form-control" required value="{{ old('nama') }}">
         </div>
         <div class="form-group">
+          <label>Satuan</label>
+          <input type="text" name="satuan" class="form-control" required value="{{ old('satuan')}}">
+        </div>
+        <div class="form-group">
           <label>Harga Satuan</label>
           <input type="number" name="harga" class="form-control" required value="{{ old('harga') }}">
         </div>

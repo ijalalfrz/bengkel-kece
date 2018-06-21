@@ -42,10 +42,10 @@ class SparePartController extends Controller
     public function store(Request $request)
     {
         //
-        $find = Part::where('nomor_part', $request->nomor_part)->count();
+        $find = Part::where('nama', $request->nama)->count();
         if($find > 0){
             return back()
-            ->withErrors(['sistem' => 'Nomor part sudah ada!'])
+            ->withErrors(['sistem' => 'Part sudah ada!'])
             ->withInput();
         }
 
