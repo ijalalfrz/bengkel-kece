@@ -89,5 +89,15 @@ class TransaksiController extends Controller
     public function destroy($id)
     {
         //
+        $transaksi = Transaksi::findOrFail($id);
+        
+
+        if($transaksi->delete()){
+            \Session::flash('msg', "Sukses menghapus transaksi");
+        }else{
+            \Session::flash('msg', "Gagal menghapus transaksi");
+        }
+
+        return redirect()->route('transaksi.index');
     }
 }

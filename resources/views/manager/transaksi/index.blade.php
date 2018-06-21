@@ -54,7 +54,7 @@
           <tr>
             <th>No</th>
             <th>Nama Pelanggan</th>
-            <th>STNK</th>
+            <th>Nomor STNK</th>
             <th>Nama Montir</th>
             <th>Total Harga</th>
             <th>Jenis</th>
