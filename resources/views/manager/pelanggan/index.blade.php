@@ -20,7 +20,6 @@
     <div class="panel panel-default">
     <div class="panel-heading panel-heading-divider">
       Daftar Pelanggan
-      <a href="{{ url('/manager/pelanggan/create') }}" class="btn btn-lg btn-success pull-right">Tambah</a>
       <div class="clearfix"></div>
     </div>
     <div class="panel-body">
