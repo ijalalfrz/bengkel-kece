@@ -96,6 +96,7 @@ class SparePartController extends Controller
         //
         $data = Part::findOrFail($id);
         $data->nama = $request->nama;
+        $data->satuan = $request->satuan;
         $data->harga = $request->harga;
         if($data->save()){
             $request->session()->flash('msg', "Sukses mengubah sparepart");
