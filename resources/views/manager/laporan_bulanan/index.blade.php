@@ -4,10 +4,10 @@
 
 @section('content')
 <div class="page-head">
-	<h2 class="page=head-title">Laporan Harian</h2>
+	<h2 class="page=head-title">Laporan Bulanan</h2>
 	<ol class="breadcrumb page-head-nav">
 		<li><a href="#">Home</a></li>
-		<li class="active">Laporan Harian</li>
+		<li class="active">Laporan Bulanan</li>
 	</ol>	
 </div>
 
@@ -21,20 +21,45 @@
   @endif
   <div class="panel panel-default">   
   	<div class="panel-heading">
-      Laporan Umum Tanggal {{$info['tgl_show']}}
+      Laporan Umum Bulan {{$info['tgl_show']}}
       <div class="clearfix"></div>
     </div>
       
     <div class="panel-body">
-      <form method="POST" action="{{ url('/manager/laporan') }}">
+      <form method="POST" action="{{ url('/manager/laporan_bulanan') }}">
         @csrf
-        <label>Pilih tanggal</label>
+        <label>Pilih bulan</label>
           <div class="form-group">
             <div class="row">
-              <div class="col-md-3">
-                <input class="form-control" type="date" name="tgl" required value="{{ $info['tgl'] }}">
+              <div class="col-md-2">
+                {{-- <input class="form-control" type="date" name="tgl" required value="{{ $info['tgl'] }}"> --}}
+                <select name="month" class="form-control" required>
+                  <option disabled selected value>Pilih bulan</option>
+                  <option value="1">Januari</option>
+                  <option value="2">Februari</option>
+                  <option value="3">Maret</option>
+                  <option value="4">April</option>
+                  <option value="5">Mei</option>
+                  <option value="6">Juni</option>
+                  <option value="7">Juli</option>
+                  <option value="8">Agustus</option>
+                  <option value="9">September</option>
+                  <option value="10">Oktober</option>
+                  <option value="11">Nopember</option>
+                  <option value="12">Desember</option> 
+                </select>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-2">
+                <select name="year" class="form-control" required>
+                  <option disabled selected value>Pilih tahun</option>
+                  <option value="2016">2016</option>
+                  <option value="2017">2017</option>
+                  <option value="2018">2018</option>
+                </select>
+              </div>
+                  
+
+              <div class="col-md-2">
                 <button type="submit" class="btn btn-space btn-primary btn-lg">Terapkan</button>  
               </div>
             </div>
@@ -62,7 +87,7 @@
     	</table>	
   	</div>
     <div class="panel-heading panel-heading-divider">
-      Daftar Transaksi Tanggal {{$info['tgl_show']}}
+      Daftar Transaksi Bulan {{$info['tgl_show']}}
       <div class="clearfix"></div>
     </div>
     <div class="panel-body">

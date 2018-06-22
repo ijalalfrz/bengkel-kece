@@ -53,6 +53,7 @@ Route::group(['prefix' => 'manager',  'middleware' => 'auth-manager'], function(
     Route::resource('transaksi', 'Manager\TransaksiController');
     Route::resource('pelanggan', 'Manager\PelangganController');
     Route::resource('laporan', 'Manager\LaporanController');
+    Route::resource('laporan_bulanan', 'Manager\LaporanBulananController');
 
 });
 

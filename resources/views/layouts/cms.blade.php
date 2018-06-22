@@ -111,7 +111,8 @@
               <li class="{{ \Request::is('manager/kasir*') ?'active':'' }}"><a href="{{url('manager/kasir')}}"><i class="icon mdi mdi-face"></i><span>Kasir</span></a></li>
               <li class="{{ \Request::is('manager/pelanggan*') ?'active':'' }}"><a href="{{url('manager/pelanggan')}}"><i class="icon mdi mdi-accounts"></i><span>Pelanggan</span></a></li>
               <li class="{{ \Request::is('manager/transaksi*') ?'active':'' }}"><a href="{{url('manager/transaksi')}}"><i class="icon mdi mdi-money-box"></i><span>Transaksi</span></a></li>
-              <li class="{{ \Request::is('manager/laporan*') ?'active':'' }}"><a href="{{url('manager/laporan')}}"><i class="icon mdi mdi-book"></i><span>Laporan</span></a></li>
+              <li class="{{ \Request::is('manager/laporan') ?'active':'' }}"><a href="{{url('manager/laporan')}}"><i class="icon mdi mdi-book"></i><span>Laporan Harian</span></a></li>
+              <li class="{{ \Request::is('manager/laporan_bulanan*') ?'active':'' }}"><a href="{{url('manager/laporan_bulanan')}}"><i class="icon mdi mdi-book"></i><span>Laporan Bulanan</span></a></li>
 
             </ul>
           </div>

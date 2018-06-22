@@ -17,8 +17,4 @@ class Transaksi extends Model
 		return $this->belongsTo('App\Montir', 'id_montir');
 	}
 
-	public function getFromDateAttribute() {
-		$value = Carbon::now();
-    return \Carbon\Carbon::parse($value)->format('Y-m-d');
-	}
 }
