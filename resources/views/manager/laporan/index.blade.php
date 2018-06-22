@@ -21,11 +21,23 @@
   @endif
   <div class="panel panel-default">   
   	<div class="panel-heading">
-      Laporan Umum
+      Laporan Umum Per Hari
       <div class="clearfix"></div>
     </div>
-  	<div class="panel-body">
-    	<table class="table">
+      
+    <div class="panel-body">
+      <form method="POST" action="{{ url('/manager/laporan') }}">
+        @csrf
+
+        <label>Pilih tanggal</label>
+        <div class="form-group">
+          <input class="form-control" type="date" name="tgl" required>
+        </div>
+        <p class="text-right">
+          <button type="submit" class="btn btn-space btn-primary">Terapkan</button>
+        </p>
+      </form>
+      <table class="table">
     		<tr>
     			<th>Jumlah Service Terlaksana</th>
     			<td>a</td>
@@ -55,6 +67,7 @@
         <thead>
           <tr>
             <th>No</th>
+            <th>Waktu</th>
             <th>Nama Pelanggan</th>
             <th>STNK</th>
             <th>Nama Montir</th>
@@ -62,13 +75,26 @@
             <th>Jenis</th>
             <th></th>
           </tr>
-          <tbody>
-          	<tr>
-              <td></td>
-          		<td></td>
-          	</tr>
-          </tbody>
         </thead>
+        <tbody>
+          @php
+            $i = 1;
+          @endphp
+          @foreach($transaksi as $itm)
+          <tr>
+            <td>{{$i}}</td>
+            <td>{{$itm->created_at->format('H:i:s')}}</td>
+            <td>{{$itm->pelanggan->nama}}</td>
+            <td>{{$itm->pelanggan->no_kendaraan}}</td>
+            <td>{{$itm->montir->nama}}</td>
+            <td>{{$itm->total_harga}}</td>
+            <td>{{$itm->jenis}}</td>
+          </tr>
+            @php
+              $i++;
+            @endphp
+          @endforeach
+        </tbody>
       </table>
     </div>
   </div>

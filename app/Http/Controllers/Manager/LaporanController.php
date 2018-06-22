@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Manager;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon;
+use App\Transaksi;
+
 
 class LaporanController extends Controller
 {
@@ -16,9 +18,8 @@ class LaporanController extends Controller
     public function index()
     {
         //
-        $now = Carbon\Carbon::now();
-        Carbon:
-        return view('manager.laporan.index', ['now'=> $now]);
+        $data = Transaksi::whereDate('created_at', Carbon::today())->get();
+        return view('manager.laporan.index', ['transaksi'=> $data]);
     }
 
     /**
@@ -40,6 +41,10 @@ class LaporanController extends Controller
     public function store(Request $request)
     {
         //
+        $find = Transaksi::whereDate('created_at', $request->tgl)->get();
+        echo $request->tgl;
+
+        return view('manager.laporan.index', ['transaksi'=> $find]);
     }
 
     /**

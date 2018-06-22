@@ -53,6 +53,7 @@
         <thead>
           <tr>
             <th>No</th>
+            <th>Tanggal</th>
             <th>Nama Pelanggan</th>
             <th>Nomor STNK</th>
             <th>Nama Montir</th>
@@ -68,6 +69,7 @@
           @foreach($transaksi as $itm)
             <tr>
               <td>{{$i}}</td>
+              <td>{{$itm->created_at}}</td>
               <td>{{$itm->pelanggan->nama}}</td>
               <td>{{$itm->pelanggan->no_kendaraan}}</td>
               <td>{{$itm->montir->nama}}</td>
