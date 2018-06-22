@@ -35,7 +35,7 @@
                 <input class="form-control" type="date" name="tgl" required value="{{ $tgl }}">
               </div>
               <div class="col-md-3">
-                <button type="submit" class="btn btn-space btn-primary">Terapkan</button>  
+                <button type="submit" class="btn btn-space btn-primary btn-lg">Terapkan</button>  
               </div>
             </div>
           </div>

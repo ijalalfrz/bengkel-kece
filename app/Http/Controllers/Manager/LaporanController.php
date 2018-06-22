@@ -19,6 +19,9 @@ class LaporanController extends Controller
         //
         $tgl = Carbon::parse(Carbon::today())->format('Y-m-d');
         $data = Transaksi::whereDate('created_at', $tgl)->get();
+        foreach ($data as $itm) {
+            
+        }
         return view('manager.laporan.index', ['transaksi'=> $data, 'tgl'=> $tgl]);
     }
 

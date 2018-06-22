@@ -68,7 +68,7 @@
             <tr>
               <td>{{$i}}</td>
               <td>{{$itm->nama}}</td>
-              <td>{{$itm->Kode}}</td>
+              <td>{{$itm->kode}}</td>
               <td>Rp {{number_format($itm->harga_jual, 0, '', '.')}}</td>
               <td>
                 <p class="text-right">
