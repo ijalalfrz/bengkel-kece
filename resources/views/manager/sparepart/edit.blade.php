@@ -28,7 +28,10 @@
       <form method="POST" action="{{ url('/manager/sparepart/'.$part->id) }}" >
         @csrf
         <input type="hidden" name="_method" value="PUT">
-
+        <div class="form-group">
+          <label>Kode</label>
+          <input type="text" name="kode" class="form-control" required value="{{ $part->kode }}">
+        </div>
         <div class="form-group">
           <label>Nama</label>
           <input type="text" name="nama" class="form-control" required value="{{ $part->nama }}">
@@ -37,10 +40,7 @@
           <label>Satuan</label>
           <input type="text" name="satuan" class="form-control" required value="{{ $part->satuan }}">
         </div>
-        <div class="form-group">
-          <label>Kode</label>
-          <input type="text" name="kode" class="form-control" required value="{{ $part->kode }}">
-        </div>
+
         <div class="form-group">
           <label>Harga Satuan</label>
           <input step="1" min="1" type="number" name="harga" class="form-control" required value="{{ (int)$part->harga }}">

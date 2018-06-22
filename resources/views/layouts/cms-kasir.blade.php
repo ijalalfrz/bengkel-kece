@@ -18,6 +18,7 @@
     <![endif]-->
     <link rel="stylesheet" type="text/css" href="{{ asset('lib/select2/css/select2.min.css') }} "/>
     <link rel="stylesheet" href="{{asset('css/style.css')}}" type="text/css"/>
+    <link rel="stylesheet" href="{{asset('css/mine.css')}}" type="text/css"/>
 </head>
 <body>
 <div class="be-wrapper">

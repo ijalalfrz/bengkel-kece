@@ -5,6 +5,7 @@ use App\User;
 use App\Pelanggan;
 use App\Montir;
 use App\Part;
+use App\Service;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -21,7 +22,8 @@ class TransaksiController extends Controller
         $pelanggan = Pelanggan::all();
         $montir = Montir::all();
         $part = Part::all();
-        return view('kasir.transaksi.index', ['pelanggan' => $pelanggan, 'montir' => $montir, 'part' => $part]);
+        $service = Service::all();
+        return view('kasir.transaksi.index', ['pelanggan' => $pelanggan, 'montir' => $montir, 'part' => $part, 'service' => $service]);
     }
 
     /**
