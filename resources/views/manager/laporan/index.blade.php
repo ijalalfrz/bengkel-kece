@@ -43,21 +43,21 @@
       <table class="table">
     		<tr>
     			<th>Jumlah Service Terlaksana</th>
-    			<td>a</td>
+    			<td> {{$service}} </td>
     			<th>Jumlah Pendapatan Service</th>
-    			<td>a</td>
+    			<td>Rp {{number_format($pend_service, 0, '', '.')}} </td>
     		</tr>
     		<tr>
     			<th>Jumlah Part Terjual</th>
-    			<td>a</td>
+    			<td> {{$part}} </td>
     			<th>Jumlah Pendapatan Part</th>
-    			<td>a</td>
+    			<td>Rp {{number_format($pend_part, 0, '', '.')}} </td>
     		</tr>
     		<tr>
     			<th>Total Pelanggan</th>
-    			<td>a</td>
+    			<td></td>
     			<th>Total Pendapatan</th>
-    			<td>a</td>
+    			<td>Rp {{number_format($total, 0, '', '.')}}</td>
     		</tr>
     	</table>	
   	</div>
@@ -90,7 +90,7 @@
             <td>{{$itm->pelanggan->nama}}</td>
             <td>{{$itm->pelanggan->no_kendaraan}}</td>
             <td>{{$itm->montir->nama}}</td>
-            <td>{{$itm->total_harga}}</td>
+            <td>Rp {{number_format($itm->total_harga, 0, '', '.')}}</td>
             <td>{{$itm->jenis}}</td>
           </tr>
             @php

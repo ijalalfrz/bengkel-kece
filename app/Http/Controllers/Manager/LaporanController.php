@@ -19,10 +19,32 @@ class LaporanController extends Controller
         //
         $tgl = Carbon::parse(Carbon::today())->format('Y-m-d');
         $data = Transaksi::whereDate('created_at', $tgl)->get();
+
+        $part = 0;
+        $pend_part = 0;
+        $service = 0;
+        $pend_service = 0;
+        $total = 0;
         foreach ($data as $itm) {
-            
+            if($itm->jenis == "service"){
+                $service += 1;
+                $pend_service += $itm->total_harga;
+            }else{
+                $part += 1;
+                $pend_part += $itm->total_harga;
+            }
+
+            $total += $itm->total_harga;
         }
-        return view('manager.laporan.index', ['transaksi'=> $data, 'tgl'=> $tgl]);
+
+        return view('manager.laporan.index', [
+            'transaksi'=> $data, 
+            'tgl'=> $tgl, 
+            'part'=> $part,
+            'pend_part'=> $pend_part,
+            'service'=> $service,
+            'pend_service'=> $pend_service,
+            'total'=> $total]);
     }
 
     /**
@@ -46,7 +68,32 @@ class LaporanController extends Controller
         //
         $tgl = $request->tgl;
         $data = Transaksi::whereDate('created_at', $tgl)->get();
-        return view('manager.laporan.index', ['transaksi'=> $data, 'tgl'=> $tgl]);
+
+        $part = 0;
+        $pend_part = 0;
+        $service = 0;
+        $pend_service = 0;
+        $total = 0;
+        foreach ($data as $itm) {
+            if($itm->jenis == "service"){
+                $service += 1;
+                $pend_service += $itm->total_harga;
+            }else{
+                $part += 1;
+                $pend_part += $itm->total_harga;
+            }
+
+            $total += $itm->total_harga;
+        }
+
+        return view('manager.laporan.index', [
+            'transaksi'=> $data, 
+            'tgl'=> $tgl, 
+            'part'=> $part,
+            'pend_part'=> $pend_part,
+            'service'=> $service,
+            'pend_service'=> $pend_service,
+            'total'=> $total]);
 
     }
 
