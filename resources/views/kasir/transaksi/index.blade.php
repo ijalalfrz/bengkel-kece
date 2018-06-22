@@ -79,7 +79,7 @@
         <div class="col-md-4">
           <div class="form-group">
             <label>Pelanggan</label>
-            <select class="select2" name="id_pelanggan">
+            <select disabled class="select2" name="id_pelanggan">
               <option></option>
               @foreach($pelanggan as $data)
               <option value="{{$data->id}}">{{$data->nama}}</option>
@@ -90,7 +90,7 @@
         <div class="col-md-4">
           <div class="form-group">
             <label>Montir</label>
-            <select class="select2" name="id_montir">
+            <select disabled class="select2" name="id_montir">
               <option></option>
               @foreach($montir as $data)
               <option value="{{$data->id}}">{{$data->nama}}</option>
@@ -125,7 +125,9 @@
         </table>
         <h3>TOTAL SPARPART : <span class="total_sparepart"></span></h3>
       </div>
+      <br>
       <hr>
+      <br>
       <div style="display: none;" id="service">
         <h1>SERVICE</h1>
       </div>
@@ -167,6 +169,10 @@
               <td>${jum}</td>
               <td>${sub}</td>
               <td>
+                <input type='hidden' name='id_part' value='${data.id}'>
+                <input type='hidden' name='harga_jual' value='${harga}'>
+                <input type='hidden' name='jumlah' value='${jum}'>
+                <input type='hidden' name='total_harga' value='${sub}'>
                 <button type='button' class='btn btn-danger'>Hapus</button
               </td>
             </tr>
@@ -180,8 +186,12 @@
       var val = $(this).val();
       if(val=="beli"){
         $("#service").slideUp();
+        $('select[name=id_pelanggan]').attr('disabled','');
+        $('select[name=id_montir]').attr('disabled','');
       }else{
         $("#service").slideDown();
+        $('select[name=id_pelanggan]').removeAttr('disabled');
+        $('select[name=id_montir]').removeAttr('disabled');
       }
     });
   })
