@@ -55,6 +55,7 @@
           <tr>
             <th>No</th>
             <th>Nama</th>
+            <th>Kode Jasa</th>
             <th>Harga Jasa</th>
             <th></th>
           </tr>
@@ -67,6 +68,7 @@
             <tr>
               <td>{{$i}}</td>
               <td>{{$itm->nama}}</td>
+              <td>{{$itm->Kode}}</td>
               <td>Rp {{number_format($itm->harga_jual, 0, '', '.')}}</td>
               <td>
                 <p class="text-right">

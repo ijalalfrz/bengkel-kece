@@ -41,10 +41,22 @@ class ServisController extends Controller
     public function store(Request $request)
     {
         //
-        $data = new Service();
-        $data->nama = $request->nama;
-        $data->harga_jual = $request->harga_jual;
+        $data = Service::create($request->except('_method', '_token'));
         if($data->save()){
+
+            if($data->id >= 0 && $data->id <= 99){
+                $data->kode = 'S' . '0000' . $data->id;
+            }else if($data->id >= 100 && $data->id <= 999){
+                $data->kode = 'S' . '000' . $data->id;
+            }else if($data->id >= 1000 && $data->id <= 9999){
+                $data->kode = 'S' . '00' . $data->id;
+            }else if($data->id > 10000 && $data->id <= 99990){
+                $data->kode = 'S' . '0' . $data->id;
+            }else{
+                $data->kode = 'S' . $data->id;
+            }
+            $data->save();
+
             $request->session()->flash('msg', "Sukses menambahkan data servis");
             return redirect()->route('servis.index');
         }else{

@@ -19,6 +19,6 @@ class Transaksi extends Model
 
 	public function getFromDateAttribute() {
 		$value = Carbon::now();
-    return \Carbon\Carbon::parse($value)->format('d-m-Y');
-}
+    return \Carbon\Carbon::parse($value)->format('Y-m-d');
+	}
 }

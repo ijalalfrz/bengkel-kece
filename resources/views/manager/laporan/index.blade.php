@@ -28,14 +28,17 @@
     <div class="panel-body">
       <form method="POST" action="{{ url('/manager/laporan') }}">
         @csrf
-
         <label>Pilih tanggal</label>
-        <div class="form-group">
-          <input class="form-control" type="date" name="tgl" required>
-        </div>
-        <p class="text-right">
-          <button type="submit" class="btn btn-space btn-primary">Terapkan</button>
-        </p>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-3">
+                <input class="form-control" type="date" name="tgl" required value="{{ $tgl }}">
+              </div>
+              <div class="col-md-3">
+                <button type="submit" class="btn btn-space btn-primary">Terapkan</button>  
+              </div>
+            </div>
+          </div>
       </form>
       <table class="table">
     		<tr>
