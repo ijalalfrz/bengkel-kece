@@ -72,7 +72,6 @@
                 <p class="text-right">
                   <a href="{{ url('/manager/servis/'.$itm->id.'/edit') }}" class="btn btn-info"><span class="mdi mdi-edit"></span></a>
                   <a href="javascript:void(0);" data-url="{{ url('/manager/servis/'.$itm->id) }}" data-toggle='modal' data-target='#modal-delete' class="btnDelete btn btn-danger"><span class="mdi mdi-delete"></span></a>
-
                 </p>
               </td>
             </tr>
@@ -91,7 +90,12 @@
 
 <script type="text/javascript">
   $(function(){
-    $('#datatab').DataTable();
+    $('#datatab').DataTable({
+      'aoColumnDefs': [{
+        'bSortable': false,
+        'aTargets': [-1, -1] /* 1st one, start by the right */
+      }]
+    });
     $('.btnDelete').click(function(){
       var url = $(this).data('url');
       $('#modal-delete').find('form').attr('action', url);

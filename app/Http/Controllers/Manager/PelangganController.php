@@ -16,7 +16,6 @@ class PelangganController extends Controller
     public function index()
     {
         $data = Pelanggan::all();
-
         return view('manager.pelanggan.index', ['pelanggan' => $data]);
     }
 
@@ -28,6 +27,7 @@ class PelangganController extends Controller
     public function create()
     {
         //
+        return view('manager.pelanggan.create');
     }
 
     /**
@@ -39,6 +39,21 @@ class PelangganController extends Controller
     public function store(Request $request)
     {
         //
+        $data = new Pelanggan();
+        $data->nama = $request->nama;
+        $data->no_kendaraan = $request->no_kendaraan;
+        $data->merk_kendaraan = $request->merk_kendaraan;
+        $data->tahun = $request->tahun;
+        $data->alamat = $request->alamat;
+
+        if($data->save()){
+            $request->session()->flash('msg', "Sukses menambahkan data pelanggan");
+            return redirect()->route('pelanggan.index');
+        }else{
+            return back()
+            ->withErrors(['sistem', 'Gagal menambahkan data pelanggan'])
+            ->withInput();
+        }
     }
 
     /**
@@ -61,6 +76,8 @@ class PelangganController extends Controller
     public function edit($id)
     {
         //
+        $data = Pelanggan::findOrFail($id);
+        return view('manager.pelanggan.edit',['pelanggan'=>$data]);
     }
 
     /**
@@ -73,6 +90,22 @@ class PelangganController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $data = Pelanggan::findOrFail($id);
+
+        $data->nama = $request->nama;
+        $data->no_kendaraan = $request->no_kendaraan;
+        $data->merk_kendaraan = $request->merk_kendaraan;
+        $data->tahun = $request->tahun;
+        $data->alamat = $request->alamat;
+
+        if($data->save()){
+            $request->session()->flash('msg', "Sukses mengubah pelanggan");
+            return redirect()->route('pelanggan.index');
+        }else{
+            return back()
+            ->withErrors(['sistem', 'Gagal mengubah pelanggan'])
+            ->withInput();
+        }
     }
 
     /**
@@ -84,5 +117,14 @@ class PelangganController extends Controller
     public function destroy($id)
     {
         //
+        $pelanggan = Pelanggan::findOrFail($id);
+
+        if($pelanggan->delete()){
+            \Session::flash('msg', "Sukses menghapus pelanggan");
+        }else{
+            \Session::flash('msg', "Gagal menghapus pelanggan");
+        }
+
+        return redirect()->route('pelanggan.index');
     }
 }

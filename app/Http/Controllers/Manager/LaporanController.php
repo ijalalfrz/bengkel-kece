@@ -1,14 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Manager;
-use App\Transaksi;
-use App\Pelanggan;
-use App\Montir;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use File;
+use Carbon;
 
-class TransaksiController extends Controller
+class LaporanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,11 +16,9 @@ class TransaksiController extends Controller
     public function index()
     {
         //
-        $data = Transaksi::all();
-        $data_pelanggan = Pelanggan::all();
-        $data_montir = Montir::all();
-
-        return view('manager.transaksi.index', ['transaksi'=> $data, 'pelanggan'=> $data_pelanggan, 'montir'=> $data_montir]);
+        $now = Carbon\Carbon::now();
+        Carbon:
+        return view('manager.laporan.index', ['now'=> $now]);
     }
 
     /**
@@ -89,15 +85,5 @@ class TransaksiController extends Controller
     public function destroy($id)
     {
         //
-        $transaksi = Transaksi::findOrFail($id);
-        
-
-        if($transaksi->delete()){
-            \Session::flash('msg', "Sukses menghapus transaksi");
-        }else{
-            \Session::flash('msg', "Gagal menghapus transaksi");
-        }
-
-        return redirect()->route('transaksi.index');
     }
 }

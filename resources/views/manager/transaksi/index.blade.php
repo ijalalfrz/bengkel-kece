@@ -54,7 +54,7 @@
           <tr>
             <th>No</th>
             <th>Nama Pelanggan</th>
-            <th>STNK</th>
+            <th>Nomor STNK</th>
             <th>Nama Montir</th>
             <th>Total Harga</th>
             <th>Jenis</th>
@@ -68,9 +68,9 @@
           @foreach($transaksi as $itm)
             <tr>
               <td>{{$i}}</td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td>{{$itm->pelanggan->nama}}</td>
+              <td>{{$itm->pelanggan->no_kendaraan}}</td>
+              <td>{{$itm->montir->nama}}</td>
               <td>{{$itm->total_harga}}</td>
               <td>{{$itm->jenis}}</td>
               <td>
@@ -89,4 +89,29 @@
     </div>
   </div>
 </div>
+@endsection
+
+@section('script')
+
+<script type="text/javascript">
+  $(function(){
+    $('#datatab').DataTable({
+      'aoColumnDefs': [{
+        'bSortable': false,
+        'aTargets': [-1, -1] /* 1st one, start by the right */
+      }]
+    });
+    $('.btnDelete').click(function(){
+      var url = $(this).data('url');
+      $('#modal-delete').find('form').attr('action', url);
+    });
+
+    $('.btnStok').click(function(){
+      var url = $(this).data('url');
+      var stok = $(this).data('stok');
+      $('#modal-stok').find('form').attr('action', url);
+      $('#modal-stok').find('input').val(stok);
+    });
+  });
+</script>
 @endsection

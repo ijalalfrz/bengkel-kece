@@ -85,6 +85,7 @@
           <tr>
             <th>No</th>
             <th>Nama</th>
+            <th>Satuan</th>
             <th>Harga Satuan</th>
             <th>Stok</th>
             <th></th>
@@ -98,6 +99,7 @@
             <tr>
               <td>{{$i}}</td>
               <td>{{$itm->nama}}</td>
+              <td>{{$itm->satuan}}</td>
               <td>Rp {{number_format($itm->harga, 0, '', '.')}}</td>
               <td>{{ $itm->detail()->count() }}</td>
               <td>
@@ -124,7 +126,12 @@
 
 <script type="text/javascript">
   $(function(){
-    $('#datatab').DataTable();
+    $('#datatab').DataTable({
+      'aoColumnDefs': [{
+        'bSortable': false,
+        'aTargets': [-1, -1] /* 1st one, start by the right */
+      }]
+    });
     $('.btnDelete').click(function(){
       var url = $(this).data('url');
       $('#modal-delete').find('form').attr('action', url);

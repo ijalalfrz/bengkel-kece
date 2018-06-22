@@ -3,10 +3,10 @@
 @section('content')
 
 <div class="page-head">
-  <h2 class="page-head-title">Sparepart</h2>
+  <h2 class="page-head-title">Pelanggan</h2>
   <ol class="breadcrumb page-head-nav">
     <li><a href="#">Home</a></li>
-    <li><a href="{{ url('/manager/sparepart') }}">Sparepart</a></li>
+    <li><a href="{{ url('/manager/pelanggan') }}">Pelanggan</a></li>
     <li class="active">Create</li>
   </ol>
 </div>
@@ -22,26 +22,34 @@
   @endif
   <div class="panel panel-default">
     <div class="panel-heading panel-heading-divider">
-      Tambah Sparepart
+      Tambah Pelanggan
     </div>
     <div class="panel-body">
-      <form method="POST" action="{{ url('/manager/sparepart') }}" >
+      <form method="POST" action="{{ url('/manager/pelanggan') }}" >
         @csrf
         <div class="form-group">
           <label>Nama</label>
           <input type="text" name="nama" class="form-control" required value="{{ old('nama') }}">
         </div>
         <div class="form-group">
-          <label>Satuan</label>
-          <input type="text" name="satuan" class="form-control" required value="{{ old('satuan')}}">
+          <label>Nomor STNK</label>
+          <input type="text" name="no_kendaraan" class="form-control" required value="{{ old('no_kendaraan') }}">
         </div>
         <div class="form-group">
-          <label>Harga Satuan</label>
-          <input type="number" name="harga" class="form-control" required value="{{ old('harga') }}">
+          <label>Merk Kendaraan</label>
+          <input type="text" name="merk_kendaraan" class="form-control" required value="{{ old('merk_kendaraan') }}">
+        </div>
+        <div class="form-group">
+          <label>Tahun</label>
+          <input type="number" name="tahun" class="form-control" required value="{{ old('tahun') }}">
+        </div>
+        <div class="form-group">
+          <label>Alamat</label>
+          <input type="text" name="alamat" class="form-control" required value="{{ old('alamat') }}">
         </div>
         <p class="text-right">
           <button step="1" min="1" type="submit" class="btn btn-space btn-primary">Simpan</button>
-          <a href="{{ url('/manager/sparepart') }}" class="btn btn-space btn-default">Kembali</a>
+          <a href="{{ url('/manager/pelanggan') }}" class="btn btn-space btn-default">Kembali</a>
         </p>
       </form>
     </div>

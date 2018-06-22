@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Part extends Model
 {
     //
-  protected $fillable = ['nama','harga'];
+  protected $fillable = ['nama', 'satuan', 'harga'];
 
   public function detail()
   {
