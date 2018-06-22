@@ -1,3 +1,5 @@
+
+
 @extends('layouts.cms')
 
 @section('content')
@@ -62,7 +64,8 @@
           </tr>
           <tbody>
           	<tr>
-          		
+              <td></td>
+          		<td></td>
           	</tr>
           </tbody>
         </thead>

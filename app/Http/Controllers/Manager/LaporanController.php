@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manager;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Carbon;
 
 class LaporanController extends Controller
 {
@@ -15,7 +16,9 @@ class LaporanController extends Controller
     public function index()
     {
         //
-        return view('manager.laporan.index');
+        $now = Carbon\Carbon::now();
+        Carbon:
+        return view('manager.laporan.index', ['now'=> $now]);
     }
 
     /**

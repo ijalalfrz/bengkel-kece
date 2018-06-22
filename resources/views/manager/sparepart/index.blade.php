@@ -126,7 +126,12 @@
 
 <script type="text/javascript">
   $(function(){
-    $('#datatab').DataTable();
+    $('#datatab').DataTable({
+      'aoColumnDefs': [{
+        'bSortable': false,
+        'aTargets': [-1, -1] /* 1st one, start by the right */
+      }]
+    });
     $('.btnDelete').click(function(){
       var url = $(this).data('url');
       $('#modal-delete').find('form').attr('action', url);

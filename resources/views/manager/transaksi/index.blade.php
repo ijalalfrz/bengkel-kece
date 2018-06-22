@@ -68,27 +68,9 @@
           @foreach($transaksi as $itm)
             <tr>
               <td>{{$i}}</td>
-              <td>
-                @foreach($pelanggan as $pel)
-                  @if($pel->id == $itm->id_pelanggan)
-                    {{$pel->nama}}
-                  @endif
-                @endforeach
-              </td>
-              <td>
-                @foreach($pelanggan as $pel)
-                  @if($pel->id == $itm->id_pelanggan)
-                    {{$pel->no_kendaraan}}
-                  @endif
-                @endforeach
-              </td>
-              <td>
-                @foreach($montir as $mon)
-                  @if($mon->id == $itm->id_montir)
-                    {{$mon->nama}}
-                  @endif
-                @endforeach
-              </td>
+              <td>{{$itm->pelanggan->nama}}</td>
+              <td>{{$itm->pelanggan->no_kendaraan}}</td>
+              <td>{{$itm->montir->nama}}</td>
               <td>{{$itm->total_harga}}</td>
               <td>{{$itm->jenis}}</td>
               <td>
@@ -113,7 +95,12 @@
 
 <script type="text/javascript">
   $(function(){
-    $('#datatab').DataTable();
+    $('#datatab').DataTable({
+      'aoColumnDefs': [{
+        'bSortable': false,
+        'aTargets': [-1, -1] /* 1st one, start by the right */
+      }]
+    });
     $('.btnDelete').click(function(){
       var url = $(this).data('url');
       $('#modal-delete').find('form').attr('action', url);

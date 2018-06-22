@@ -54,8 +54,8 @@
         <thead>
           <tr>
             <th>No</th>
-            <th>Email</th>
             <th>Nama</th>
+            <th>Email</th>
             <th>Alamat</th>
             <th>No Hp</th>
             <th>Foto</th>
@@ -69,8 +69,8 @@
           @foreach($kasir as $itm)
             <tr>
               <td>{{$i}}</td>
-              <td>{{$itm->email}}</td>
               <td>{{$itm->name}}</td>
+              <td>{{$itm->email}}</td>
               <td>{{$itm->alamat}}</td>
               <td>{{$itm->no_hp}}</td>
               <td><img src="{{$itm->foto}}" height="100"> </td>
@@ -97,7 +97,12 @@
 
 <script type="text/javascript">
   $(function(){
-    $('#datatab').DataTable();
+    $('#datatab').DataTable({
+      'aoColumnDefs': [{
+        'bSortable': false,
+        'aTargets': [-1, -1] /* 1st one, start by the right */
+      }]
+    });
     $('.btnDelete').click(function(){
       var url = $(this).data('url');
       $('#modal-delete').find('form').attr('action', url);
