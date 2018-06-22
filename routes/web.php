@@ -20,6 +20,10 @@ Auth::routes();
 
 Route::group(['prefix' => 'kasir',  'middleware' => 'auth-kasir'], function() {
    Route::get('dashboard', 'Kasir\HomeController@index')->name('kasir.home');
+
+   Route::resource('transaksi', 'Kasir\TransaksiController');
+   Route::get('transaksi/part/{id}', 'Kasir\TransaksiController@getDetailPart')->name('kasir.part');
+
 });
 
 Route::group(['prefix' => 'kasir'], function() {
