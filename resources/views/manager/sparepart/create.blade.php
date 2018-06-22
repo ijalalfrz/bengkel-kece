@@ -39,6 +39,9 @@
           <label>Satuan</label>
           <input type="text" name="satuan" class="form-control" required value="{{ old('satuan')}}">
         </div>
+
+        <input type="hidden" name="kode" class="form-control" required value="-">
+
         <div class="form-group">
           <label>Harga Satuan</label>
           <input type="number" name="harga" class="form-control" required value="{{ old('harga') }}">

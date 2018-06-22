@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Carbon;
 use App\Transaksi;
 
-
 class LaporanController extends Controller
 {
     /**
@@ -18,8 +17,9 @@ class LaporanController extends Controller
     public function index()
     {
         //
-        $data = Transaksi::whereDate('created_at', Carbon::today())->get();
-        return view('manager.laporan.index', ['transaksi'=> $data]);
+        $tgl = Carbon::parse(Carbon::today())->format('Y-m-d');
+        $data = Transaksi::whereDate('created_at', $tgl)->get();
+        return view('manager.laporan.index', ['transaksi'=> $data, 'tgl'=> $tgl]);
     }
 
     /**
@@ -41,10 +41,10 @@ class LaporanController extends Controller
     public function store(Request $request)
     {
         //
-        $find = Transaksi::whereDate('created_at', $request->tgl)->get();
-        echo $request->tgl;
+        $tgl = $request->tgl;
+        $data = Transaksi::whereDate('created_at', $tgl)->get();
+        return view('manager.laporan.index', ['transaksi'=> $data, 'tgl'=> $tgl]);
 
-        return view('manager.laporan.index', ['transaksi'=> $find]);
     }
 
     /**
