@@ -2,6 +2,7 @@
 
 namespace App;
 use App\Pelanggan;
+use Carbon;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,4 +16,9 @@ class Transaksi extends Model
 	public function montir(){
 		return $this->belongsTo('App\Montir', 'id_montir');
 	}
+
+	public function getFromDateAttribute() {
+		$value = Carbon::now();
+    return \Carbon\Carbon::parse($value)->format('d-m-Y');
+}
 }

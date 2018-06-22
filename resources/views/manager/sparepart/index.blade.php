@@ -86,6 +86,7 @@
             <th>No</th>
             <th>Nama</th>
             <th>Satuan</th>
+            <th>Kode</th>
             <th>Harga Satuan</th>
             <th>Stok</th>
             <th></th>
@@ -100,6 +101,7 @@
               <td>{{$i}}</td>
               <td>{{$itm->nama}}</td>
               <td>{{$itm->satuan}}</td>
+              <td>{{$itm->kode}}</td>
               <td>Rp {{number_format($itm->harga, 0, '', '.')}}</td>
               <td>{{ $itm->detail()->count() }}</td>
               <td>
