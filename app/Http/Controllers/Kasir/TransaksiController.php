@@ -11,6 +11,7 @@ use App\TransaksiDetailPart;
 use App\TransaksiDetailService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Carbon;
 
 class TransaksiController extends Controller
 {
@@ -151,7 +152,17 @@ class TransaksiController extends Controller
     {
         //
         $transaksi = Transaksi::findOrFail($id);
-        return view('kasir.transaksi.invoice',['transaksi' => $transaksi]);
+        $part = Part::all();
+        $service = Service::all();
+
+        $tgl = Carbon::parse($transaksi->updated_at)->format('d M Y');
+        $waktu = Carbon::parse($transaksi->updated_at)->format('H:i:s');
+
+        return view('kasir.transaksi.invoice',['transaksi' => $transaksi,
+            'service'=> $service,
+            'part'=> $part,
+            'tgl'=> $tgl,
+            'waktu'=> $waktu]);
     }
 
     /**

@@ -1,5 +1,3 @@
-
-
 @extends('layouts.cms')
 
 @section('content')

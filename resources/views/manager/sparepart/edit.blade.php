@@ -29,10 +29,6 @@
         @csrf
         <input type="hidden" name="_method" value="PUT">
         <div class="form-group">
-          <label>Kode</label>
-          <input type="text" name="kode" class="form-control" required value="{{ $part->kode }}">
-        </div>
-        <div class="form-group">
           <label>Nama</label>
           <input type="text" name="nama" class="form-control" required value="{{ $part->nama }}">
         </div>
