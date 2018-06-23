@@ -16,7 +16,7 @@ class LaporanTahunanController extends Controller
      */
     public function index()
     {
-        //
+        
         $tgl = Carbon::parse(Carbon::today())->format('Y-m-d');
         $year = Carbon::today()->year;
         $data = Transaksi::whereYear('created_at', '=',$year)->get();
@@ -36,10 +36,8 @@ class LaporanTahunanController extends Controller
                 $part += 1;
                 $pend_part += $itm->total_harga;
             }
-
             $total += $itm->total_harga;
             $total_transaksi += 1;
-
         }
 
         $tgl_show = Carbon::parse(Carbon::today())->format('Y');
