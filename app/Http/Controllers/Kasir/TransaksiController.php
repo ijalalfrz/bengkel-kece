@@ -120,7 +120,7 @@ class TransaksiController extends Controller
             }else{
 
                 if($transaksi->jenis=='beli'){
-
+                    return redirect('/kasir/transaksi/'.$transaksi->id.'/invoice');
                 }else{
                     return redirect()->route('kasir.home');
 
@@ -302,7 +302,8 @@ class TransaksiController extends Controller
         $find->status ='done';
         if($find->save()){
            \Session::flash('msg', "Sukses melakukan transaksi");
-            return back();
+            return redirect('/kasir/transaksi/'.$id.'/invoice');
+
         }else{
             return back()
             ->withErrors(['sistem', 'Gagal menambahkan data pelanggan'])

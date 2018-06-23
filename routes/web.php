@@ -26,6 +26,7 @@ Route::group(['prefix' => 'kasir',  'middleware' => 'auth-kasir'], function() {
    Route::get('transaksi/service/{id}', 'Kasir\TransaksiController@getDetailService')->name('kasir.service');
    Route::get('transaksi/{id}/done', 'Kasir\TransaksiController@done')->name('transaksi.done');
    Route::get('transaksi/{id}/delete', 'Kasir\TransaksiController@delete')->name('transaksi.delete');
+   Route::get('transaksi/{id}/invoice', 'Kasir\TransaksiController@invoice')->name('transaksi.invoice');
 
 });
 
