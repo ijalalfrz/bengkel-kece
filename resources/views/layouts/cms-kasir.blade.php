@@ -10,13 +10,18 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="shortcut icon" href="{{asset('img/logo-fav.png')}}">
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Kasir</title>
     <link rel="stylesheet" type="text/css" href="{{asset('lib/perfect-scrollbar/css/perfect-scrollbar.min.css')}}"/>
     <link rel="stylesheet" type="text/css" href="{{asset('lib/material-design-icons/css/material-design-iconic-font.min.css')}}"/><!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('lib/datatables/css/dataTables.bootstrap.min.css') }}"/>
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('lib/select2/css/select2.min.css') }} "/>
     <link rel="stylesheet" href="{{asset('css/style.css')}}" type="text/css"/>
+    <link rel="stylesheet" href="{{asset('css/mine.css')}}" type="text/css"/>
 </head>
 <body>
 <div class="be-wrapper">
@@ -29,7 +34,7 @@
             <ul role="menu" class="dropdown-menu">
               <li>
                 <div class="user-info">
-                  <div class="user-name">{{ Auth::guard('kasirs')->user()->name }}</div>
+                  <div class="user-name">{{ Auth::guard('kasir')->user()->name }}</div>
                   <div class="user-position online">Available</div>
                 </div>
               </li>
@@ -97,7 +102,9 @@
             <ul class="sidebar-elements">
               <li class="divider">Menu</li>
 
-              <li class="{{ \Request::is('manager/dashboard')?'active':'' }}"><a href="{{url('kasir/dashboard')}}"><i class="icon mdi mdi-home"></i><span>Dashboard</span></a></li>
+              <li class="{{ \Request::is('kasir/dashboard')?'active':'' }}"><a href="{{url('kasir/dashboard')}}"><i class="icon mdi mdi-home"></i><span>Dashboard</span></a></li>
+              <li class="{{ \Request::is('kasir/transaksi*')?'active':'' }}"><a href="{{url('kasir/transaksi')}}"><i class="icon mdi mdi-money"></i><span>Transaksi</span></a></li>
+              <li class="{{ \Request::is('kasir/laporan')?'active':'' }}"><a href="{{url('kasir/laporan')}}"><i class="icon mdi mdi-file"></i><span>Laporan</span></a></li>
 
             </ul>
           </div>
@@ -309,16 +316,22 @@
     </div>
   </nav>
 </div>
-<script src="{{asset('lib/jquery/jquery.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('js/main.js')}}" type="text/javascript"></script>
-<script src="{{asset('lib/bootstrap/dist/js/bootstrap.min.js')}}" type="text/javascript"></script>
+<script src="{{ asset('lib/jquery/jquery.min.js')}}" type="text/javascript"></script>
+<script src="{{ asset('lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/main.js')}}" type="text/javascript"></script>
+<script src="{{ asset('lib/bootstrap/dist/js/bootstrap.min.js')}}" type="text/javascript"></script>
+<script src="{{ asset('lib/select2/js/select2.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('lib/datatables/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('lib/datatables/js/dataTables.bootstrap.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('js/app-form-elements.js') }}" type="text/javascript"></script>
+@yield('script')
+
 <script type="text/javascript">
     $(document).ready(function(){
         //initialize the javascript
         App.init();
+        App.formElements();
     });
-
 </script>
 </body>
 </html>

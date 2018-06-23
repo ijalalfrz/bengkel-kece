@@ -13,4 +13,6 @@ class Part extends Model
   {
       return $this->hasMany('App\DetailPart','id_part','id');
   }
+
+
 }
