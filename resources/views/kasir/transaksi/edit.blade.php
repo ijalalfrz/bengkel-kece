@@ -95,15 +95,16 @@
       @endforeach
     </div>
   @endif
-  <form action="{{ url('kasir/transaksi') }}" method="POST">
+  <form action="{{ url('kasir/transaksi/'.$transaksi->id) }}" method="POST">
     @csrf
+    <input type="hidden" name="_method" value="PATCH">
     <div class="panel">
       <div class="panel-heading panel-heading-divider">
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
               <label><b>No Transaksi</b></label>
-              <h2>1</h2>
+              <h2>{{$transaksi->id}}</h2>
             </div>
 
           </div>
@@ -116,9 +117,9 @@
           <div class="col-md-4">
             <div class="form-group">
               <label>Jenis Transaksi</label>
-              <select class="form-control" name="jenis" id="jenis">
-                <option value="beli">Pembelian Part</option>
-                <option value="service">Jasa Service</option>
+              <select readonly class="form-control" name="jenis" id="jenis">
+                <option {{$transaksi->jenis=='beli'?'selected':''}} value="beli">Pembelian Part</option>
+                <option {{$transaksi->jenis=='service'?'selected':''}} value="service">Jasa Service</option>
               </select>
             </div>
           </div>
@@ -128,7 +129,7 @@
               <select disabled class="select2" name="id_pelanggan">
                 <option></option>
                 @foreach($pelanggan as $data)
-                <option value="{{$data->id}}">{{$data->nama}}</option>
+                <option {{$transaksi->id_pelanggan==$data->id?'selected':''}} value="{{$data->id}}">{{$data->nama}}</option>
                 @endforeach
               </select>
             </div>
@@ -139,7 +140,7 @@
               <select disabled class="select2" name="id_montir">
                 <option></option>
                 @foreach($montir as $data)
-                <option value="{{$data->id}}">{{$data->nama}}</option>
+                <option {{$transaksi->id_montir==$data->id?'selected':''}} value="{{$data->id}}">{{$data->nama}}</option>
                 @endforeach
               </select>
             </div>
@@ -154,6 +155,10 @@
               <button style="float: right;" data-toggle="modal" data-target="#mod-sparepart" type="button" class="btn btn-lg btn-space btn-success btnModalPart">Tambah Sparepart</button>
             </h1>
           </div>
+          @php
+            $total_sparepart = 0;
+            $total_service = 0;
+          @endphp
           <table class="table table-striped table-borderless">
             <thead>
               <tr>
@@ -166,15 +171,36 @@
               </tr>
             </thead>
             <tbody class="part-table-body">
+            @if($transaksi->detailPart()->count()>0)
+
+              @foreach($transaksi->detailPart as $data)
+                @php
+                  $total_sparepart += $data->total_harga;
+                @endphp
+
+                <tr>
+                  <td>{{$data->part->kode}} - {{$data->part->nama}}</td>
+                  <td>{{(int) $data->harga_jual}}</td>
+                  <td>{{$data->jumlah}}</td>
+                  <td>{{$data->total_harga}}</td>
+                  <td>
+                    <input type="hidden" class="total_harga_part" value="{{$data->total_harga}}">
+                    <button type='button' data-jenis='part' data-id="{{$data->id}}" class='btn pull-right btn-danger btnHapus'>Hapus</button>
+
+                  </td>
+                </tr>
+              @endforeach
+            @endif
 
             </tbody>
+
           </table>
-          <h3>TOTAL SPAREPART : Rp. <span class="total_sparepart"></span></h3>
+          <h3>TOTAL SPAREPART : Rp. <span class="total_sparepart">{{number_format($total_sparepart, 0, '', '.')}}</span></h3>
         </div>
         <br>
         <hr>
         <br>
-        <div style="display: none;" id="service">
+        <div id="service">
           <h1>
             SERVICE
             <button style="float: right;" data-toggle="modal" data-target="#mod-service" type="button" class="btn btn-lg btn-space btn-success btnModalService">Tambah Service</button>
@@ -191,18 +217,42 @@
               </tr>
             </thead>
             <tbody class="service-table-body">
+              @if($transaksi->detailService()->count()>0)
 
+                @foreach($transaksi->detailService as $data)
+                  @php
+                    $total_service += $data->harga_jual;
+                  @endphp
+
+                  <tr>
+                    <td>{{$data->service->kode}} - {{$data->service->nama}}</td>
+                    <td>{{(int) $data->harga_jual}}</td>
+                    <td>{{(int) $data->harga_jual}}</td>
+                    <td>
+                      <input type="hidden" class="harga_jual_service" value="{{$data->harga_jual}}">
+                      <button type='button' data-jenis='service' data-id="{{$data->id}}" class='btn pull-right btn-danger btnHapus'>Hapus</button>
+
+                    </td>
+                  </tr>
+                @endforeach
+              @endif
             </tbody>
           </table>
-          <h3>TOTAL SERVICE : Rp. <span class="total_service"></span></h3>
+          <h3>TOTAL SERVICE : Rp. <span class="total_service">{{number_format($total_service, 0, '', '.')}}</span></h3>
         </div>
 
         <br>
         <hr>
-        <h3>TOTAL : Rp. <span class="total_grand"></span></h3>
+        @php
+          $total_grand = $total_sparepart + $total_service;
+        @endphp
+        <h3>TOTAL : Rp. <span class="total_grand">{{number_format($total_grand, 0, '', '.')}}</span></h3>
         <br>
+        <div class="deleted">
+        </div>
         <div>
-          <input type="hidden" name="total_grand" value="0">
+
+          <input type="hidden" name="total_grand" value="{{$total_grand}}">
           <button type="submit" class="btn-full btn-primary">Simpan</button>
         </div>
         <div class="clearfix"></div>
@@ -257,7 +307,7 @@
                 <input type='hidden' name='id_part[]' value='${data.id}'>
                 <input type='hidden' name='harga_jual[]' value='${harga}'>
                 <input type='hidden' name='jumlah[]' value='${jum}'>
-                <input type='hidden' name='total_harga[]' value='${sub}'>
+                <input type='hidden' class='total_harga_part' name='total_harga[]' value='${sub}'>
                 <button type='button' class='btn pull-right btn-danger btnHapus'>Hapus</button>
               </td>
             </tr>
@@ -288,7 +338,7 @@
               <td>${harga}</td>
               <td>
                 <input type='hidden' name='id_service[]' value='${data.id}'>
-                <input type='hidden' name='harga_jual_service[]' value='${harga}'>
+                <input type='hidden' class='harga_jual_service' name='harga_jual_service[]' value='${harga}'>
                 <input type='hidden' name='total_harga_service[]' value='${harga}'>
                 <button type='button' class='btn pull-right btn-danger btnHapus'>Hapus</button>
               </td>
@@ -327,13 +377,13 @@
   function countPrice() {
     var total = 0;
     var total_service = 0;
-    $('input[name="total_harga[]"]').each(function(i,el){
+    $('.total_harga_part').each(function(i,el){
       total += parseInt($(el).val());
     });
     $(".total_sparepart").html(total.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1."));
     if($('#jenis').val()=="service"){
       total_service=0;
-      $('input[name="harga_jual_service[]"]').each(function(i,el){
+      $('.harga_jual_service').each(function(i,el){
         total_service += parseInt($(el).val());
       });
       $(".total_service").html(total_service.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1."));
@@ -347,7 +397,13 @@
   $(document).on('click','.btnHapus', function(){
     $(this).parents('tr').remove();
     countPrice();
-
+    var id = $(this).data('id');
+    var jenis = $(this).data('jenis');
+    if(jenis=='part'){
+      $('.deleted').append(`<input type='hidden' name='deleted_part[]' value='${id}'>`);
+    }else{
+      $('.deleted').append(`<input type='hidden' name='deleted_service[]' value='${id}'>`);
+    }
   });
 </script>
 @endsection

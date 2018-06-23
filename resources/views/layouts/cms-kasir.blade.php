@@ -16,6 +16,9 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('lib/datatables/css/dataTables.bootstrap.min.css') }}"/>
+
     <link rel="stylesheet" type="text/css" href="{{ asset('lib/select2/css/select2.min.css') }} "/>
     <link rel="stylesheet" href="{{asset('css/style.css')}}" type="text/css"/>
     <link rel="stylesheet" href="{{asset('css/mine.css')}}" type="text/css"/>
@@ -100,7 +103,7 @@
               <li class="divider">Menu</li>
 
               <li class="{{ \Request::is('kasir/dashboard')?'active':'' }}"><a href="{{url('kasir/dashboard')}}"><i class="icon mdi mdi-home"></i><span>Dashboard</span></a></li>
-              <li class="{{ \Request::is('kasir/transaksi')?'active':'' }}"><a href="{{url('kasir/transaksi')}}"><i class="icon mdi mdi-money"></i><span>Transaksi</span></a></li>
+              <li class="{{ \Request::is('kasir/transaksi*')?'active':'' }}"><a href="{{url('kasir/transaksi')}}"><i class="icon mdi mdi-money"></i><span>Transaksi</span></a></li>
               <li class="{{ \Request::is('kasir/laporan')?'active':'' }}"><a href="{{url('kasir/laporan')}}"><i class="icon mdi mdi-file"></i><span>Laporan</span></a></li>
 
             </ul>
@@ -318,6 +321,8 @@
 <script src="{{ asset('js/main.js')}}" type="text/javascript"></script>
 <script src="{{ asset('lib/bootstrap/dist/js/bootstrap.min.js')}}" type="text/javascript"></script>
 <script src="{{ asset('lib/select2/js/select2.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('lib/datatables/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('lib/datatables/js/dataTables.bootstrap.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('js/app-form-elements.js') }}" type="text/javascript"></script>
 @yield('script')
 

@@ -22,23 +22,6 @@
 <div class="be-wrapper be-login">
     <div class="be-content">
         <div class="main-content container-fluid">
-            <div class="text-center">
-                <h1><strong>SELAMAT DATANG {{ strtoupper(\Auth::guard('kasir')->user()->name) }}</strong></h1>
-                <hr>
-                <div role="group" class="btn-group btn-group-lg btn-group-justified btn-space">
-                    <a href="#" class="btn btn-lg btn-primary">PEMBELIAN</a>
-                    <a href="#" class="btn btn-lg btn-default">SERVIS</a>
-                    <a href="#" class="btn btn-lg btn-default">LAPORAN</a>
-                    <a href="javascript:void(0);" class="btn btn-lg btn-default" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        LOGOUT
-                    </a>
-                </div>
-
-                <form id="logout-form" action="{{ url('kasir/logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            </div>
-            <br>
             @yield('content')
         </div>
     </div>
