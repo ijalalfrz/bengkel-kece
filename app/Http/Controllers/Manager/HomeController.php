@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
+use App\Transaksi;
 use Illuminate\Http\Request;
-
+use Carbon;
+use DB;
 class HomeController extends Controller
 {
     /**
@@ -23,6 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('manager.dashboard');
+        $data_tahun = Transaksi::distinct()->select(DB::raw('YEAR(created_at) year'))->get();
+
+
+        return view('manager.dashboard', ['tahun' => $data_tahun]);
     }
 }

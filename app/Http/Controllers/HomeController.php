@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Transaksi;
 use Illuminate\Http\Request;
-
+use Carbon;
 class HomeController extends Controller
 {
     /**
@@ -23,6 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+
         return view('home');
     }
 }
