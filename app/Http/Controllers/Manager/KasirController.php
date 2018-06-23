@@ -60,7 +60,7 @@ class KasirController extends Controller
 
         $data = new User();
         $data->email = $request->email;
-        $data->password =   ($request->password);
+        $data->password = bcrypt($request->password);
         $data->name = $request->name;
         $data->alamat = $request->alamat;
         $data->no_hp = $request->no_hp;
