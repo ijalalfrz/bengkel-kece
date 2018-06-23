@@ -113,6 +113,7 @@
               <li class="{{ \Request::is('manager/transaksi*') ?'active':'' }}"><a href="{{url('manager/transaksi')}}"><i class="icon mdi mdi-money-box"></i><span>Transaksi</span></a></li>
               <li class="{{ \Request::is('manager/laporan') ?'active':'' }}"><a href="{{url('manager/laporan')}}"><i class="icon mdi mdi-book"></i><span>Laporan Harian</span></a></li>
               <li class="{{ \Request::is('manager/laporan_bulanan*') ?'active':'' }}"><a href="{{url('manager/laporan_bulanan')}}"><i class="icon mdi mdi-book"></i><span>Laporan Bulanan</span></a></li>
+              <li class="{{ \Request::is('manager/laporan_tahunan*') ?'active':'' }}"><a href="{{url('manager/laporan_tahunan')}}"><i class="icon mdi mdi-book"></i><span>Laporan Tahunan</span></a></li>
 
             </ul>
           </div>

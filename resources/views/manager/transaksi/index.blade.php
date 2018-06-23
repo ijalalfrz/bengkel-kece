@@ -70,9 +70,23 @@
             <tr>
               <td>{{$i}}</td>
               <td>{{$itm->created_at}}</td>
-              <td>{{$itm->pelanggan->nama}}</td>
-              <td>{{$itm->pelanggan->no_kendaraan}}</td>
-              <td>{{$itm->montir->nama}}</td>
+              <td>
+                @if ($itm->id_pelanggan != null)
+                  {{$itm->pelanggan->nama}}
+                @else
+                  UMUM
+                @endif
+              </td>
+              <td>
+                @if ($itm->id_pelanggan != null)
+                  {{$itm->pelanggan->no_kendaraan}}
+                @endif
+              </td>
+              <td>
+                @if ($itm->id_montir != null)
+                  {{$itm->montir->nama}}
+                @endif
+              </td>
               <td>{{$itm->total_harga}}</td>
               <td>{{$itm->jenis}}</td>
               <td>
