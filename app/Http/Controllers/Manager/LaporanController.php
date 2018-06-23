@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon;
 use App\Transaksi;
+use DB;
 
 class LaporanController extends Controller
 {
@@ -17,6 +18,49 @@ class LaporanController extends Controller
     public function index()
     {
         //
+        $data_group = Transaksi::distinct()->select(DB::raw('DATE(created_at) date'))->get(); 
+
+        for ($i = 0; $i < sizeof($data_group); $i++) {
+            $data = Transaksi::whereDate('created_at', $data_group[$i]->date)->get();
+
+            $part = 0;
+            $pend_part = 0;
+            $service = 0;
+            $pend_service = 0;
+            $total = 0;
+            $total_transaksi = 0;
+
+            $name = Carbon::parse($data_group[$i]->date)->format('d M Y');
+            
+            foreach ($data as $itm) {
+                if($itm->jenis == "service"){
+                    $service += 1;
+                    $pend_service += $itm->total_harga;
+                }else{
+                    $part += 1;
+                    $pend_part += $itm->total_harga;
+                }
+                $total += $itm->total_harga;
+                $total_transaksi += 1;
+            }
+
+            $info = array('part'=> $part,
+                'pend_part'=> $pend_part,
+                'service'=> $service,
+                'pend_service'=> $pend_service,
+                'total'=> $total,
+                'total_transaksi'=> $total_transaksi,
+                'name'=> $name);
+
+            if($i == 0){
+                $data_all = array($i=> $info);
+            }else{
+                $data_all = array_add($data_all, $i, $info);
+            }
+
+        }
+
+
         $tgl = Carbon::parse(Carbon::today())->format('Y-m-d');
         $data = Transaksi::whereDate('created_at', $tgl)->get();
 
@@ -25,6 +69,7 @@ class LaporanController extends Controller
         $service = 0;
         $pend_service = 0;
         $total = 0;
+        $total_transaksi = 0;
         foreach ($data as $itm) {
             if($itm->jenis == "service"){
                 $service += 1;
@@ -35,6 +80,7 @@ class LaporanController extends Controller
             }
 
             $total += $itm->total_harga;
+            $total_transaksi += 1;
         }
 
         $tgl_show = Carbon::parse(Carbon::today())->format('d M Y');
@@ -45,11 +91,14 @@ class LaporanController extends Controller
                 'pend_part'=> $pend_part,
                 'service'=> $service,
                 'pend_service'=> $pend_service,
-                'total'=> $total);
+                'total'=> $total,
+                'total_transaksi'=> $total_transaksi);
 
-        return view('manager.laporan.index', [
-            'transaksi'=> $data,
-            'info'=> $info]);
+        if($data_all != null){
+            return view('manager.laporan.index', ['transaksi'=> $data, 'info'=> $info, 'data_all'=> $data_all]);
+        }else{
+            return view('manager.laporan.index', ['transaksi'=> $data, 'info'=> $info]);
+        }
     }
 
     /**

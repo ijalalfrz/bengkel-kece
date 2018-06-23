@@ -37,9 +37,25 @@
           </tr>
         </thead>
         <tbody>
+          @php
+            $i = 1;
+          @endphp
+          @foreach ($data_all as $itm)
           <tr>
-            
+            <td> {{$i}} </td>
+            <td> {{$itm['name']}}</td>   
+            <td> {{$itm['service']}}</td>   
+            <td> Rp {{number_format($itm['pend_service'], 0, '', '.')}}</td>   
+            <td> {{$itm['part']}}</td>   
+            <td> Rp {{number_format($itm['pend_part'], 0, '', '.')}}</td>   
+            <td> {{$itm['total_transaksi']}}</td>   
+            <td> Rp {{number_format($itm['total'], 0, '', '.')}}</td>  
           </tr>
+          @php
+            $i++;
+          @endphp
+          @endforeach
+        </tbody> 
       </table>
     </div>
   </div>
@@ -112,7 +128,7 @@
       <div class="clearfix"></div>
     </div>
     <div class="panel-body">
-      <table id="datatab" class="table">
+      <table id="datatab2" class="table">
         <thead>
           <tr>
             <th>No</th>
@@ -167,12 +183,21 @@
 @section('script')
 <script type="text/javascript">
   $(function(){
-    $('#datatab').DataTable({
-      'aoColumnDefs': [{
-        'bSortable': false,
-        'aTargets': [-1, -1] /* 1st one, start by the right */
-      }]
+    $('#datatab').DataTable({});
+    $('.btnDelete').click(function(){
+      var url = $(this).data('url');
+      $('#modal-delete').find('form').attr('action', url);
     });
+
+    $('.btnStok').click(function(){
+      var url = $(this).data('url');
+      var stok = $(this).data('stok');
+      $('#modal-stok').find('form').attr('action', url);
+      $('#modal-stok').find('input').val(stok);
+    });
+  });
+  $(function(){
+    $('#datatab2').DataTable({});
     $('.btnDelete').click(function(){
       var url = $(this).data('url');
       $('#modal-delete').find('form').attr('action', url);
