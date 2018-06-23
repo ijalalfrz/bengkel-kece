@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Carbon;
 use App\Transaksi;
 
-class LaporanController extends Controller
+class LaporanTahunanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,13 +18,16 @@ class LaporanController extends Controller
     {
         //
         $tgl = Carbon::parse(Carbon::today())->format('Y-m-d');
-        $data = Transaksi::whereDate('created_at', $tgl)->get();
+        $year = Carbon::today()->year;
+        $data = Transaksi::whereYear('created_at', '=',$year)->get();
 
         $part = 0;
         $pend_part = 0;
         $service = 0;
         $pend_service = 0;
         $total = 0;
+        $total_transaksi = 0;
+
         foreach ($data as $itm) {
             if($itm->jenis == "service"){
                 $service += 1;
@@ -35,19 +38,23 @@ class LaporanController extends Controller
             }
 
             $total += $itm->total_harga;
+            $total_transaksi += 1;
+
         }
 
-        $tgl_show = Carbon::parse(Carbon::today())->format('d M Y');
+        $tgl_show = Carbon::parse(Carbon::today())->format('Y');
 
         $info = array('tgl'=> $tgl,
                 'tgl_show'=> $tgl_show,
+                'year'=> $year,
                 'part'=> $part,
                 'pend_part'=> $pend_part,
                 'service'=> $service,
                 'pend_service'=> $pend_service,
-                'total'=> $total);
+                'total'=> $total,
+                'total_transaksi'=> $total_transaksi);
 
-        return view('manager.laporan.index', [
+        return view('manager.laporan_tahunan.index', [
             'transaksi'=> $data,
             'info'=> $info]);
     }
@@ -60,6 +67,7 @@ class LaporanController extends Controller
     public function create()
     {
         //
+        
     }
 
     /**
@@ -71,15 +79,16 @@ class LaporanController extends Controller
     public function store(Request $request)
     {
         //
-
-        $tgl = $request->tgl;
-        $data = Transaksi::whereDate('created_at', $tgl)->get();
+        $year = $request->year;
+        $data = Transaksi::whereYear('created_at', '=',$year)->get();
 
         $part = 0;
         $pend_part = 0;
         $service = 0;
         $pend_service = 0;
         $total = 0;
+        $total_transaksi = 0;
+
         foreach ($data as $itm) {
             if($itm->jenis == "service"){
                 $service += 1;
@@ -90,24 +99,21 @@ class LaporanController extends Controller
             }
 
             $total += $itm->total_harga;
+            $total_transaksi += 1;
             
         }
 
-        $tgl_show = Carbon::parse($tgl)->format('d M Y');
-
-
-        $info = array('tgl'=> $tgl,
-                'tgl_show'=> $tgl_show,
+        $info = array('tgl_show'=> $year,
                 'part'=> $part,
                 'pend_part'=> $pend_part,
                 'service'=> $service,
                 'pend_service'=> $pend_service,
-                'total'=> $total);
+                'total'=> $total,
+                'total_transaksi'=> $total_transaksi);
 
-        return view('manager.laporan.index', [
+        return view('manager.laporan_tahunan.index', [
             'transaksi'=> $data,
             'info'=> $info]);
-
     }
 
     /**

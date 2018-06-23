@@ -1,13 +1,11 @@
-
-
 @extends('layouts.cms')
 
 @section('content')
 <div class="page-head">
-	<h2 class="page=head-title">Laporan Harian</h2>
+	<h2 class="page=head-title">Laporan Tahunan</h2>
 	<ol class="breadcrumb page-head-nav">
 		<li><a href="#">Home</a></li>
-		<li class="active">Laporan Harian</li>
+		<li class="active">Laporan Tahunan</li>
 	</ol>	
 </div>
 
@@ -20,51 +18,55 @@
     </div>
   @endif
   <div class="panel panel-default">
-    <div class="panel-heading">
-      Laporan Umum Harian
-      <div class="clearfix"></div>
-    </div>
+  	<div class="panel-heading">
+  		Laporan Umum Tahunan
+    	<div class="clearfix"></div>
+  	</div>
     <div class="panel-body">
-      <table class="table" id="datatab">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Hari</th>
-            <th>Service terlaksana</th>
-            <th>Pendapatan service</th>
-            <th>Part terjual</th>
-            <th>Pendapatan penjualan part</th>
-            <th>Total transaksi</th>
-            <th>Total pendapatan</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            
-          </tr>
-      </table>
+    	<table class="table" id="datatab">
+	    	<thead>
+	        <tr>
+	          <th>No</th>
+	          <th>Tahun</th>
+	          <th>Service terlaksana</th>
+	          <th>Pendapatan service</th>
+	          <th>Part terjual</th>
+	          <th>Pendapatan penjualan part</th>
+	          <th>Total transaksi</th>
+	          <th>Total pendapatan</th>
+	        </tr>
+	      </thead>
+	      <tbody>
+	      	<tr>
+	      		
+	      	</tr>
+    	</table>
     </div>
   </div>
-  <div class="panel panel-default">   
+  <div class="panel panel-default">
   	<div class="panel-heading">
-      Laporan Umum Tanggal {{$info['tgl_show']}}
-      <div class="clearfix"></div>
-    </div>
-      
+  		Laporan Tahun {{$info['tgl_show']}}
+    	<div class="clearfix"></div>
+  	</div>
     <div class="panel-body">
-      <form method="POST" action="{{ url('/manager/laporan') }}">
-        @csrf
-        <label>Pilih tanggal</label>
-          <div class="form-group">
-            <div class="row">
-              <div class="col-md-3">
-                <input class="form-control" type="date" name="tgl" required value="{{ $info['tgl'] }}">
-              </div>
-              <div class="col-md-3">
-                <button type="submit" class="btn btn-space btn-primary btn-lg">Terapkan</button>  
-              </div>
+      <form method="POST" action="{{ url('/manager/laporan_tahunan') }}">
+      	@csrf
+        <label>Pilih tahun</label>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-2">
+              <select name="year" class="form-control" required>
+                <option disabled selected value>Pilih tahun</option>
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <button type="submit" class="btn btn-space btn-primary btn-lg">Terapkan</button>  
             </div>
           </div>
+        </div>
       </form>
       <table class="table">
         <tr>
@@ -75,43 +77,43 @@
         </tr>
         <tr>
           <th>Jumlah Part Terjual</th>
-          <td> {{$info['service']}} </td>
+          <td> {{$info['part']}} </td>
           <th>Jumlah Pendapatan Penjualan Part</th>
           <td>Rp {{number_format($info['pend_part'], 0, '', '.')}} </td>
         </tr>
         <tr>
           <th>Total Transaksi</th>
-          <td></td>
+          <td> {{$info['total_transaksi']}} </td>
           <th>Total Pendapatan</th>
-          <td>Rp {{number_format($info['total'], 0, '', '.')}}</td>
+          <td>Rp {{number_format($info['total'], 0, '', '.')}} </td>
         </tr>
     	</table>	
-  	</div>
+    </div>
     <div class="panel-heading panel-heading-divider">
-      Daftar Transaksi Tanggal {{$info['tgl_show']}}
+    	Daftar Transaksi Tahun {{$info['tgl_show']}}
       <div class="clearfix"></div>
     </div>
     <div class="panel-body">
-      <table id="datatab" class="table">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Waktu</th>
-            <th>Nama Pelanggan</th>
-            <th>STNK</th>
-            <th>Nama Montir</th>
-            <th>Total Harga</th>
-            <th>Jenis</th>
-          </tr>
-        </thead>
-        <tbody>
-          @php
+    	<table class="table" id="datatab">
+	    	<thead>
+	        <tr>
+	          <th>No</th>
+	          <th>Tanggal</th>
+	          <th>Nama Pelanggan</th>
+	          <th>STNK</th>
+	          <th>Nama Montir</th>
+	          <th>Total Harga</th>
+	          <th>Jenis</th>
+	        </tr>
+	      </thead>
+	      <tbody>
+	      	@php
             $i = 1;
           @endphp
           @foreach($transaksi as $itm)
-          <tr>
-            <td>{{$i}}</td>
-            <td>{{$itm->created_at->format('H:i:s')}}</td>
+	      	<tr>
+	      		<td>{{$i}}</td>
+            <td>{{$itm->created_at->format('d M Y H:i:s')}}</td>
             <td>
               @if ($itm->id_pelanggan != null)
                 {{$itm->pelanggan->nama}}
@@ -131,17 +133,16 @@
             </td>
             <td>Rp {{number_format($itm->total_harga, 0, '', '.')}}</td>
             <td>{{$itm->jenis}}</td>
-          </tr>
-            @php
+	      	</tr>
+	      </tbody>
+	      	@php
               $i++;
             @endphp
           @endforeach
-        </tbody>
-      </table>
+    	</table>
     </div>
   </div>
 </div>
-
 @endsection
 
 @section('script')
