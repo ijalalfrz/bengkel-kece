@@ -20,6 +20,7 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       Laporan Umum Bulanan
+      <a href="{{ url('manager/laporan_bulanan/umum') }}" class="btn btn-success" target="_blank">Cetak</a>
       <div class="clearfix"></div>
     </div>
     <div class="panel-body">
@@ -62,6 +63,9 @@
   <div class="panel panel-default">   
   	<div class="panel-heading">
       Laporan Umum Bulan {{$info['tgl_show']}}
+      <a href="{{ url('manager/laporan_bulanan/'.$info['tgl'].'/khusus') }}" class="btn btn-success" target="_blank">Cetak</a>
+      
+
       <div class="clearfix"></div>
     </div>
       
@@ -116,8 +120,8 @@
           <td>Rp {{number_format($info['pend_part'], 0, '', '.')}} </td>
         </tr>
         <tr>
-          <th>Total Pelanggan</th>
-          <td></td>
+          <th>Total Transaksi</th>
+          <td> {{$info['total_transaksi']}} </td>
           <th>Total Pendapatan</th>
           <td>Rp {{number_format($info['total'], 0, '', '.')}}</td>
         </tr>
@@ -132,7 +136,7 @@
         <thead>
           <tr>
             <th>No</th>
-            <th>Waktu</th>
+            <th>Tanggal</th>
             <th>Nama Pelanggan</th>
             <th>STNK</th>
             <th>Nama Montir</th>
@@ -147,7 +151,7 @@
           @foreach($transaksi as $itm)
           <tr>
             <td>{{$i}}</td>
-            <td>{{$itm->created_at->format('d M H:i:s')}}</td>
+            <td>{{$itm->created_at->format('d M Y H:i:s')}}</td>
             <td>
               @if ($itm->id_pelanggan != null)
                 {{$itm->pelanggan->nama}}

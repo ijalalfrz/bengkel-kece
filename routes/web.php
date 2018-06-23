@@ -52,6 +52,12 @@ Route::group(['prefix' => 'kasir'], function() {
 Route::group(['prefix' => 'manager',  'middleware' => 'auth-manager'], function() {
 
     Route::get('dashboard', 'Manager\HomeController@index')->name('manager.home');
+    Route::get('laporan/umum', 'Manager\LaporanController@umum')->name('laporan.umum');
+    Route::get('laporan/{tgl}/khusus', 'Manager\LaporanController@khusus')->name('laporan.khusus');
+    Route::get('laporan_bulanan/umum', 'Manager\LaporanBulananController@umum')->name('laporan_bulanan.umum');
+    Route::get('laporan_bulanan/{tgl}/khusus', 'Manager\LaporanBulananController@khusus')->name('laporan_bulanan.khusus');
+    Route::get('laporan_tahunan/umum', 'Manager\LaporanTahunanController@umum')->name('laporan_tahunan.umum');
+    Route::get('laporan_tahunan/{tgl}/khusus', 'Manager\LaporanTahunanController@khusus')->name('laporan_tahunan.khusus');
 
     Route::resource('sparepart', 'Manager\SparePartController');
     Route::resource('servis', 'Manager\ServisController');

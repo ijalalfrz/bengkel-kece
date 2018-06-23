@@ -100,6 +100,51 @@ class LaporanTahunanController extends Controller
         }
     }
 
+    public function umum(){
+        $years = Transaksi::distinct()->select(DB::raw('YEAR(created_at) year'))->get();    
+
+        for ($i = 0; $i < sizeof($years) ; $i++) {
+            $data = Transaksi::whereYear('created_at', '=', $years[$i]->year)->get();
+            
+            $part = 0;
+            $pend_part = 0;
+            $service = 0;
+            $pend_service = 0;
+            $total = 0;
+            $total_transaksi = 0;
+            $name = $years[$i]->year;
+
+            foreach ($data as $itm) {
+                if($itm->jenis == "service"){
+                    $service += 1;
+                    $pend_service += $itm->total_harga;
+                }else{
+                    $part += 1;
+                    $pend_part += $itm->total_harga;
+                }
+                $total += $itm->total_harga;
+                $total_transaksi += 1;
+            }
+
+            $info = array('part'=> $part,
+                'pend_part'=> $pend_part,
+                'service'=> $service,
+                'pend_service'=> $pend_service,
+                'total'=> $total,
+                'total_transaksi'=> $total_transaksi,
+                'name'=> $name);
+
+            if($i == 0){
+                $data_all = array($i=> $info);
+            }else{
+                $data_all = array_add($data_all, $i, $info);
+            }
+        }
+
+        return view('manager.laporan_tahunan.cetak_umum', ['data_all'=> $data_all]);
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -197,6 +242,44 @@ class LaporanTahunanController extends Controller
         }else{
             return view('manager.laporan_tahunan.index', ['transaksi'=> $data, 'info'=> $info]);
         }
+    }
+
+    public function khusus($tgl){
+        $year = $tgl;
+        $data = Transaksi::whereYear('created_at', '=',$year)->get();
+
+        $part = 0;
+        $pend_part = 0;
+        $service = 0;
+        $pend_service = 0;
+        $total = 0;
+        $total_transaksi = 0;
+
+        foreach ($data as $itm) {
+            if($itm->jenis == "service"){
+                $service += 1;
+                $pend_service += $itm->total_harga;
+            }else{
+                $part += 1;
+                $pend_part += $itm->total_harga;
+            }
+
+            $total += $itm->total_harga;
+            $total_transaksi += 1;
+            
+        }
+
+        $info = array('tgl_show'=> $year,
+                'part'=> $part,
+                'pend_part'=> $pend_part,
+                'service'=> $service,
+                'pend_service'=> $pend_service,
+                'total'=> $total,
+                'total_transaksi'=> $total_transaksi,
+                'tgl_show'=> $tgl);
+
+        return view('manager.laporan_tahunan.cetak_khusus', ['transaksi'=> $data, 'info'=> $info]);
+
     }
 
     /**

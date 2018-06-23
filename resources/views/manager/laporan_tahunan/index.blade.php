@@ -21,6 +21,7 @@
   <div class="panel panel-default">
   	<div class="panel-heading">
   		Laporan Umum Tahunan
+      <a href="{{ url('manager/laporan_tahunan/umum') }}" class="btn btn-success" target="_blank">Cetak</a>
     	<div class="clearfix"></div>
   	</div>
     <div class="panel-body">
@@ -64,6 +65,7 @@
   <div class="panel panel-default">
   	<div class="panel-heading">
   		Laporan Tahun {{$info['tgl_show']}}
+      <a href="{{ url('manager/laporan_tahunan/'.$info['tgl_show'].'/khusus') }}" class="btn btn-success" target="_blank">Cetak</a>
     	<div class="clearfix"></div>
   	</div>
     <div class="panel-body">

@@ -20,7 +20,9 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       Laporan Umum Harian
+      <a href="{{ url('manager/laporan/umum') }}" class="btn btn-success" target="_blank">Cetak</a>
       <div class="clearfix"></div>
+
     </div>
     <div class="panel-body">
       <table class="table" id="datatab">
@@ -62,6 +64,7 @@
   <div class="panel panel-default">   
   	<div class="panel-heading">
       Laporan Umum Tanggal {{$info['tgl_show']}}
+      <a href="{{ url('manager/laporan/'.$info['tgl'].'/khusus') }}" class="btn btn-success" target="_blank">Cetak</a>
       <div class="clearfix"></div>
     </div>
       
@@ -89,13 +92,13 @@
         </tr>
         <tr>
           <th>Jumlah Part Terjual</th>
-          <td> {{$info['service']}} </td>
+          <td> {{$info['part']}} </td>
           <th>Jumlah Pendapatan Penjualan Part</th>
           <td>Rp {{number_format($info['pend_part'], 0, '', '.')}} </td>
         </tr>
         <tr>
           <th>Total Transaksi</th>
-          <td></td>
+          <td> {{$info['total_transaksi']}} </td>
           <th>Total Pendapatan</th>
           <td>Rp {{number_format($info['total'], 0, '', '.')}}</td>
         </tr>

@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-	<div class="row">
+<div class="row">
 		<div class="col-md-12">
 			<table class="table table-borderless">
 				<tr>
@@ -22,8 +22,8 @@
 				</tr>
 			</table>
 		</div>
-	</div>
-	<div class="row">
+</div>
+<div class="row">
 		<div class="col-md-3">
 			<table class="table table-borderless">
 				<tr>
@@ -49,9 +49,9 @@
 				@endif
 			</table>
 		</div>
-	</div>
-	<hr>
-	<div class="row">
+</div>
+<hr>
+<div class="row">
 		<table class="table table-bordered">
 			<thead>
 				<tr>
@@ -141,9 +141,9 @@
 				</tr>
 			</tbody>
 		</table>
-	</div>
-	<hr>
-	<div class="row">
+</div>
+<hr>
+<div class="row">
 		<div class="col-sm-offset-8 col-md-4">
 			<center>
 				Bandung, {{$tgl}} 
@@ -154,5 +154,5 @@
 				<br>PT. Bengkel Kece
 			</center>
 		</div>
-	</div>
+</div>
 @endsection
