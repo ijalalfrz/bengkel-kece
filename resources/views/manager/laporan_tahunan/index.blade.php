@@ -125,7 +125,7 @@
             <th>Nama Montir</th>
             <th>Total Harga</th>
             <th>Jenis</th>
-            <th></th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -155,12 +155,7 @@
               </td>
               <td>Rp {{number_format($itm->total_harga, 0, '', '.')}}</td>
               <td>{{$itm->jenis}}</td>
-              <td>
-                <p class="text-right">
-                  <a href="javascript:void(0);" data-url="{{ url('/manager/transaksi/'.$itm->id) }}" data-toggle='modal' data-target='#modal-delete' class="btnDelete btn btn-danger"><span class="mdi mdi-delete"></span></a>
-
-                </p>
-              </td>
+              <td>{{$itm->status}}</td>
             </tr>
             @php
               $i++;
@@ -204,5 +199,6 @@
       $('#modal-stok').find('input').val(stok);
     });
   });
+
 </script>
 @endsection

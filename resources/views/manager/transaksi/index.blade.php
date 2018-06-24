@@ -59,6 +59,7 @@
             <th>Nama Montir</th>
             <th>Total Harga</th>
             <th>Jenis</th>
+            <th>Status</th>
             <th></th>
           </tr>
         </thead>
@@ -89,6 +90,8 @@
               </td>
               <td>{{$itm->total_harga}}</td>
               <td>{{$itm->jenis}}</td>
+              <td> {{$itm->status}} </td>
+              
               <td>
                 <p class="text-right">
                   <a href="javascript:void(0);" data-url="{{ url('/manager/transaksi/'.$itm->id) }}" data-toggle='modal' data-target='#modal-delete' class="btnDelete btn btn-danger"><span class="mdi mdi-delete"></span></a>

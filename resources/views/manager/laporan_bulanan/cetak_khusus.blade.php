@@ -43,6 +43,7 @@
         <th>Nama Montir</th>
         <th>Total Harga</th>
         <th>Jenis</th>
+        <th>Status</th>
       </tr>
     </thead>
     <tbody>
@@ -72,6 +73,7 @@
         </td>
         <td>Rp {{number_format($itm->total_harga, 0, '', '.')}}</td>
         <td>{{$itm->jenis}}</td>
+        <td>{{$itm->status}}</td>
       </tr>
         @php
           $i++;
