@@ -1,6 +1,8 @@
 @extends('layouts.main')
 
 @section('content')
+
+<div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<table class="table table-borderless">
@@ -10,11 +12,11 @@
 				</tr>
 				<tr>
 					<td>
-						Jalan Setiabudhi No. 229, Isola, Sukasari, 
-						<br> Kota Bandung, Jawa Barat 40154 
+						Jalan Setiabudhi No. 229, Isola, Sukasari,
+						<br> Kota Bandung, Jawa Barat 40154
 						<br> Telepon: (62-22) 2788289
 					</td>
-					<td style="text-align: right;"">
+					<td style="text-align: right;">
 						NOMOR TRANSAKSI: {{$transaksi->id}}
 						<br> TANGGAL TRANSAKSI: {{$tgl}}
 						<br> WAKTU TRANSAKSI: {{$waktu}}
@@ -31,7 +33,7 @@
 					<td>NAMA PELANGGAN</td>
 					<td>: {{$transaksi->pelanggan->nama}}</td>
 						@endif
-					
+
 				</tr>
 				@if ($transaksi->id_pelanggan != null)
 				<tr>
@@ -78,7 +80,7 @@
 							@endif
 						@endforeach
 					</td>
-					<td>Servis 
+					<td>Servis
 						@foreach ($service as $serv)
 							@if ($serv->id == $det_service->id_service)
 								{{$serv->nama}}
@@ -96,7 +98,7 @@
       	</tr>
 				@php
       		$i++;
-      	@endphp	
+      	@endphp
 				@endforeach
 				@endif
 
@@ -131,7 +133,7 @@
 				</tr>
 				@php
       		$i++;
-      	@endphp	
+      	@endphp
 				@endforeach
 				@endif
 
@@ -146,7 +148,7 @@
 	<div class="row">
 		<div class="col-sm-offset-8 col-md-4">
 			<center>
-				Bandung, {{$tgl}} 
+				Bandung, {{$tgl}}
 				<br>Hormat kami,
 				<br>
 				<br>
@@ -155,4 +157,14 @@
 			</center>
 		</div>
 	</div>
+</div>
+
+@endsection
+
+@section('script')
+<script type="text/javascript">
+	$(function(){
+		window.print();
+	})
+</script>
 @endsection

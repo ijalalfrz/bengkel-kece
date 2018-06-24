@@ -22,6 +22,8 @@ Route::group(['prefix' => 'kasir',  'middleware' => 'auth-kasir'], function() {
    Route::get('dashboard', 'Kasir\HomeController@index')->name('kasir.home');
 
    Route::resource('transaksi', 'Kasir\TransaksiController');
+   Route::resource('pelanggan', 'Kasir\PelangganController');
+
    Route::get('transaksi/part/{id}', 'Kasir\TransaksiController@getDetailPart')->name('kasir.part');
    Route::get('transaksi/service/{id}', 'Kasir\TransaksiController@getDetailService')->name('kasir.service');
    Route::get('transaksi/{id}/done', 'Kasir\TransaksiController@done')->name('transaksi.done');
@@ -52,6 +54,12 @@ Route::group(['prefix' => 'kasir'], function() {
 Route::group(['prefix' => 'manager',  'middleware' => 'auth-manager'], function() {
 
     Route::get('dashboard', 'Manager\HomeController@index')->name('manager.home');
+    Route::get('transaksi/{year}/count', 'Manager\HomeController@getCountYear')->name('transaksi.yearcount');
+    Route::get('transaksi/{month}/{year}', 'Manager\HomeController@getData')->name('transaksi.monthyear');
+    Route::get('transaksi/{month}/{year}/count', 'Manager\HomeController@getCount')->name('transaksi.monthyearcount');
+    Route::get('transaksi/{month}/{year}/part', 'Manager\HomeController@getCountSparePart')->name('transaksi.monthyearpart');
+    Route::get('transaksi/{year}', 'Manager\HomeController@getDataYear')->name('transaksi.year');
+
 
     Route::resource('sparepart', 'Manager\SparePartController');
     Route::resource('servis', 'Manager\ServisController');

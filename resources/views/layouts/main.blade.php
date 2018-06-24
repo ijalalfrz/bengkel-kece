@@ -35,8 +35,8 @@
         //initialize the javascript
         App.init();
     });
-    @yield('script')
 
 </script>
+@yield('script')
 </body>
 </html>
