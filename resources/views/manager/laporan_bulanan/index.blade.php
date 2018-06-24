@@ -115,7 +115,7 @@
         </tr>
         <tr>
           <th>Jumlah Part Terjual</th>
-          <td> {{$info['service']}} </td>
+          <td> {{$info['part']}} </td>
           <th>Jumlah Pendapatan Penjualan Part</th>
           <td>Rp {{number_format($info['pend_part'], 0, '', '.')}} </td>
         </tr>
