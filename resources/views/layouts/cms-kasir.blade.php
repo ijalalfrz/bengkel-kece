@@ -27,7 +27,7 @@
 <div class="be-wrapper">
   <nav class="navbar navbar-default navbar-fixed-top be-top-header">
     <div class="container-fluid">
-      <div class="navbar-header"><a href="index.html" class="navbar-brand"></a></div>
+      <div class="navbar-header"><a href="{{ url('kasir/dashboard') }}" class="navbar-brand"></a></div>
       <div class="be-right-navbar">
         <ul class="nav navbar-nav navbar-right be-user-nav">
           <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><img src="{{asset('img/avatar.png')}}" alt="Avatar"><span class="user-name">Túpac Amaru</span></a>
@@ -38,8 +38,8 @@
                   <div class="user-position online">Available</div>
                 </div>
               </li>
-              <li><a href="#"><span class="icon mdi mdi-face"></span> Account</a></li>
-              <li><a href="#"><span class="icon mdi mdi-settings"></span> Settings</a></li>
+              {{-- <li><a href="#"><span class="icon mdi mdi-face"></span> Account</a></li>
+              <li><a href="#"><span class="icon mdi mdi-settings"></span> Settings</a></li> --}}
               <li>
                 <a href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
