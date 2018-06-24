@@ -40,6 +40,8 @@
         <tbody>
           @php
             $i = 1;
+            $data_all = collect($data_all)->sortBy('name')->reverse()->toArray();
+
           @endphp
           @foreach ($data_all as $itm)
           <tr>
