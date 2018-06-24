@@ -72,10 +72,28 @@
 					@foreach ($transaksi->detailService as $det_service)
 	      	<tr>
 						<td> {{$i}} </td>
-						<td> {{$det_service->service->kode}} </td>
-						<td>Service {{$det_service->service->nama}} </td>
+						<td>
+							@foreach ($service as $serv)
+								@if ($serv->id == $det_service->id_service)
+									{{$serv->kode}}
+								@endif
+							@endforeach
+						</td>
+						<td>Servis
+							@foreach ($service as $serv)
+								@if ($serv->id == $det_service->id_service)
+									{{$serv->nama}}
+								@endif
+							@endforeach
+						</td>
 						<td>1</td>
-						<td> Rp {{number_format($det_service->service->harga_jual, 0, '', '.')}} </td>
+						<td>
+							@foreach ($service as $serv)
+								@if ($serv->id == $det_service->id_service)
+									Rp {{number_format($serv->harga_jual, 0, '', '.')}}
+								@endif
+							@endforeach
+						</td>
 	      	</tr>
 					@php
 	      		$i++;
@@ -87,10 +105,30 @@
 					@foreach ($transaksi->detailPart as $det_part)
 					<tr>
 						<td> {{$i}} </td>
-						<td> {{$det_part->part->kode}} </td>
-						<td> {{$det_part->part->nama}} </td>
-						<td> {{$det_part->jumlah}} </td>
-						<td> Rp {{number_format($det_part->part->harga, 0, '', '.')}} </td>
+						<td>
+							@foreach ($part as $pr)
+								@if ($pr->id == $det_part->id_part)
+									{{$pr->kode}}
+								@endif
+							@endforeach
+						</td>
+						<td>
+							@foreach ($part as $pr)
+								@if ($pr->id == $det_part->id_part)
+									{{$pr->nama}}
+								@endif
+							@endforeach
+						</td>
+						<td>
+							{{ $det_part->jumlah }}
+						</td>
+						<td>
+							@foreach ($part as $pr)
+								@if ($pr->id == $det_part->id_part)
+									Rp {{number_format($pr->harga, 0, '', '.')}}
+								@endif
+							@endforeach
+						</td>
 					</tr>
 					@php
 	      		$i++;
