@@ -16,6 +16,14 @@ Route::get('/', function () {
     // return view('welcome');
 });
 
+Route::get('/kasir', function () {
+    return redirect('/kasir/dashboard');
+});
+
+Route::get('/manager', function () {
+    return redirect('/manager/dashboard');
+});
+
 Auth::routes();
 
 Route::group(['prefix' => 'kasir',  'middleware' => 'auth-kasir'], function() {

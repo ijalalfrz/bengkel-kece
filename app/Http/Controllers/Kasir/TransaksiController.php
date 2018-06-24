@@ -97,6 +97,16 @@ class TransaksiController extends Controller
             for ($i=0; $i < count($arr_detail) ; $i++) {
                 $arr_detail[$i]->id_transaksi = $transaksi->id;
                 if(!$arr_detail[$i]->save()){ $err = true; }
+                else{
+                    if(isset($arr_detail[$i]->id_part)){
+                        $id_part = $arr_detail[$i]->id_part;
+                        $data_part = Part::find($id_part);
+                        if($data_part!=null){
+                            $data_part->stok = $data_part->stok - $arr_detail[$i]->jumlah;
+                            $data_part->save();
+                        }
+                    }
+                }
             }
 
             if($err){

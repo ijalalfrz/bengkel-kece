@@ -50,7 +50,7 @@ class SparePartController extends Controller
         }
 
         $data = Part::create($request->except('_method', '_token'));
-        
+
         if($data->save()){
             if($data->id >= 0 && $data->id <= 9){
                 $data->kode = 'P' . '0000' . $data->id;
@@ -124,16 +124,19 @@ class SparePartController extends Controller
     public function updateStok(Request $request, $id)
     {
         //
-        $data = new DetailPart();
-        $data->id_part = $id;
+        // $data = new DetailPart();
+        // $data->id_part = $id;
 
-        $data->nomor_part = $request->nomor_part;
+        // $data->nomor_part = $request->nomor_part;
+
+        $data = Part::findOrFail($id);
+        $data->stok = $request->stok;
         if($data->save()){
-            $request->session()->flash('msg', "Sukses menambah stok");
+            $request->session()->flash('msg', "Sukses merubah stok");
             return redirect()->route('sparepart.index');
         }else{
             return back()
-            ->withErrors(['sistem', 'Gagal menambah stok'])
+            ->withErrors(['sistem', 'Gagal merubah stok'])
             ->withInput();
         }
     }

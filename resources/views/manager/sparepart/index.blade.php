@@ -36,15 +36,15 @@
       </div>
       <div class="modal-body">
         <div class="text-center">
-          <h3>Tambah Stok</h3>
+          <h3>Ubah Stok</h3>
           <div class="xs-mt-50">
             <form method="POST" >
               @csrf
               <input type="hidden" name="_method" value="PUT" >
               <div class="text-center">
-                <label><strong>Nomor Part</strong></label>
+                <label><strong>Stok</strong></label>
 
-                <input type="number" name="nomor_part" class="form-control">
+                <input type="number" name="stok" class="form-control">
               </div>
               <br>
               <button type="submit"  class="btn btn-lg btn-space btn-info">Simpan</button>
@@ -98,15 +98,15 @@
           @endphp
           @foreach($part as $itm)
             <tr>
-              <td>{{$i}}</td>
+              <td> {{$i}}</td>
               <td>{{$itm->nama}}</td>
               <td>{{$itm->satuan}}</td>
               <td>{{$itm->kode}}</td>
               <td>Rp {{number_format($itm->harga, 0, '', '.')}}</td>
-              <td>{{ $itm->detail()->count() }}</td>
+              <td>{{ $itm->stok }}</td>
               <td>
                 <p class="text-right">
-                  <a href="javascript:void(0);" data-url="{{ url('/manager/sparepart/'.$itm->id.'/stok') }}" title="Ganti Stok" data-toggle='modal' data-target='#modal-stok' class="btnStok btn btn-success"><span class="mdi mdi-plus"></span></a>
+                  <a href="javascript:void(0);" data-stok='{{$itm->stok}}' data-url="{{ url('/manager/sparepart/'.$itm->id.'/stok') }}" title="Ganti Stok" data-toggle='modal' data-target='#modal-stok' class="btnStok btn btn-success"><span class="mdi mdi-plus"></span></a>
                   <a href="{{ url('/manager/sparepart/'.$itm->id.'/edit') }}" class="btn btn-info"><span class="mdi mdi-edit"></span></a>
                   <a href="javascript:void(0);" data-url="{{ url('/manager/sparepart/'.$itm->id) }}" data-toggle='modal' data-target='#modal-delete' class="btnDelete btn btn-danger"><span class="mdi mdi-delete"></span></a>
 
@@ -141,6 +141,8 @@
 
     $('.btnStok').click(function(){
       var url = $(this).data('url');
+      var stok = $(this).data('stok');
+      $('#modal-stok').find('input[name=stok]').val(stok);
       $('#modal-stok').find('form').attr('action', url);
     });
   });
