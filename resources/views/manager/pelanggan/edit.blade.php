@@ -33,7 +33,7 @@
           <input type="text" name="nama" class="form-control" required value="{{ $pelanggan->nama }}">
         </div>
         <div class="form-group">
-          <label>Nomor STNK</label>
+          <label>Nomor Polisi Kendaraan</label>
           <input type="text" name="no_kendaraan" class="form-control" required value="{{ $pelanggan->no_kendaraan }}">
         </div>
         <div class="form-group">
@@ -47,6 +47,10 @@
         <div class="form-group">
           <label>Alamat</label>
           <input type="text" name="alamat" class="form-control" required value="{{ $pelanggan->alamat }}">
+        </div>
+        <div class="form-group">
+          <label>No HP</label>
+          <input type="text" name="no_hp" class="form-control numeric" required value="{{ $pelanggan->no_hp }}">
         </div>
         <p class="text-right">
           <button type="submit" class="btn btn-space btn-primary">Simpan</button>

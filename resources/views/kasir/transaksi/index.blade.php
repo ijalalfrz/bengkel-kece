@@ -50,6 +50,57 @@
   </div>
 </div>
 
+<div id="mod-pelanggan" role="dialog" style="display: none;" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{{ url('/kasir/pelanggan') }}" >
+          <div class="text-center">
+            <h3>Tambah Pelanggan Baru</h3>
+            <hr>
+              @csrf
+              <div class="form-group">
+                <label>Nama</label>
+                <input type="text" name="nama" class="form-control" required value="{{ old('nama') }}">
+              </div>
+              <div class="form-group">
+                <label>Nomor Polisi Kendaraan</label>
+                <input type="text" name="no_kendaraan" class="form-control" required value="{{ old('no_kendaraan') }}">
+              </div>
+              <div class="form-group">
+                <label>Merk Kendaraan</label>
+                <input type="text" name="merk_kendaraan" class="form-control" required value="{{ old('merk_kendaraan') }}">
+              </div>
+              <div class="form-group">
+                <label>Tahun</label>
+                <input type="number" name="tahun" class="form-control" required value="{{ old('tahun') }}">
+              </div>
+              <div class="form-group">
+                <label>Alamat</label>
+                <input type="text" name="alamat" class="form-control" required value="{{ old('alamat') }}">
+              </div>
+              <div class="form-group">
+                <label>No HP</label>
+                <input type="text" name="no_hp" class="form-control numeric" required value="{{ old('no_hp') }}">
+              </div>
+
+            <div class="xs-mt-20">
+
+              <button type="submit" class="btn btn-lg btn-space btn-success">Tambah</button>
+              <button type="button" data-dismiss="modal" class="btn btn-lg btn-space btn-default">Batal</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+</div>
+
+
 <div id="mod-service" role="dialog" style="display: none;" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -95,18 +146,26 @@
       @endforeach
     </div>
   @endif
+
+  @if(\Session::has('msg'))
+    <div role="alert" class="alert alert-success alert-dismissible">
+      <button type="button" data-dismiss="alert" aria-label="Close" class="close">
+      <span aria-hidden="true" class="mdi mdi-close"></span></button>
+      <span>{{ \Session::get('msg') }}</span>
+    </div>
+  @endif
   <form action="{{ url('kasir/transaksi') }}" method="POST">
     @csrf
     <div class="panel">
       <div class="panel-heading panel-heading-divider">
         <div class="row">
-          <div class="col-md-4">
+ {{--          <div class="col-md-4">
             <div class="form-group">
               <label><b>No Transaksi</b></label>
               <h2>1</h2>
             </div>
 
-          </div>
+          </div> --}}
           <div class="col-md-4">
             <label><b>Tanggal</b></label>
             <h2>{{date("d, M Y")}}</h2>
@@ -124,13 +183,20 @@
           </div>
           <div class="col-md-4">
             <div class="form-group">
-              <label>Pelanggan</label>
-              <select disabled class="select2" name="id_pelanggan">
-                <option></option>
-                @foreach($pelanggan as $data)
-                <option value="{{$data->id}}">{{$data->nama}}</option>
-                @endforeach
-              </select>
+              <div class="row">
+                <div class="col-md-9 col-xs-9">
+                  <label>Pelanggan</label>
+                  <select disabled class="select2" name="id_pelanggan">
+                    <option></option>
+                    @foreach($pelanggan as $data)
+                    <option value="{{$data->id}}">{{$data->nama}}</option>
+                    @endforeach
+                  </select>
+                </div>
+                <div class="col-md-3 col-xs-3">
+                  <button style="margin-top: 35px" disabled data-toggle="modal" data-target="#mod-pelanggan"  type="button" class="btn btn-lg btn-success btnBaru">Baru</button>
+                </div>
+              </div>
             </div>
           </div>
           <div class="col-md-4">
@@ -312,6 +378,8 @@
         $('select[name=id_montir]').attr('disabled','');
         $('select[name=id_pelanggan]').removeAttr('required');
         $('select[name=id_montir]').removeAttr('required');
+        $('.btnBaru').attr('disabled','');
+
         countPrice();
       }else{
         $("#service").slideDown();
@@ -319,6 +387,7 @@
         $('select[name=id_montir]').removeAttr('disabled');
         $('select[name=id_pelanggan]').attr('required','');
         $('select[name=id_montir]').attr('required','');
+        $('.btnBaru').removeAttr('disabled');
         countPrice();
       }
     });

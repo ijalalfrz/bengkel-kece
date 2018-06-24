@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Kasir;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Transaksi;
+use App\Pelanggan;
 
-class LaporanController extends Controller
+class PelangganController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +16,6 @@ class LaporanController extends Controller
     public function index()
     {
         //
-
-        $data = Transaksi::where('status', '=', 'done')->orderBy('created_at','desc')->get();
-
-        return view('kasir.laporan', ['transaksi'=> $data]);
     }
 
     /**
@@ -41,6 +37,22 @@ class LaporanController extends Controller
     public function store(Request $request)
     {
         //
+        $data = new Pelanggan();
+        $data->nama = $request->nama;
+        $data->no_kendaraan = $request->no_kendaraan;
+        $data->merk_kendaraan = $request->merk_kendaraan;
+        $data->tahun = $request->tahun;
+        $data->alamat = $request->alamat;
+        $data->no_hp = $request->no_hp;
+
+        if($data->save()){
+            $request->session()->flash('msg', "Sukses menambahkan data pelanggan");
+            return back();
+        }else{
+            return back()
+            ->withErrors(['sistem', 'Gagal menambahkan data pelanggan'])
+            ->withInput();
+        }
     }
 
     /**

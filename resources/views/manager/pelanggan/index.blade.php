@@ -55,10 +55,11 @@
           <tr>
             <th>No</th>
             <th>Nama Pelanggan</th>
-            <th>No STNK</th>
+            <th>No Polisi</th>
             <th>Merk Kendaraan</th>
             <th>Tahun</th>
             <th>Alamat</th>
+            <th>No HP</th>
             <th></th>
           </tr>
         </thead>
@@ -74,6 +75,7 @@
               <td>{{$itm->merk_kendaraan}}</td>
               <td>{{$itm->tahun}}</td>
               <td>{{$itm->alamat}}</td>
+              <td>{{$itm->no_hp}}</td>
               <td>
                 <p class="text-right">
                   <a href="{{ url('/manager/pelanggan/'.$itm->id.'/edit') }}" class="btn btn-info"><span class="mdi mdi-edit"></span></a>

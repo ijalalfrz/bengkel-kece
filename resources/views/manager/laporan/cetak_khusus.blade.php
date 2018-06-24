@@ -26,7 +26,7 @@
  	    <th>Total Pendapatan</th>
  	    <td>Rp {{number_format($info['total'], 0, '', '.')}}</td>
  	  </tr>
-	</table>	
+	</table>
 </div>
 <div class="panel-heading panel-heading-divider">
   Daftar Transaksi Tanggal {{$info['tgl_show']}}
@@ -82,4 +82,13 @@
     </tbody>
   </table>
 </div>
+@endsection
+
+
+@section('script')
+<script type="text/javascript">
+  $(function(){
+    window.print();
+  })
+</script>
 @endsection

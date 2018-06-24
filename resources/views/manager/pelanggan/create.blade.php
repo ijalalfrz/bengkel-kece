@@ -32,7 +32,7 @@
           <input type="text" name="nama" class="form-control" required value="{{ old('nama') }}">
         </div>
         <div class="form-group">
-          <label>Nomor STNK</label>
+          <label>Nomor Polisi Kendaraan</label>
           <input type="text" name="no_kendaraan" class="form-control" required value="{{ old('no_kendaraan') }}">
         </div>
         <div class="form-group">
@@ -46,6 +46,10 @@
         <div class="form-group">
           <label>Alamat</label>
           <input type="text" name="alamat" class="form-control" required value="{{ old('alamat') }}">
+        </div>
+        <div class="form-group">
+          <label>No HP</label>
+          <input type="text" name="no_hp" class="form-control numeric" required value="{{ old('no_hp') }}">
         </div>
         <p class="text-right">
           <button step="1" min="1" type="submit" class="btn btn-space btn-primary">Simpan</button>

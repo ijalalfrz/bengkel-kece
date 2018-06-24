@@ -45,6 +45,7 @@ class PelangganController extends Controller
         $data->merk_kendaraan = $request->merk_kendaraan;
         $data->tahun = $request->tahun;
         $data->alamat = $request->alamat;
+        $data->no_hp = $request->no_hp;
 
         if($data->save()){
             $request->session()->flash('msg', "Sukses menambahkan data pelanggan");
@@ -97,6 +98,7 @@ class PelangganController extends Controller
         $data->merk_kendaraan = $request->merk_kendaraan;
         $data->tahun = $request->tahun;
         $data->alamat = $request->alamat;
+        $data->no_hp = $request->no_hp;
 
         if($data->save()){
             $request->session()->flash('msg', "Sukses mengubah pelanggan");
