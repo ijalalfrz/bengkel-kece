@@ -22,6 +22,7 @@ Route::group(['prefix' => 'kasir',  'middleware' => 'auth-kasir'], function() {
    Route::get('dashboard', 'Kasir\HomeController@index')->name('kasir.home');
 
    Route::resource('transaksi', 'Kasir\TransaksiController');
+   Route::resource('laporan', 'Kasir\LaporanController');
    Route::get('transaksi/part/{id}', 'Kasir\TransaksiController@getDetailPart')->name('kasir.part');
    Route::get('transaksi/service/{id}', 'Kasir\TransaksiController@getDetailService')->name('kasir.service');
    Route::get('transaksi/{id}/done', 'Kasir\TransaksiController@done')->name('transaksi.done');
@@ -47,6 +48,8 @@ Route::group(['prefix' => 'kasir'], function() {
     Route::post('password/email', ['as' => 'kasir.password.email', 'uses' => 'AuthKasir\ForgotPasswordController@sendResetLinkEmail']);
     Route::get('password/reset/{token}', ['as' => 'kasir.password.reset.token', 'uses' => 'AuthKasir\ResetPasswordController@showResetForm']);
     Route::post('password/reset', ['uses' => 'AuthKasir\ResetPasswordController@reset']);
+
+
 });
 
 Route::group(['prefix' => 'manager',  'middleware' => 'auth-manager'], function() {
