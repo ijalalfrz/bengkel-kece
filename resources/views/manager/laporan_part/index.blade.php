@@ -48,7 +48,7 @@
 						<td> {{$itm->nama}} </td>	      		
 						<td> {{$itm->harga}} </td>	      		
 						<td> {{$itm->satuan}} </td>
-						<td> </td>
+						<td> {{$itm->stok}} </td>
 						@foreach ($data_all as $element)
 						@if ($element['id'] == $itm->id)
 							@if ($element['status'] == 1)

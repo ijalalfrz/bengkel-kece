@@ -20,10 +20,4 @@ class Part extends Model
   }
 
 
-  public function detail_transaksi()
-  {
-      return $this->hasMany('App\TransaksiDetailPart','id_part','id');
-  }
-
-
 }
