@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
 use App\Transaksi;
 use App\TransaksiDetailPart;
+use App\Montir;
 use Illuminate\Http\Request;
 use Carbon;
 use DB;
@@ -27,9 +28,9 @@ class HomeController extends Controller
     public function index()
     {
         $data_tahun = Transaksi::distinct()->select(DB::raw('YEAR(created_at) year'))->get();
+        $data_montir = Montir::all();
 
-
-        return view('manager.dashboard', ['tahun' => $data_tahun]);
+        return view('manager.dashboard', ['tahun' => $data_tahun, 'montir' => $data_montir]);
     }
 
     public function getData($month, $year){
@@ -247,5 +248,76 @@ class HomeController extends Controller
 
 
         return $result;
+    }
+
+    public function montirMonth($month, $year){
+        $data_montir = Montir::all();
+        $result_montir = [];
+
+        $last_day = (int) date('t', strtotime($year.'-'.$month.'-'.'1'));
+        $days = [];
+        for ($i=1; $i <= $last_day ; $i++) {
+            $days[] = $i;
+        }
+        foreach ($data_montir as $data) {
+
+            $arr_service = [];
+            for ($i=1; $i <= $last_day ; $i++) {
+
+                $transaksi_service = Transaksi::select(DB::raw('COUNT(*) total'))
+                    ->where('jenis','service')
+                    ->where('status','done')
+                    ->where('id_montir', $data->id)
+                    ->whereDate('created_at', '=', date('Y-m-d', strtotime($year.'-'.$month.'-'.$i)))
+                    ->get()->first();
+
+                $arr_service[] = $transaksi_service->total;
+            }
+
+            $result_montir[] = [
+                'name' => $data->nama,
+                'data' => $arr_service
+            ];
+        }
+
+        $result = [
+            'days' => $days,
+            'data' => $result_montir
+        ];
+
+        return $result;
+    }
+
+
+    public function montirYear($year){
+        $data_montir = Montir::all();
+        $result_montir = [];
+
+
+        foreach ($data_montir as $data) {
+
+            $arr_service = [];
+            for ($i=1; $i <= 12 ; $i++) {
+
+                $transaksi_service = Transaksi::select(DB::raw('COUNT(*) total'))
+                    ->where('jenis','service')
+                    ->where('status','done')
+                    ->where('id_montir', $data->id)
+                    ->whereYear('created_at','=',$year)
+                    ->whereMonth('created_at','=',$i)
+                    ->get()->first();
+
+                $arr_service[] = $transaksi_service->total;
+            }
+
+            $result_montir[] = [
+                'name' => $data->nama,
+                'data' => $arr_service
+            ];
+        }
+
+
+
+        return $result_montir;
     }
 }

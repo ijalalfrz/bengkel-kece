@@ -17,6 +17,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link rel="stylesheet" type="text/css" href="{{ asset('lib/datatables/css/dataTables.bootstrap.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('lib/select2/css/select2.min.css') }} "/>
 
     <link rel="stylesheet" href="{{asset('css/style.css')}}" type="text/css"/>
     <link rel="stylesheet" href="{{asset('css/mine.css')}}" type="text/css"/>
@@ -25,7 +26,7 @@
 <div class="be-wrapper">
   <nav class="navbar navbar-default navbar-fixed-top be-top-header">
     <div class="container-fluid">
-      <div class="navbar-header"><a href="index.html" class="navbar-brand"></a></div>
+      <div class="navbar-header"><a href="{{ url('manager/dashboard') }}" class="navbar-brand"></a></div>
       <div class="be-right-navbar">
         <ul class="nav navbar-nav navbar-right be-user-nav">
           <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><img src="{{asset('img/avatar.png')}}" alt="Avatar"><span class="user-name">Túpac Amaru</span></a>
@@ -36,8 +37,8 @@
                   <div class="user-position online">Available</div>
                 </div>
               </li>
-              <li><a href="#"><span class="icon mdi mdi-face"></span> Account</a></li>
-              <li><a href="#"><span class="icon mdi mdi-settings"></span> Settings</a></li>
+{{--               <li><a href="#"><span class="icon mdi mdi-face"></span> Account</a></li>
+              <li><a href="#"><span class="icon mdi mdi-settings"></span> Settings</a></li> --}}
               <li>
                 <a href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
@@ -297,10 +298,16 @@
 <script src="{{asset('lib/bootstrap/dist/js/bootstrap.min.js')}}" type="text/javascript"></script>
 <script src="{{ asset('lib/datatables/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('lib/datatables/js/dataTables.bootstrap.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('lib/select2/js/select2.min.js') }}" type="text/javascript"></script>
+
+<script src="{{ asset('js/app-form-elements.js') }}" type="text/javascript"></script>
+
 <script type="text/javascript">
     $(document).ready(function(){
         //initialize the javascript
       App.init();
+      App.formElements();
+
       $(".numeric").keydown(function (e) {
           // Allow: backspace, delete, tab, escape, enter and .
           if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||

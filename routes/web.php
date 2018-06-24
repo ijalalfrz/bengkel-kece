@@ -16,6 +16,14 @@ Route::get('/', function () {
     // return view('welcome');
 });
 
+Route::get('/kasir', function () {
+    return redirect('/kasir/dashboard');
+});
+
+Route::get('/manager', function () {
+    return redirect('/manager/dashboard');
+});
+
 Auth::routes();
 
 Route::group(['prefix' => 'kasir',  'middleware' => 'auth-kasir'], function() {
@@ -60,9 +68,11 @@ Route::group(['prefix' => 'manager',  'middleware' => 'auth-manager'], function(
     Route::get('dashboard', 'Manager\HomeController@index')->name('manager.home');
 
     Route::get('transaksi/{year}/count', 'Manager\HomeController@getCountYear')->name('transaksi.yearcount');
+    Route::get('transaksi/{year}/montir', 'Manager\HomeController@montirYear')->name('transaksi.yearmontir');
     Route::get('transaksi/{month}/{year}', 'Manager\HomeController@getData')->name('transaksi.monthyear');
     Route::get('transaksi/{month}/{year}/count', 'Manager\HomeController@getCount')->name('transaksi.monthyearcount');
     Route::get('transaksi/{month}/{year}/part', 'Manager\HomeController@getCountSparePart')->name('transaksi.monthyearpart');
+    Route::get('transaksi/{month}/{year}/montir', 'Manager\HomeController@montirMonth')->name('transaksi.monthmontir');
     Route::get('transaksi/{year}', 'Manager\HomeController@getDataYear')->name('transaksi.year');
 
     Route::get('laporan/umum', 'Manager\LaporanController@umum')->name('laporan.umum');

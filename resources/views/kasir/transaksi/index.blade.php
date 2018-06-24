@@ -16,7 +16,10 @@
         <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
       </div>
       <div class="modal-body">
+        <div class="err">
+        </div>
         <div class="text-center">
+
           <h3>Tambah Sparepart</h3>
           <hr>
           <div class="row">
@@ -27,7 +30,7 @@
                   <option>Pilih Part</option>
 
                   @foreach($part as $data)
-                  <option value="{{$data->id}}">{{$data->kode}} - {{$data->nama}}</option>
+                  <option data-stok='{{$data->stok}}' value="{{$data->id}}">{{$data->kode}} - {{$data->nama}} ({{$data->stok==0?'HABIS':$data->stok}})</option>
                   @endforeach
                 </select>
               </div>
@@ -40,7 +43,7 @@
           </div>
           <div class="xs-mt-20">
 
-            <button type="button" data-dismiss="modal" class="btn btn-lg btn-space btn-success btnTambahPart">Tambah</button>
+            <button type="button" class="btn btn-lg btn-space btn-success btnTambahPart">Tambah</button>
             <button type="button" data-dismiss="modal" class="btn btn-lg btn-space btn-default">Batal</button>
           </div>
         </div>
@@ -290,6 +293,7 @@
         placeholder: "Pilih Part",
         width: '100%'
       });
+      $('.err').html('');
     });
 
     $('.btnModalService').click(function(){
@@ -304,37 +308,50 @@
     $('.btnTambahPart').click(function(){
       var id_part = $('.id_part').val();
       var jum = $('.qty_part').val();
+      var stok = $('.id_part').find(':selected').data('stok');
 
-      $.get(`{{ url('kasir/transaksi/part/') }}/${id_part}`, function(data){
+      if(stok>=jum){
+        $.get(`{{ url('kasir/transaksi/part/') }}/${id_part}`, function(data){
 
-      }).done(function(data,xhr){
+        }).done(function(data,xhr){
 
-        if(data){
-          jumPart++;
-          var harga = parseInt(data.harga);
-          var sub = jum*harga;
-          $('.part-table-body').append(`
-            <tr>
-              <td>${data.kode} - ${data.nama}</td>
-              <td>${harga}</td>
-              <td>${jum}</td>
-              <td>${sub}</td>
-              <td>
-                <input type='hidden' name='id_part[]' value='${data.id}'>
-                <input type='hidden' name='harga_jual[]' value='${harga}'>
-                <input type='hidden' name='jumlah[]' value='${jum}'>
-                <input type='hidden' name='total_harga[]' value='${sub}'>
-                <button type='button' class='btn pull-right btn-danger btnHapus'>Hapus</button>
-              </td>
-            </tr>
-          `);
+          if(data){
+            jumPart++;
+            var harga = parseInt(data.harga);
+            var sub = jum*harga;
+            $('.part-table-body').append(`
+              <tr>
+                <td>${data.kode} - ${data.nama}</td>
+                <td>${harga}</td>
+                <td>${jum}</td>
+                <td>${sub}</td>
+                <td>
+                  <input type='hidden' name='id_part[]' value='${data.id}'>
+                  <input type='hidden' name='harga_jual[]' value='${harga}'>
+                  <input type='hidden' name='jumlah[]' value='${jum}'>
+                  <input type='hidden' name='total_harga[]' value='${sub}'>
+                  <button type='button' class='btn pull-right btn-danger btnHapus'>Hapus</button>
+                </td>
+              </tr>
+            `);
 
-        }
-        countPrice();
+          }
+          countPrice();
+          $('#mod-sparepart').modal('hide');
 
-      }).fail(function(){
+        }).fail(function(){
 
-      });
+        });
+
+      }else{
+        $('.err').html(`
+        <div role="alert" class="alert alert-danger alert-dismissible">
+          Maaf, stok kurang
+        </div>
+        `);
+        $('.qty_part').val(parseInt(stok));
+      }
+
     });
 
     $('.btnTambahService').click(function(){
