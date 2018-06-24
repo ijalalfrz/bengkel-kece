@@ -8,7 +8,7 @@ use Carbon;
 use App\Transaksi;
 use DB;
 
-class LaporanController extends Controller
+class LaporanRangeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +18,16 @@ class LaporanController extends Controller
     public function index()
     {
         //
-        $data_group = Transaksi::distinct()->select(DB::raw('DATE(created_at) date'))->get(); 
+        $data_group = Transaksi::oldest()->first();
 
+        $oldest = Carbon::parse($data_group->created_at)->format('Y-m-d');
+
+        $data_group = Transaksi::latest()->first();
+
+        $newest = Carbon::parse($data_group->created_at)->format('Y-m-d');
+
+
+        $data_group = Transaksi::distinct()->select(DB::raw('DATE(created_at) date'))->get(); 
         for ($i = 0; $i < sizeof($data_group); $i++) {
             $data = Transaksi::whereDate('created_at', $data_group[$i]->date)->get();
 
@@ -57,56 +65,62 @@ class LaporanController extends Controller
             }else{
                 $data_all = array_add($data_all, $i, $info);
             }
-
         }
+        $oldest_show = Carbon::parse($oldest)->format('d M Y');
+        $newest_show = Carbon::parse($newest)->format('d M Y');
+
+        $infos = array('oldest'=> $oldest,
+                'newest'=> $newest,
+                'oldest_show'=> $oldest_show,
+                'newest_show'=> $newest_show);
 
 
-        $tgl = Carbon::parse(Carbon::today())->format('Y-m-d');
-        $data = Transaksi::whereDate('created_at', $tgl)->get();
+        if($data_all != null){
 
-        $part = 0;
-        $pend_part = 0;
-        $service = 0;
-        $pend_service = 0;
-        $total = 0;
-        $total_transaksi = 0;
-        foreach ($data as $itm) {
-            if($itm->jenis == "service"){
-                $service += 1;
-                $pend_service += $itm->total_harga;
-            }else{
-                $part += 1;
-                $pend_part += $itm->total_harga;
+            $part = 0;
+            $pend_part = 0;
+            $service = 0;
+            $pend_service = 0;
+            $total = 0;
+            $total_transaksi = 0;
+
+            foreach ($data_all as $itm) {
+                $part += $itm['part'];
+                $pend_part += $itm['pend_part'];
+                $service += $itm['service'];
+                $pend_service += $itm['pend_service'];
+                $total += $itm['total'];
+                $total_transaksi += $itm['total_transaksi'];
             }
 
-            $total += $itm->total_harga;
-            $total_transaksi += 1;
-        }
-
-        $tgl_show = Carbon::parse(Carbon::today())->format('d M Y');
-
-        $info = array('tgl'=> $tgl,
-                'tgl_show'=> $tgl_show,
-                'part'=> $part,
+            $grand_info = array('part'=> $part,
                 'pend_part'=> $pend_part,
                 'service'=> $service,
                 'pend_service'=> $pend_service,
                 'total'=> $total,
                 'total_transaksi'=> $total_transaksi);
 
-        if($data_all != null){
-            return view('manager.laporan.index', ['transaksi'=> $data, 'info'=> $info, 'data_all'=> $data_all]);
+            return view('manager.laporan_range.index', ['info'=> $info, 'data_all'=> $data_all, 'infos'=> $infos, 'grand_info'=> $grand_info]);
         }else{
-            return view('manager.laporan.index', ['transaksi'=> $data, 'info'=> $info]);
+            return view('manager.laporan_range.index', ['info'=> $info, 'infos'=> $infos]);
         }
     }
 
-    public function umum()
-    {
-        $data_group = Transaksi::distinct()->select(DB::raw('DATE(created_at) date'))->get(); 
+    public function cetak($oldest, $newest){
+        $oldest = Carbon::parse($oldest)->format('Y-m-d 00:00:00');
+
+
+        $newest = Carbon::parse($newest)->format('Y-m-d 23:59:59');
+
+
+        $data_group = Transaksi::distinct()->select(DB::raw('DATE(created_at) date'))
+            ->where('created_at', '>=', $oldest)
+            ->where('created_at', '<=', $newest)
+            ->get(); 
 
         for ($i = 0; $i < sizeof($data_group); $i++) {
-            $data = Transaksi::whereDate('created_at', $data_group[$i]->date)->get();
+            $data = Transaksi::whereDate('created_at', $data_group[$i]->date)
+                ->get();
 
             $part = 0;
             $pend_part = 0;
@@ -142,13 +156,45 @@ class LaporanController extends Controller
             }else{
                 $data_all = array_add($data_all, $i, $info);
             }
-
         }
-        
-        return view('manager.laporan.cetak_umum', ['data_all'=> $data_all]);
-    }
+        $oldest = Carbon::parse($oldest)->format('Y-m-d');
 
-    
+        $newest = Carbon::parse($newest)->format('Y-m-d');
+
+        $oldest_show = Carbon::parse($oldest)->format('d M Y');
+        $newest_show = Carbon::parse($newest)->format('d M Y');
+
+        $infos = array('oldest'=> $oldest,
+                'newest'=> $newest,
+                'oldest_show'=> $oldest_show,
+                'newest_show'=> $newest_show);
+        $part = 0;
+        $pend_part = 0;
+        $service = 0;
+        $pend_service = 0;
+        $total = 0;
+        $total_transaksi = 0;
+
+        foreach ($data_all as $itm) {
+            $part += $itm['part'];
+            $pend_part += $itm['pend_part'];
+            $service += $itm['service'];
+            $pend_service += $itm['pend_service'];
+            $total += $itm['total'];
+            $total_transaksi += $itm['total_transaksi'];
+        }
+
+        $grand_info = array('part'=> $part,
+            'pend_part'=> $pend_part,
+            'service'=> $service,
+            'pend_service'=> $pend_service,
+            'total'=> $total,
+            'total_transaksi'=> $total_transaksi);
+
+
+
+        return view('manager.laporan_range.cetak', ['data_all'=> $data_all, 'infos'=> $infos, 'grand_info'=> $grand_info]);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -158,6 +204,8 @@ class LaporanController extends Controller
     public function create()
     {
         //
+
+
     }
 
     /**
@@ -170,10 +218,20 @@ class LaporanController extends Controller
     {
         //
 
-        $data_group = Transaksi::distinct()->select(DB::raw('DATE(created_at) date'))->get(); 
+        $oldest = Carbon::parse($request->oldest)->format('Y-m-d 00:00:00');
+
+
+        $newest = Carbon::parse($request->newest)->format('Y-m-d 23:59:59');
+
+
+        $data_group = Transaksi::distinct()->select(DB::raw('DATE(created_at) date'))
+            ->where('created_at', '>=', $oldest)
+            ->where('created_at', '<=', $newest)
+            ->get(); 
 
         for ($i = 0; $i < sizeof($data_group); $i++) {
-            $data = Transaksi::whereDate('created_at', $data_group[$i]->date)->get();
+            $data = Transaksi::whereDate('created_at', $data_group[$i]->date)
+                ->get();
 
             $part = 0;
             $pend_part = 0;
@@ -209,91 +267,49 @@ class LaporanController extends Controller
             }else{
                 $data_all = array_add($data_all, $i, $info);
             }
-
         }
+        $oldest = Carbon::parse($request->oldest)->format('Y-m-d');
 
-        $tgl = $request->tgl;
-        $data = Transaksi::whereDate('created_at', $tgl)->get();
+        $newest = Carbon::parse($request->newest)->format('Y-m-d');
 
-        $part = 0;
-        $pend_part = 0;
-        $service = 0;
-        $pend_service = 0;
-        $total = 0;
-        $total_transaksi = 0;
-        foreach ($data as $itm) {
-            if($itm->jenis == "service"){
-                $service += 1;
-                $pend_service += $itm->total_harga;
-            }else{
-                $part += 1;
-                $pend_part += $itm->total_harga;
-            }
+        $oldest_show = Carbon::parse($oldest)->format('d M Y');
+        $newest_show = Carbon::parse($newest)->format('d M Y');
 
-            $total += $itm->total_harga;
-            $total_transaksi += 1;
-            
-        }
+        $infos = array('oldest'=> $oldest,
+                'newest'=> $newest,
+                'oldest_show'=> $oldest_show,
+                'newest_show'=> $newest_show);
 
-        $tgl_show = Carbon::parse($tgl)->format('d M Y');
-
-        $tgl = Carbon::parse($tgl)->format('Y-m-d');
-
-        $info = array('tgl'=> $tgl,
-                'tgl_show'=> $tgl_show,
-                'part'=> $part,
-                'pend_part'=> $pend_part,
-                'service'=> $service,
-                'pend_service'=> $pend_service,
-                'total'=> $total,
-                'total_transaksi'=> $total_transaksi);
 
         if($data_all != null){
-            return view('manager.laporan.index', ['transaksi'=> $data, 'info'=> $info, 'data_all'=> $data_all]);
-        }else{
-            return view('manager.laporan.index', ['transaksi'=> $data, 'info'=> $info]);
-        }
-    }
 
-    public function khusus($tgl){
-        $data = Transaksi::whereDate('created_at', $tgl)->get();
+            $part = 0;
+            $pend_part = 0;
+            $service = 0;
+            $pend_service = 0;
+            $total = 0;
+            $total_transaksi = 0;
 
-        $part = 0;
-        $pend_part = 0;
-        $service = 0;
-        $pend_service = 0;
-        $total = 0;
-        $total_transaksi = 0;
-        foreach ($data as $itm) {
-            if($itm->jenis == "service"){
-                $service += 1;
-                $pend_service += $itm->total_harga;
-            }else{
-                $part += 1;
-                $pend_part += $itm->total_harga;
+            foreach ($data_all as $itm) {
+                $part += $itm['part'];
+                $pend_part += $itm['pend_part'];
+                $service += $itm['service'];
+                $pend_service += $itm['pend_service'];
+                $total += $itm['total'];
+                $total_transaksi += $itm['total_transaksi'];
             }
 
-            $total += $itm->total_harga;
-            $total_transaksi += 1;
-
-            
-        }
-
-        $tgl_show = Carbon::parse($tgl)->format('d M Y');
-
-        $tgl = Carbon::parse($tgl)->format('Y-m-d');
-
-        $info = array('tgl'=> $tgl,
-                'tgl_show'=> $tgl_show,
-                'part'=> $part,
+            $grand_info = array('part'=> $part,
                 'pend_part'=> $pend_part,
                 'service'=> $service,
                 'pend_service'=> $pend_service,
                 'total'=> $total,
                 'total_transaksi'=> $total_transaksi);
 
-        return view('manager.laporan.cetak_khusus', ['transaksi'=> $data, 'info'=> $info]);
-
+            return view('manager.laporan_range.index', ['info'=> $info, 'data_all'=> $data_all, 'infos'=> $infos, 'grand_info'=> $grand_info]);
+        }else{
+            return view('manager.laporan_range.index', ['info'=> $info, 'infos'=> $infos]);
+        }
     }
 
     /**

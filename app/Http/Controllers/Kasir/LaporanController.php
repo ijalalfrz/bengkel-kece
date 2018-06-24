@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Manager;
-use App\Transaksi;
+namespace App\Http\Controllers\Kasir;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use File;
+use App\Transaksi;
 
-class TransaksiController extends Controller
+class LaporanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,10 @@ class TransaksiController extends Controller
     public function index()
     {
         //
-        $data = Transaksi::all();
 
-        return view('manager.transaksi.index', ['transaksi'=> $data]);
+        $data = Transaksi::where('status', '=', 'done')->get();
+
+        return view('kasir.laporan', ['transaksi'=> $data]);
     }
 
     /**
@@ -85,15 +86,5 @@ class TransaksiController extends Controller
     public function destroy($id)
     {
         //
-        $transaksi = Transaksi::findOrFail($id);
-        
-
-        if($transaksi->delete()){
-            \Session::flash('msg', "Sukses menghapus transaksi");
-        }else{
-            \Session::flash('msg', "Gagal menghapus transaksi");
-        }
-
-        return redirect()->route('transaksi.index');
     }
 }

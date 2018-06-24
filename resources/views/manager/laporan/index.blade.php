@@ -9,6 +9,7 @@
 	</ol>	
 </div>
 
+
 <div class="main-content container-fluid">
 	@if(\Session::has('msg'))
     <div role="alert" class="alert alert-success alert-dismissible">
@@ -20,6 +21,7 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       Laporan Umum Harian
+      <a href="{{ url('manager/laporan/umum') }}" class="btn btn-success" target="_blank">Cetak</a>
       <div class="clearfix"></div>
     </div>
     <div class="panel-body">
@@ -37,15 +39,32 @@
           </tr>
         </thead>
         <tbody>
+          @php
+            $i = 1;
+          @endphp
+          @foreach ($data_all as $itm)
           <tr>
-            
+            <td> {{$i}} </td>
+            <td> {{$itm['name']}}</td>   
+            <td> {{$itm['service']}}</td>   
+            <td> Rp {{number_format($itm['pend_service'], 0, '', '.')}}</td>   
+            <td> {{$itm['part']}}</td>   
+            <td> Rp {{number_format($itm['pend_part'], 0, '', '.')}}</td>   
+            <td> {{$itm['total_transaksi']}}</td>   
+            <td> Rp {{number_format($itm['total'], 0, '', '.')}}</td>  
           </tr>
+          @php
+            $i++;
+          @endphp
+          @endforeach
+        </tbody> 
       </table>
     </div>
   </div>
   <div class="panel panel-default">   
   	<div class="panel-heading">
       Laporan Umum Tanggal {{$info['tgl_show']}}
+      <a href="{{ url('manager/laporan/'.$info['tgl'].'/khusus') }}" class="btn btn-success" target="_blank">Cetak</a>
       <div class="clearfix"></div>
     </div>
       
@@ -73,13 +92,13 @@
         </tr>
         <tr>
           <th>Jumlah Part Terjual</th>
-          <td> {{$info['service']}} </td>
+          <td> {{$info['part']}} </td>
           <th>Jumlah Pendapatan Penjualan Part</th>
           <td>Rp {{number_format($info['pend_part'], 0, '', '.')}} </td>
         </tr>
         <tr>
           <th>Total Transaksi</th>
-          <td></td>
+          <td> {{$info['total_transaksi']}} </td>
           <th>Total Pendapatan</th>
           <td>Rp {{number_format($info['total'], 0, '', '.')}}</td>
         </tr>
@@ -90,7 +109,7 @@
       <div class="clearfix"></div>
     </div>
     <div class="panel-body">
-      <table id="datatab" class="table">
+      <table id="datatab2" class="table">
         <thead>
           <tr>
             <th>No</th>
@@ -100,6 +119,7 @@
             <th>Nama Montir</th>
             <th>Total Harga</th>
             <th>Jenis</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -129,6 +149,7 @@
             </td>
             <td>Rp {{number_format($itm->total_harga, 0, '', '.')}}</td>
             <td>{{$itm->jenis}}</td>
+            <td>{{$itm->status}}</td>
           </tr>
             @php
               $i++;
@@ -146,6 +167,25 @@
 <script type="text/javascript">
   $(function(){
     $('#datatab').DataTable({
+      'aoColumnDefs': [{
+        'bSortable': false,
+        'aTargets': [-1, -1] /* 1st one, start by the right */
+      }]
+    });
+    $('.btnDelete').click(function(){
+      var url = $(this).data('url');
+      $('#modal-delete').find('form').attr('action', url);
+    });
+
+    $('.btnStok').click(function(){
+      var url = $(this).data('url');
+      var stok = $(this).data('stok');
+      $('#modal-stok').find('form').attr('action', url);
+      $('#modal-stok').find('input').val(stok);
+    });
+  });
+  $(function(){
+    $('#datatab2').DataTable({
       'aoColumnDefs': [{
         'bSortable': false,
         'aTargets': [-1, -1] /* 1st one, start by the right */
