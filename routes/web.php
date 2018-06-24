@@ -58,6 +58,7 @@ Route::group(['prefix' => 'manager',  'middleware' => 'auth-manager'], function(
     Route::get('laporan_bulanan/{tgl}/khusus', 'Manager\LaporanBulananController@khusus')->name('laporan_bulanan.khusus');
     Route::get('laporan_tahunan/umum', 'Manager\LaporanTahunanController@umum')->name('laporan_tahunan.umum');
     Route::get('laporan_tahunan/{tgl}/khusus', 'Manager\LaporanTahunanController@khusus')->name('laporan_tahunan.khusus');
+    Route::get('laporan_range/{oldest}/{newest}/cetak', 'Manager\LaporanRangeController@cetak')->name('laporan_range.cetak');
 
     Route::resource('sparepart', 'Manager\SparePartController');
     Route::resource('servis', 'Manager\ServisController');
@@ -69,6 +70,7 @@ Route::group(['prefix' => 'manager',  'middleware' => 'auth-manager'], function(
     Route::resource('laporan', 'Manager\LaporanController');
     Route::resource('laporan_bulanan', 'Manager\LaporanBulananController');
     Route::resource('laporan_tahunan', 'Manager\LaporanTahunanController');
+    Route::resource('laporan_range', 'Manager\LaporanRangeController');
 
 });
 

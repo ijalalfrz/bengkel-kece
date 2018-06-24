@@ -9,6 +9,7 @@
 	</ol>	
 </div>
 
+
 <div class="main-content container-fluid">
 	@if(\Session::has('msg'))
     <div role="alert" class="alert alert-success alert-dismissible">
@@ -22,7 +23,6 @@
       Laporan Umum Harian
       <a href="{{ url('manager/laporan/umum') }}" class="btn btn-success" target="_blank">Cetak</a>
       <div class="clearfix"></div>
-
     </div>
     <div class="panel-body">
       <table class="table" id="datatab">
@@ -109,7 +109,7 @@
       <div class="clearfix"></div>
     </div>
     <div class="panel-body">
-      <table id="datatab" class="table">
+      <table id="datatab2" class="table">
         <thead>
           <tr>
             <th>No</th>
@@ -165,6 +165,25 @@
 <script type="text/javascript">
   $(function(){
     $('#datatab').DataTable({
+      'aoColumnDefs': [{
+        'bSortable': false,
+        'aTargets': [-1, -1] /* 1st one, start by the right */
+      }]
+    });
+    $('.btnDelete').click(function(){
+      var url = $(this).data('url');
+      $('#modal-delete').find('form').attr('action', url);
+    });
+
+    $('.btnStok').click(function(){
+      var url = $(this).data('url');
+      var stok = $(this).data('stok');
+      $('#modal-stok').find('form').attr('action', url);
+      $('#modal-stok').find('input').val(stok);
+    });
+  });
+  $(function(){
+    $('#datatab2').DataTable({
       'aoColumnDefs': [{
         'bSortable': false,
         'aTargets': [-1, -1] /* 1st one, start by the right */
