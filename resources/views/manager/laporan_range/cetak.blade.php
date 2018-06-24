@@ -26,7 +26,7 @@
       <th>Total Pendapatan</th>
       <td>Rp {{number_format($grand_info['total'], 0, '', '.')}}</td>
     </tr>
-  </table>  
+  </table>
 </div>
 <hr>
 <div class="panel-heading panel-heading-divider">
@@ -53,18 +53,26 @@
     @foreach ($data_all as $itm)
     <tr>
       <td> {{$i}} </td>
-      <td> {{$itm['name']}}</td>   
-      <td> {{$itm['service']}}</td>   
-      <td> Rp {{number_format($itm['pend_service'], 0, '', '.')}}</td>   
-      <td> {{$itm['part']}}</td>   
-      <td> Rp {{number_format($itm['pend_part'], 0, '', '.')}}</td>   
-      <td> {{$itm['total_transaksi']}}</td>   
-      <td> Rp {{number_format($itm['total'], 0, '', '.')}}</td>  
+      <td> {{$itm['name']}}</td>
+      <td> {{$itm['service']}}</td>
+      <td> Rp {{number_format($itm['pend_service'], 0, '', '.')}}</td>
+      <td> {{$itm['part']}}</td>
+      <td> Rp {{number_format($itm['pend_part'], 0, '', '.')}}</td>
+      <td> {{$itm['total_transaksi']}}</td>
+      <td> Rp {{number_format($itm['total'], 0, '', '.')}}</td>
     </tr>
     @php
       $i++;
     @endphp
     @endforeach
-  </tbody> 
+  </tbody>
 </table>
+@endsection
+
+@section('script')
+<script type="text/javascript">
+  $(function(){
+    window.print();
+  })
+</script>
 @endsection
