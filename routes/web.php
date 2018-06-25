@@ -39,6 +39,7 @@ Route::group(['prefix' => 'kasir',  'middleware' => 'auth-kasir'], function() {
    Route::get('transaksi/{id}/done', 'Kasir\TransaksiController@done')->name('transaksi.done');
    Route::get('transaksi/{id}/delete', 'Kasir\TransaksiController@delete')->name('transaksi.delete');
    Route::get('transaksi/{id}/invoice', 'Kasir\TransaksiController@invoice')->name('transaksi.invoice');
+   Route::post('transaksi/{id}/cancel', 'Kasir\TransaksiController@cancel')->name('transaksi.cancel');
 
 });
 
@@ -84,6 +85,10 @@ Route::group(['prefix' => 'manager',  'middleware' => 'auth-manager'], function(
     Route::get('laporan_range/{oldest}/{newest}/cetak', 'Manager\LaporanRangeController@cetak')->name('laporan_range.cetak');
     Route::get('laporan_part/cetak', 'Manager\LaporanPartController@cetak')->name('laporan_part.cetak');
 
+    Route::get('cancel_request/{id}/approve', 'Manager\CancelRequestController@approve');
+    Route::get('cancel_request/{id}/deny', 'Manager\CancelRequestController@deny');
+
+    Route::resource('cancel_request', 'Manager\CancelRequestController');
     Route::resource('sparepart', 'Manager\SparePartController');
     Route::resource('servis', 'Manager\ServisController');
     Route::resource('montir', 'Manager\MontirController');

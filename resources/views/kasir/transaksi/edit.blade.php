@@ -200,7 +200,14 @@
         <br>
         <hr>
         <br>
-        <div id="service">
+
+        @php
+          $none = "";
+          if($transaksi->jenis=='beli'){
+            $none = "display:none";
+          }
+        @endphp
+        <div id="service" style="{{$none}}">
           <h1>
             SERVICE
             <button style="float: right;" data-toggle="modal" data-target="#mod-service" type="button" class="btn btn-lg btn-space btn-success btnModalService">Tambah Service</button>

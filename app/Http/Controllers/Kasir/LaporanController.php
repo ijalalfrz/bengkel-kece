@@ -17,7 +17,7 @@ class LaporanController extends Controller
     {
         //
 
-        $data = Transaksi::where('status', '=', 'done')->orderBy('created_at','desc')->get();
+        $data = Transaksi::where('status', 'done')->orWhere('status','cancel_request')->orderBy('created_at','desc')->get();
 
         return view('kasir.laporan', ['transaksi'=> $data]);
     }

@@ -310,7 +310,6 @@
       var jum = $('.qty_part').val();
       var stok = $('.id_part').find(':selected').data('stok');
 
-      if(stok>=jum){
         $.get(`{{ url('kasir/transaksi/part/') }}/${id_part}`, function(data){
 
         }).done(function(data,xhr){
@@ -343,14 +342,7 @@
 
         });
 
-      }else{
-        $('.err').html(`
-        <div role="alert" class="alert alert-danger alert-dismissible">
-          Maaf, stok kurang
-        </div>
-        `);
-        $('.qty_part').val(parseInt(stok));
-      }
+
 
     });
 
