@@ -46,8 +46,7 @@
 <script type="text/javascript">
   $(function(){
     window.print();
-    window.location.href = '{{ url('/kasir/laporan') }}';
-
+    window.location.href = '{{ url('/manager/laporan_bulanan') }}';
   })
 </script>
 @endsection

@@ -73,7 +73,7 @@
 <script type="text/javascript">
   $(function(){
     window.print();
-    window.location.href = '{{ url('/kasir/laporan') }}';
+    window.close();
 
   })
 </script>

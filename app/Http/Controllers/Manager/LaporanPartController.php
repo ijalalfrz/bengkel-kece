@@ -54,6 +54,40 @@ class LaporanPartController extends Controller
         }
     }
 
+    public function cetak(){
+        $data_part = Part::all();
+
+        if($data_part != null){
+            for ($i = 0; $i < sizeof($data_part); $i++) {
+                $status = 0;
+                $jumlah = 0;
+                $pend = 0;
+                if($data_part[$i]->detail_transaksi != null){
+                    foreach ($data_part[$i]->detail_transaksi as $value) {
+                        $jumlah += $value->jumlah;           
+                        $pend += $value->total_harga;
+
+                    }
+                    $status = 1;
+                }
+                $id = $data_part[$i]->id;
+
+                $info = array('jumlah'=> $jumlah,
+                    'pend'=> $pend,
+                    'id'=> $id,
+                    'status'=> $status);
+                if($i == 0){
+                    $data_all = array($i=> $info);
+                }else{
+                    $data_all = array_add($data_all, $i, $info);
+                }
+            }
+
+        }
+
+        return view('manager.laporan_part.cetak', ['data_part'=> $data_part, 'data_all'=> $data_all]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

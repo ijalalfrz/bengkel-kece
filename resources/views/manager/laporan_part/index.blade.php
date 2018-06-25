@@ -20,7 +20,7 @@
   <div class="panel panel-default">
   	<div class="panel-heading">
       Laporan Penjualan Part
-      <a href="{{ url('manager/laporan/umum') }}" class="btn btn-success" target="_blank">Cetak</a>
+      <a href="{{ url('manager/laporan_part/cetak') }}" class="btn btn-success" target="_blank">Cetak</a>
       <div class="clearfix"></div>
     </div>
 	  <div class="panel-body">
