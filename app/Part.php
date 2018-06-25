@@ -19,5 +19,10 @@ class Part extends Model
       return $this->hasMany('App\TransaksiDetailPart','id_part','id');
   }
 
+  public function pembelian()
+  {
+      return $this->hasMany('App\PembelianPart','id_part','id');
+  }
+
 
 }

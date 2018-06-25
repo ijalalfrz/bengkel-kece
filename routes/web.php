@@ -96,6 +96,7 @@ Route::group(['prefix' => 'manager',  'middleware' => 'auth-manager'], function(
     Route::resource('laporan_tahunan', 'Manager\LaporanTahunanController');
     Route::resource('laporan_range', 'Manager\LaporanRangeController');
     Route::resource('laporan_part', 'Manager\LaporanPartController');
+    Route::resource('pembelian_part', 'Manager\PembelianPartController');
 
 });
 
