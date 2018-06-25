@@ -2,30 +2,30 @@
 
 @section('content')
 <center>
-  <h1>Laporan Umum Tanggal {{$info['tgl_show']}}</h1>
+  <h1>Laporan Tanggal {{$info['tgl_show']}}</h1>
   <h4>PT. BENGKEL KECE</h4>
 </center>
 <hr>
 <div class="panel-body">
  	<table class="table">
  	  <tr>
- 	    <th>Jumlah Service Terlaksana</th>
- 	    <td> {{$info['service']}} </td>
- 	    <th>Jumlah Pendapatan Service</th>
- 	    <td>Rp {{number_format($info['pend_service'], 0, '', '.')}} </td>
- 	  </tr>
- 	  <tr>
- 	    <th>Jumlah Part Terjual</th>
- 	    <td> {{$info['part']}} </td>
- 	    <th>Jumlah Pendapatan Penjualan Part</th>
- 	    <td>Rp {{number_format($info['pend_part'], 0, '', '.')}} </td>
- 	  </tr>
- 	  <tr>
- 	    <th>Total Transaksi</th>
- 	    <td> {{$info['total_transaksi']}} </td>
- 	    <th>Total Pendapatan</th>
- 	    <td>Rp {{number_format($info['total'], 0, '', '.')}}</td>
- 	  </tr>
+      <th>Jumlah Service Terlaksana</th>
+      <td> {{$info['service']}} </td>
+      <th>Jumlah Pendapatan Service</th>
+      <td>Rp {{number_format($info['pend_service'], 0, '', '.')}} </td>
+    </tr>
+    <tr>
+      <th>Jumlah Pembelian Terlaksana</th>
+      <td> {{$info['part']}} </td>
+      <th>Jumlah Pendapatan Pembelian</th>
+      <td>Rp {{number_format($info['pend_part'], 0, '', '.')}} </td>
+    </tr>
+    <tr>
+      <th>Jumlah Transaksi</th>
+      <td> {{$info['total_transaksi']}} </td>
+      <th>Total Pendapatan</th>
+      <td>Rp {{number_format($info['total'], 0, '', '.')}}</td>
+    </tr>
 	</table>
 </div>
 <div class="panel-heading panel-heading-divider">

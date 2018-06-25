@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon;
 use App\Transaksi;
+use App\TransaksiDetailPart;
+use App\TransaksiDetailService;
 use DB;
 
 class LaporanBulananController extends Controller
@@ -18,176 +20,100 @@ class LaporanBulananController extends Controller
     public function index()
     {
         //
-        $data_group = Transaksi::distinct()->select(DB::raw('YEAR(created_at) year, MONTH(created_at) month'))->get();    
+
+        $now = Carbon::parse(Carbon::now())->format('Y');
+        $data_group = Transaksi::distinct()->select(DB::raw('MONTH(created_at) month, YEAR(created_at) year'))
+            ->whereYear('created_at', '=', $now)
+            ->get();
 
         for ($i = 0; $i < sizeof($data_group); $i++) {
-            $data = Transaksi::whereYear('created_at', '=', $data_group[$i]->year)
+            $data = Transaksi::whereYear('created_at', '=', $now)
                 ->whereMonth('created_at', '=', $data_group[$i]->month)
                 ->get();
 
             $part = 0;
             $pend_part = 0;
+
             $service = 0;
             $pend_service = 0;
-            $total = 0;
+            
             $total_transaksi = 0;
+            $total_harga = 0;
 
-            $date = $data_group[$i]->year . '-' . $data_group[$i]->month . '-' . '20';
+            $date = $now . '-' . $data_group[$i]->month . '-' . '20';
             $month = Carbon::parse($date)->format('M');
-            $name = $month . ' ' . $data_group[$i]->year;
+            $name = $month . ' ' . $now;
 
             foreach ($data as $itm) {
                 if($itm->jenis == "service"){
-                    foreach ($itm->detailService as $value) {
-                        $service += 1;
-                        $pend_service += $value->harga_jual;
-                    }
-                    if($itm->detailPart != null){
-                        foreach ($itm->detailPart as $value) {
-                            $part += $value->jumlah;
-                            $pend_part += $value->total_harga;
-                        }
-                    }
+                    $service += 1;
+                    $pend_service += $itm->total_harga;  
                 }else{
-                    foreach ($itm->detailPart as $value) {
-                        $part += $value->jumlah;
-                        $pend_part += $value->total_harga;
-                    }
+                    $part += 1;
+                    $pend_part += $itm->total_harga;
                 }
-                $total += $itm->total_harga;
                 $total_transaksi += 1;
+                $total_harga += $itm->total_harga;
+
             }
 
-            $info = array('part'=> $part,
-                'pend_part'=> $pend_part,
-                'service'=> $service,
+            $info = array('service'=> $service,
                 'pend_service'=> $pend_service,
-                'total'=> $total,
+                'part'=> $part,
+                'pend_part'=> $pend_part,
                 'total_transaksi'=> $total_transaksi,
-                'name'=> $name);
+                'total_harga'=> $total_harga,
+                'name'=> $name,
+                'month'=> $month);
 
             if($i == 0){
                 $data_all = array($i=> $info);
             }else{
                 $data_all = array_add($data_all, $i, $info);
             }
-
         }
-
-        $tgl = Carbon::parse(Carbon::today())->format('Y-m-d');
-        $year = Carbon::today()->year;
-        $month = Carbon::today()->month;
-        $data = Transaksi::whereYear('created_at', '=',$year)
-                    ->whereMonth('created_at', '=',$month)
-                    ->get();
 
         $part = 0;
         $pend_part = 0;
         $service = 0;
         $pend_service = 0;
-        $total = 0;
         $total_transaksi = 0;
+        $total_harga = 0;
 
-        foreach ($data as $itm) {
-            if($itm->jenis == "service"){
-                foreach ($itm->detailService as $value) {
-                    $service += 1;
-                    $pend_service += $value->harga_jual;
-                }
-                if($itm->detailPart != null){
-                    foreach ($itm->detailPart as $value) {
-                        $part += $value->jumlah;
-                        $pend_part += $value->total_harga;
-                    }
-                }
-            }else{
-                foreach ($itm->detailPart as $value) {
-                    $part += $value->jumlah;
-                    $pend_part += $value->total_harga;
-                }
-            }
-            $total += $itm->total_harga;
-            $total_transaksi += 1;
+        foreach ($data_all as $itm) {
+            $part += $itm['part'];
+            $pend_part += $itm['pend_part'];
+            $service += $itm['service'];
+            $pend_service += $itm['pend_service'];
+            $total_transaksi += $itm['total_transaksi'];
+            $total_harga += $itm['total_harga'];
         }
 
-        $tgl_show = Carbon::parse(Carbon::today())->format('M Y');
-        $info = array('tgl'=> $tgl,
-                'tgl_show'=> $tgl_show,
-                'month'=> $month,
-                'year'=> $year,
-                'part'=> $part,
-                'pend_part'=> $pend_part,
-                'service'=> $service,
-                'pend_service'=> $pend_service,
-                'total'=> $total,
-                'total_transaksi'=> $total_transaksi);
+        $grand_info = array('part'=> $part,
+            'pend_part'=> $pend_part,
+            'service'=> $service,
+            'pend_service'=> $pend_service,
+            'total_transaksi'=> $total_transaksi,
+            'total_harga'=> $total_harga);
 
-        if($data_all != null){
-            return view('manager.laporan_bulanan.index', ['transaksi'=> $data, 'info'=> $info, 'data_all'=> $data_all]);
-        }else{
-            return view('manager.laporan_bulanan.index', ['transaksi'=> $data, 'info'=> $info]);
-        }
-    }
+        $data = $data->sortBy('month')->values();
 
-    public function umum(){
-        $data_group = Transaksi::distinct()->select(DB::raw('YEAR(created_at) year, MONTH(created_at) month'))->get();    
+        $data = Transaksi::distinct()->select(DB::raw('YEAR(created_at) year'))->get();   
 
-        for ($i = 0; $i < sizeof($data_group); $i++) {
-            $data = Transaksi::whereYear('created_at', '=', $data_group[$i]->year)
-                ->whereMonth('created_at', '=', $data_group[$i]->month)
-                ->get();
 
-            $part = 0;
-            $pend_part = 0;
-            $service = 0;
-            $pend_service = 0;
-            $total = 0;
-            $total_transaksi = 0;
-
-            $date = $data_group[$i]->year . '-' . $data_group[$i]->month . '-' . '20';
-            $month = Carbon::parse($date)->format('M');
-            $name = $month . ' ' . $data_group[$i]->year;
-
-            foreach ($data as $itm) {
-                if($itm->jenis == "service"){
-                    foreach ($itm->detailService as $value) {
-                        $service += 1;
-                        $pend_service += $value->harga_jual;
-                    }
-                    if($itm->detailPart != null){
-                        foreach ($itm->detailPart as $value) {
-                            $part += $value->jumlah;
-                            $pend_part += $value->total_harga;
-                        }
-                    }
-                }else{
-                    foreach ($itm->detailPart as $value) {
-                        $part += $value->jumlah;
-                        $pend_part += $value->total_harga;
-                    }
-                }
-                $total += $itm->total_harga;
-                $total_transaksi += 1;
-            }
-
-            $info = array('part'=> $part,
-                'pend_part'=> $pend_part,
-                'service'=> $service,
-                'pend_service'=> $pend_service,
-                'total'=> $total,
-                'total_transaksi'=> $total_transaksi,
-                'name'=> $name);
-
+        for ($i = 0; $i < sizeof($data); $i++) {
             if($i == 0){
-                $data_all = array($i=> $info);
+                $years = array($i=> $data[$i]->year);
             }else{
-                $data_all = array_add($data_all, $i, $info);
+                $years = array_add($years, $i, $data[$i]->year);
             }
-
         }
 
-        return view('manager.laporan_bulanan.cetak_umum', ['data_all'=> $data_all]);
 
+        $info = array('tgl_show'=> $now,
+                'years'=> $years);
+
+        return view('manager.laporan_bulanan.index', ['data_all'=> $data_all, 'info'=> $info, 'grand_info'=> $grand_info]);
     }
     /**
      * Show the form for creating a new resource.
@@ -209,52 +135,47 @@ class LaporanBulananController extends Controller
     {
         //
 
-        $data_group = Transaksi::distinct()->select(DB::raw('YEAR(created_at) year, MONTH(created_at) month'))->get();    
+        $data_group = Transaksi::distinct()->select(DB::raw('MONTH(created_at) month, YEAR(created_at) year'))
+            ->whereYear('created_at', '=', $request->year)
+            ->get();
 
         for ($i = 0; $i < sizeof($data_group); $i++) {
-            $data = Transaksi::whereYear('created_at', '=', $data_group[$i]->year)
+            $data = Transaksi::whereYear('created_at', '=', $request->year)
                 ->whereMonth('created_at', '=', $data_group[$i]->month)
                 ->get();
 
             $part = 0;
             $pend_part = 0;
+
             $service = 0;
             $pend_service = 0;
-            $total = 0;
+            
             $total_transaksi = 0;
+            $total_harga = 0;
 
-            $date = $data_group[$i]->year . '-' . $data_group[$i]->month . '-' . '20';
+            $date = $request->year . '-' . $data_group[$i]->month . '-' . '20';
             $month = Carbon::parse($date)->format('M');
-            $name = $month . ' ' . $data_group[$i]->year;
+            $name = $month . ' ' . $request->year;
 
             foreach ($data as $itm) {
                 if($itm->jenis == "service"){
-                    foreach ($itm->detailService as $value) {
-                        $service += 1;
-                        $pend_service += $value->harga_jual;
-                    }
-                    if($itm->detailPart != null){
-                        foreach ($itm->detailPart as $value) {
-                            $part += $value->jumlah;
-                            $pend_part += $value->total_harga;
-                        }
-                    }
+                    $service += 1;
+                    $pend_service += $itm->total_harga;  
                 }else{
-                    foreach ($itm->detailPart as $value) {
-                        $part += $value->jumlah;
-                        $pend_part += $value->total_harga;
-                    }
+                    $part += 1;
+                    $pend_part += $itm->total_harga;
                 }
-                $total += $itm->total_harga;
                 $total_transaksi += 1;
+                $total_harga += $itm->total_harga;
+
             }
 
-            $info = array('part'=> $part,
-                'pend_part'=> $pend_part,
-                'service'=> $service,
+            $info = array('service'=> $service,
                 'pend_service'=> $pend_service,
-                'total'=> $total,
+                'part'=> $part,
+                'pend_part'=> $pend_part,
                 'total_transaksi'=> $total_transaksi,
+                'total_harga'=> $total_harga,
                 'name'=> $name);
 
             if($i == 0){
@@ -262,109 +183,139 @@ class LaporanBulananController extends Controller
             }else{
                 $data_all = array_add($data_all, $i, $info);
             }
-
         }
-        
-        $year = $request->year;
-        $month = $request->month;
-        $data = Transaksi::whereYear('created_at', '=',$year)
-                    ->whereMonth('created_at', '=',$month)
-                    ->get();
 
         $part = 0;
         $pend_part = 0;
         $service = 0;
         $pend_service = 0;
-        $total = 0;
         $total_transaksi = 0;
-        foreach ($data as $itm) {
-            if($itm->jenis == "service"){
-                foreach ($itm->detailService as $value) {
-                    $service += 1;
-                    $pend_service += $value->harga_jual;
-                }
-                if($itm->detailPart != null){
-                    foreach ($itm->detailPart as $value) {
-                        $part += $value->jumlah;
-                        $pend_part += $value->total_harga;
-                    }
-                }
+        $total_harga = 0;
+
+        foreach ($data_all as $itm) {
+            $part += $itm['part'];
+            $pend_part += $itm['pend_part'];
+            $service += $itm['service'];
+            $pend_service += $itm['pend_service'];
+            $total_transaksi += $itm['total_transaksi'];
+            $total_harga += $itm['total_harga'];
+        }
+
+        $grand_info = array('part'=> $part,
+            'pend_part'=> $pend_part,
+            'service'=> $service,
+            'pend_service'=> $pend_service,
+            'total_transaksi'=> $total_transaksi,
+            'total_harga'=> $total_harga);
+
+        $data = Transaksi::distinct()->select(DB::raw('YEAR(created_at) year'))->get();   
+
+
+        for ($i = 0; $i < sizeof($data); $i++) {
+            if($i == 0){
+                $years = array($i=> $data[$i]->year);
             }else{
-                foreach ($itm->detailPart as $value) {
-                    $part += $value->jumlah;
-                    $pend_part += $value->total_harga;
-                }
+                $years = array_add($years, $i, $data[$i]->year);
             }
-            $total += $itm->total_harga;
-            $total_transaksi += 1;
         }
 
-        $tgl = $year . '-' . $month . '-' . '20';
-        $tgl_show = Carbon::parse($tgl)->format('M Y');
+        $info = array('tgl_show'=> $request->year,
+                'years'=> $years);
 
-        $info = array('tgl'=> $tgl,
-                'tgl_show'=> $tgl_show,
-                'part'=> $part,
-                'pend_part'=> $pend_part,
-                'service'=> $service,
-                'pend_service'=> $pend_service,
-                'total'=> $total,
-                'total_transaksi'=> $total_transaksi);
-
-        if($data_all != null){
-            return view('manager.laporan_bulanan.index', ['transaksi'=> $data, 'info'=> $info, 'data_all'=> $data_all]);
-        }else{
-            return view('manager.laporan_bulanan.index', ['transaksi'=> $data, 'info'=> $info]);
-        }
+        return view('manager.laporan_bulanan.index', ['data_all'=> $data_all, 'info'=> $info, 'grand_info'=> $grand_info]);
     }
 
     public function khusus($tgl){
-        $year = Carbon::parse($tgl)->format('Y');
-        $month = Carbon::parse($tgl)->format('m');
-        $data = Transaksi::whereYear('created_at', '=',$year)
-                    ->whereMonth('created_at', '=',$month)
-                    ->get();
+        $data_group = Transaksi::distinct()->select(DB::raw('MONTH(created_at) month, YEAR(created_at) year'))
+            ->whereYear('created_at', '=', $tgl)
+            ->get();
+
+        for ($i = 0; $i < sizeof($data_group); $i++) {
+            $data = Transaksi::whereYear('created_at', '=', $tgl)
+                ->whereMonth('created_at', '=', $data_group[$i]->month)
+                ->get();
+
+            $part = 0;
+            $pend_part = 0;
+
+            $service = 0;
+            $pend_service = 0;
+            
+            $total_transaksi = 0;
+            $total_harga = 0;
+
+            $date = $tgl . '-' . $data_group[$i]->month . '-' . '20';
+            $month = Carbon::parse($date)->format('M');
+            $name = $month . ' ' . $tgl;
+
+            foreach ($data as $itm) {
+                if($itm->jenis == "service"){
+                    $service += 1;
+                    $pend_service += $itm->total_harga;  
+                }else{
+                    $part += 1;
+                    $pend_part += $itm->total_harga;
+                }
+                $total_transaksi += 1;
+                $total_harga += $itm->total_harga;
+
+            }
+
+
+
+            $info = array('service'=> $service,
+                'pend_service'=> $pend_service,
+                'part'=> $part,
+                'pend_part'=> $pend_part,
+                'total_transaksi'=> $total_transaksi,
+                'total_harga'=> $total_harga,
+                'name'=> $name);
+
+            if($i == 0){
+                $data_all = array($i=> $info);
+            }else{
+                $data_all = array_add($data_all, $i, $info);
+            }
+        }
 
         $part = 0;
         $pend_part = 0;
         $service = 0;
         $pend_service = 0;
-        $total = 0;
         $total_transaksi = 0;
-        foreach ($data as $itm) {
-            if($itm->jenis == "service"){
-                foreach ($itm->detailService as $value) {
-                    $service += 1;
-                    $pend_service += $value->harga_jual;
-                }
-                if($itm->detailPart != null){
-                    foreach ($itm->detailPart as $value) {
-                        $part += $value->jumlah;
-                        $pend_part += $value->total_harga;
-                    }
-                }
-            }else{
-                foreach ($itm->detailPart as $value) {
-                    $part += $value->jumlah;
-                    $pend_part += $value->total_harga;
-                }
-            }
-            $total += $itm->total_harga;
-            $total_transaksi += 1;
+        $total_harga = 0;
+
+        foreach ($data_all as $itm) {
+            $part += $itm['part'];
+            $pend_part += $itm['pend_part'];
+            $service += $itm['service'];
+            $pend_service += $itm['pend_service'];
+            $total_transaksi += $itm['total_transaksi'];
+            $total_harga += $itm['total_harga'];
         }
 
-        $tgl_show = Carbon::parse($tgl)->format('M Y');
+        $grand_info = array('part'=> $part,
+            'pend_part'=> $pend_part,
+            'service'=> $service,
+            'pend_service'=> $pend_service,
+            'total_transaksi'=> $total_transaksi,
+            'total_harga'=> $total_harga);
 
-        $info = array('tgl'=> $tgl,
-                'tgl_show'=> $tgl_show,
-                'part'=> $part,
-                'pend_part'=> $pend_part,
-                'service'=> $service,
-                'pend_service'=> $pend_service,
-                'total'=> $total,
-                'total_transaksi'=> $total_transaksi);
+        $data = Transaksi::distinct()->select(DB::raw('YEAR(created_at) year'))->get();   
 
-        return view('manager.laporan_bulanan.cetak_khusus', ['transaksi'=> $data, 'info'=> $info]);
+
+        for ($i = 0; $i < sizeof($data); $i++) {
+            if($i == 0){
+                $years = array($i=> $data[$i]->year);
+            }else{
+                $years = array_add($years, $i, $data[$i]->year);
+            }
+        }
+
+        $info = array('tgl_show'=> $tgl,
+                'years'=> $years);
+
+        return view('manager.laporan_bulanan.cetak_khusus', ['data_all'=> $data_all, 'info'=> $info, 'grand_info'=> $grand_info]);
 
     }
 

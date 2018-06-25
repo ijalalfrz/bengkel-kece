@@ -18,50 +18,6 @@
       <span>{{ \Session::get('msg') }}</span>
     </div>
   @endif
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      Laporan Umum Harian
-      <a href="{{ url('manager/laporan/umum') }}" class="btn btn-success" target="_blank">Cetak</a>
-      <div class="clearfix"></div>
-    </div>
-    <div class="panel-body">
-      <table class="table" id="datatab">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Hari</th>
-            <th>Service terlaksana</th>
-            <th>Pendapatan service</th>
-            <th>Part terjual</th>
-            <th>Pendapatan penjualan part</th>
-            <th>Total transaksi</th>
-            <th>Total pendapatan</th>
-          </tr>
-        </thead>
-        <tbody>
-          @php
-            $i = 1;
-            $data_all = collect($data_all)->sortBy('name')->reverse()->toArray();
-          @endphp
-          @foreach ($data_all as $itm)
-          <tr>
-            <td> {{$i}} </td>
-            <td> {{$itm['name']}}</td>   
-            <td> {{$itm['service']}}</td>   
-            <td> Rp {{number_format($itm['pend_service'], 0, '', '.')}}</td>   
-            <td> {{$itm['part']}}</td>   
-            <td> Rp {{number_format($itm['pend_part'], 0, '', '.')}}</td>   
-            <td> {{$itm['total_transaksi']}}</td>   
-            <td> Rp {{number_format($itm['total'], 0, '', '.')}}</td>  
-          </tr>
-          @php
-            $i++;
-          @endphp
-          @endforeach
-        </tbody> 
-      </table>
-    </div>
-  </div>
   <div class="panel panel-default">   
   	<div class="panel-heading">
       Laporan Umum Tanggal {{$info['tgl_show']}}
@@ -92,13 +48,13 @@
           <td>Rp {{number_format($info['pend_service'], 0, '', '.')}} </td>
         </tr>
         <tr>
-          <th>Jumlah Part Terjual</th>
+          <th>Jumlah Pembelian Terlaksana</th>
           <td> {{$info['part']}} </td>
-          <th>Jumlah Pendapatan Penjualan Part</th>
+          <th>Jumlah Pendapatan Pembelian</th>
           <td>Rp {{number_format($info['pend_part'], 0, '', '.')}} </td>
         </tr>
         <tr>
-          <th>Total Transaksi</th>
+          <th>Jumlah Transaksi</th>
           <td> {{$info['total_transaksi']}} </td>
           <th>Total Pendapatan</th>
           <td>Rp {{number_format($info['total'], 0, '', '.')}}</td>
@@ -166,25 +122,6 @@
 
 @section('script')
 <script type="text/javascript">
-  $(function(){
-    $('#datatab').DataTable({
-      'aoColumnDefs': [{
-        'bSortable': false,
-        'aTargets': [-1, -1] /* 1st one, start by the right */
-      }]
-    });
-    $('.btnDelete').click(function(){
-      var url = $(this).data('url');
-      $('#modal-delete').find('form').attr('action', url);
-    });
-
-    $('.btnStok').click(function(){
-      var url = $(this).data('url');
-      var stok = $(this).data('stok');
-      $('#modal-stok').find('form').attr('action', url);
-      $('#modal-stok').find('input').val(stok);
-    });
-  });
   $(function(){
     $('#datatab2').DataTable({
       'aoColumnDefs': [{

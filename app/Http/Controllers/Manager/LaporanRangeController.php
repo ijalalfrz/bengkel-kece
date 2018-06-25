@@ -42,24 +42,15 @@ class LaporanRangeController extends Controller
             
             foreach ($data as $itm) {
                 if($itm->jenis == "service"){
-                    foreach ($itm->detailService as $value) {
-                        $service += 1;
-                        $pend_service += $value->harga_jual;
-                    }
-                    if($itm->detailPart != null){
-                        foreach ($itm->detailPart as $value) {
-                            $part += $value->jumlah;
-                            $pend_part += $value->total_harga;
-                        }
-                    }
+                    $service += 1;
+                    $pend_service += $itm->total_harga;  
                 }else{
-                    foreach ($itm->detailPart as $value) {
-                        $part += $value->jumlah;
-                        $pend_part += $value->total_harga;
-                    }
+                    $part += 1;
+                    $pend_part += $itm->total_harga;
                 }
-                $total += $itm->total_harga;
                 $total_transaksi += 1;
+                $total += $itm->total_harga;
+
             }
 
             $info = array('part'=> $part,
@@ -143,24 +134,15 @@ class LaporanRangeController extends Controller
             
             foreach ($data as $itm) {
                 if($itm->jenis == "service"){
-                    foreach ($itm->detailService as $value) {
-                        $service += 1;
-                        $pend_service += $value->harga_jual;
-                    }
-                    if($itm->detailPart != null){
-                        foreach ($itm->detailPart as $value) {
-                            $part += $value->jumlah;
-                            $pend_part += $value->total_harga;
-                        }
-                    }
+                    $service += 1;
+                    $pend_service += $itm->total_harga;  
                 }else{
-                    foreach ($itm->detailPart as $value) {
-                        $part += $value->jumlah;
-                        $pend_part += $value->total_harga;
-                    }
+                    $part += 1;
+                    $pend_part += $itm->total_harga;
                 }
-                $total += $itm->total_harga;
                 $total_transaksi += 1;
+                $total += $itm->total_harga;
+
             }
 
             $info = array('part'=> $part,
@@ -264,24 +246,15 @@ class LaporanRangeController extends Controller
             
             foreach ($data as $itm) {
                 if($itm->jenis == "service"){
-                    foreach ($itm->detailService as $value) {
-                        $service += 1;
-                        $pend_service += $value->harga_jual;
-                    }
-                    if($itm->detailPart != null){
-                        foreach ($itm->detailPart as $value) {
-                            $part += $value->jumlah;
-                            $pend_part += $value->total_harga;
-                        }
-                    }
+                    $service += 1;
+                    $pend_service += $itm->total_harga;  
                 }else{
-                    foreach ($itm->detailPart as $value) {
-                        $part += $value->jumlah;
-                        $pend_part += $value->total_harga;
-                    }
+                    $part += 1;
+                    $pend_part += $itm->total_harga;
                 }
-                $total += $itm->total_harga;
                 $total_transaksi += 1;
+                $total += $itm->total_harga;
+
             }
 
             $info = array('part'=> $part,

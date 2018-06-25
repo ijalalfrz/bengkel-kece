@@ -2,84 +2,64 @@
 
 @section('content')
 <center>
-  <h1>Laporan Umum Bulan {{$info['tgl_show']}}</h1>
+  <h1>Laporan Bulanan Tahun {{$info['tgl_show']}}</h1>
   <h4>PT. BENGKEL KECE</h4>
 </center>
 <hr>
 <div class="panel-body">
- 	<table class="table">
- 	  <tr>
- 	    <th>Jumlah Service Terlaksana</th>
- 	    <td> {{$info['service']}} </td>
- 	    <th>Jumlah Pendapatan Service</th>
- 	    <td>Rp {{number_format($info['pend_service'], 0, '', '.')}} </td>
- 	  </tr>
- 	  <tr>
- 	    <th>Jumlah Part Terjual</th>
- 	    <td> {{$info['part']}} </td>
- 	    <th>Jumlah Pendapatan Penjualan Part</th>
- 	    <td>Rp {{number_format($info['pend_part'], 0, '', '.')}} </td>
- 	  </tr>
- 	  <tr>
- 	    <th>Total Transaksi</th>
- 	    <td> {{$info['total_transaksi']}} </td>
- 	    <th>Total Pendapatan</th>
- 	    <td>Rp {{number_format($info['total'], 0, '', '.')}}</td>
- 	  </tr>
-	</table>
-</div>
-<div class="panel-heading panel-heading-divider">
-  Daftar Transaksi Bulan {{$info['tgl_show']}}
-  <div class="clearfix"></div>
-</div>
-<div class="panel-body">
-  <table id="datatab" class="table">
+  <table class="table">
+    <tr>
+      <th>Jumlah Service Terlaksana</th>
+      <td> {{$grand_info['service']}} </td>
+      <th>Jumlah Pendapatan Service</th>
+      <td>Rp {{number_format($grand_info['pend_service'], 0, '', '.')}} </td>
+    </tr>
+    <tr>
+      <th>Jumlah Pembelian Terlaksana</th>
+      <td> {{$grand_info['part']}} </td>
+      <th>Jumlah Pendapatan Pembelian</th>
+      <td>Rp {{number_format($grand_info['pend_part'], 0, '', '.')}} </td>
+    </tr>
+    <tr>
+      <th>Jumlah Transaksi</th>
+      <td> {{$grand_info['total_transaksi']}} </td>
+      <th>Total Pendapatan</th>
+      <td>Rp {{number_format($grand_info['total_harga'], 0, '', '.')}}</td>
+    </tr>
+  </table>
+ 	<table class="table" id="datatab">
     <thead>
       <tr>
         <th>No</th>
-        <th>Tanggal</th>
-        <th>Nama Pelanggan</th>
-        <th>STNK</th>
-        <th>Nama Montir</th>
-        <th>Total Harga</th>
-        <th>Jenis</th>
-        <th>Status</th>
+        <th>Bulan</th>
+        <th>Jumlah jasa service</th>
+        <th>Pendapatan jasa service</th>
+        <th>Jumlah pembelian</th>
+        <th>Pendapatan pembelian</th>
+        <th>Jumlah transaksi</th>
+        <th>Total pendapatan</th>
       </tr>
     </thead>
     <tbody>
       @php
         $i = 1;
       @endphp
-      @foreach($transaksi as $itm)
+      @foreach ($data_all as $itm)
       <tr>
-        <td>{{$i}}</td>
-        <td>{{$itm->created_at->format('d M Y H:i:s')}}</td>
-        <td>
-          @if ($itm->id_pelanggan != null)
-            {{$itm->pelanggan->nama}}
-          @else
-            UMUM
-          @endif
-        </td>
-        <td>
-          @if ($itm->id_pelanggan != null)
-            {{$itm->pelanggan->no_kendaraan}}
-          @endif
-        </td>
-        <td>
-          @if ($itm->id_montir != null)
-            {{$itm->montir->nama}}
-          @endif
-        </td>
-        <td>Rp {{number_format($itm->total_harga, 0, '', '.')}}</td>
-        <td>{{$itm->jenis}}</td>
-        <td>{{$itm->status}}</td>
+        <td> {{$i}} </td>
+        <td> {{$itm['name']}}</td>   
+        <td> {{$itm['service']}} </td>   
+        <td> Rp {{number_format($itm['pend_service'], 0, '', '.')}} </td>   
+        <td> {{$itm['part']}}</td>   
+        <td> Rp {{number_format($itm['pend_part'], 0, '', '.')}}</td>   
+        <td> {{$itm['total_transaksi']}} </td>   
+        <td> Rp {{number_format($itm['total_harga'], 0, '', '.')}}</td>  
       </tr>
-        @php
-          $i++;
-        @endphp
+      @php
+        $i++;
+      @endphp
       @endforeach
-    </tbody>
+    </tbody> 
   </table>
 </div>
 @endsection
