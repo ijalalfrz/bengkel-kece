@@ -15,13 +15,13 @@
       <td>Rp {{number_format($grand_info['pend_service'], 0, '', '.')}} </td>
     </tr>
     <tr>
-      <th>Jumlah Part Terjual</th>
+      <th>Jumlah Pembelian Terlaksana</th>
       <td> {{$grand_info['part']}} </td>
-      <th>Jumlah Pendapatan Penjualan Part</th>
+      <th>Jumlah Pendapatan Pembelian</th>
       <td>Rp {{number_format($grand_info['pend_part'], 0, '', '.')}} </td>
     </tr>
     <tr>
-      <th>Total Transaksi</th>
+      <th>Jumlah Transaksi</th>
       <td> {{$grand_info['total_transaksi']}} </td>
       <th>Total Pendapatan</th>
       <td>Rp {{number_format($grand_info['total'], 0, '', '.')}}</td>
@@ -38,11 +38,11 @@
     <tr>
       <th>No</th>
       <th>Tahun</th>
-      <th>Service terlaksana</th>
-      <th>Pendapatan service</th>
-      <th>Part terjual</th>
-      <th>Pendapatan penjualan part</th>
-      <th>Total transaksi</th>
+      <th>Jumlah jasa service</th>
+      <th>Pendapatan jasa service</th>
+      <th>Jumlah pembelian</th>
+      <th>Pendapatan pembelian</th>
+      <th>Jumlah transaksi</th>
       <th>Total pendapatan</th>
     </tr>
   </thead>
