@@ -88,6 +88,7 @@ Route::group(['prefix' => 'manager',  'middleware' => 'auth-manager'], function(
     Route::get('cancel_request/{id}/approve', 'Manager\CancelRequestController@approve');
     Route::get('cancel_request/{id}/deny', 'Manager\CancelRequestController@deny');
 
+    Route::resource('penyesuaian_stok', 'Manager\PenyesuaianStokController');
     Route::resource('cancel_request', 'Manager\CancelRequestController');
     Route::resource('sparepart', 'Manager\SparePartController');
     Route::resource('servis', 'Manager\ServisController');

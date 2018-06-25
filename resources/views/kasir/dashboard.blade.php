@@ -53,7 +53,7 @@
               <div class="btn-group">
 
                 <a href="{{ url('kasir/transaksi/'.$data->id.'/edit') }}" class="btn btn-primary">Servis/Sparepart</a>
-                <a target="_blank" href="{{ url('kasir/transaksi/'.$data->id.'/done') }}" class="btn btn-success">Selesai & Cetak</a>
+                <a target="_blank" href="{{ url('kasir/transaksi/'.$data->id.'/done') }}" class="btn btn-success selesai" >Selesai & Cetak</a>
                 <a href="{{ url('kasir/transaksi/'.$data->id.'/delete') }}" class="btn btn-danger">Hapus</a>
               </div>
             </td>
@@ -73,6 +73,12 @@
 <script type="text/javascript">
   $(function(){
     $('#datatab').DataTable();
+    $('.selesai').click(function(e){
+      e.preventDefault();
+      var uri = $(this).attr('href');
+      window.open(uri,'_blank');
+      window.location.reload();
+    });
   });
 </script>
 @endsection
