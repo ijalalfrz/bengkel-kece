@@ -53,7 +53,7 @@
               <div class="btn-group">
 
                 <a href="{{ url('kasir/transaksi/'.$data->id.'/edit') }}" class="btn btn-primary">Servis & Sparepart</a>
-                <a href="{{ url('kasir/transaksi/'.$data->id.'/done') }}" class="btn btn-success">Selesai & Cetak</a>
+                <a target="_blank" href="{{ url('kasir/transaksi/'.$data->id.'/done') }}" class="btn btn-success">Selesai & Cetak</a>
                 <a href="{{ url('kasir/transaksi/'.$data->id.'/delete') }}" class="btn btn-danger">Hapus</a>
               </div>
             </td>

@@ -406,7 +406,7 @@
           },
           yAxis: {
               title: {
-                  text: 'Jumlah Transaksi'
+                  text: 'Pendapatan Transaksi'
               }
           },
           plotOptions: {
@@ -446,7 +446,7 @@
           },
           yAxis: {
               title: {
-                  text: 'Pendapatan Transaksi'
+                  text: 'Jumlah Transaksi'
               }
           },
           plotOptions: {
