@@ -37,6 +37,7 @@
         </div>
 
         <input type="hidden" name="kode" class="form-control" required value="-">
+        <input type="hidden" name="stok" class="form-control" required value=0>
 
         <div class="form-group">
           <label>Harga Satuan</label>

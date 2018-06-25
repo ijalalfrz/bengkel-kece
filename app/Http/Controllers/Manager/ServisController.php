@@ -46,11 +46,11 @@ class ServisController extends Controller
 
             if($data->id >= 0 && $data->id <= 9){
                 $data->kode = 'S' . '0000' . $data->id;
-            }else if($data->id >= 100 && $data->id <= 999){
+            }else if($data->id >= 10 && $data->id <= 99){
                 $data->kode = 'S' . '000' . $data->id;
-            }else if($data->id >= 1000 && $data->id <= 9999){
+            }else if($data->id >= 100 && $data->id <= 999){
                 $data->kode = 'S' . '00' . $data->id;
-            }else if($data->id > 10000 && $data->id <= 99999){
+            }else if($data->id > 1000 && $data->id <= 9999){
                 $data->kode = 'S' . '0' . $data->id;
             }else{
                 $data->kode = 'S' . $data->id;
