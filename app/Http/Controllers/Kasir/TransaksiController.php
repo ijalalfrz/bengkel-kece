@@ -7,6 +7,7 @@ use App\Montir;
 use App\Part;
 use App\Service;
 use App\Transaksi;
+use App\TransaksiCancelRequest;
 use App\TransaksiDetailPart;
 use App\TransaksiDetailService;
 use Illuminate\Http\Request;
@@ -66,22 +67,19 @@ class TransaksiController extends Controller
             }
         }
 
-        if($request->jenis=='beli'){
-            $transaksi->status = 'done';
-        }else{
-            $transaksi->status = 'ongoing';
-            $transaksi->id_pelanggan = $request->id_pelanggan;
-            $transaksi->id_montir = $request->id_montir;
-            if(isset($request->id_service)){
-                for($i=0;$i<count($request->id_service);$i++){
-                    $detail_service = new TransaksiDetailService();
-                    $detail_service->id_service = $request->id_service[$i];
-                    $detail_service->harga_jual = $request->harga_jual_service[$i];
-                    $arr_detail[] = $detail_service;
-                }
-
+        $transaksi->status = 'ongoing';
+        $transaksi->id_pelanggan = $request->id_pelanggan;
+        $transaksi->id_montir = $request->id_montir;
+        if(isset($request->id_service)){
+            for($i=0;$i<count($request->id_service);$i++){
+                $detail_service = new TransaksiDetailService();
+                $detail_service->id_service = $request->id_service[$i];
+                $detail_service->harga_jual = $request->harga_jual_service[$i];
+                $arr_detail[] = $detail_service;
             }
+
         }
+
 
         if(count($arr_detail)==0){
             return back()
@@ -130,12 +128,12 @@ class TransaksiController extends Controller
                 ->withInput();
             }else{
 
-                if($transaksi->jenis=='beli'){
-                    return redirect('/kasir/transaksi/'.$transaksi->id.'/invoice');
-                }else{
-                    return redirect()->route('kasir.home');
-
-                }
+                // if($transaksi->jenis=='beli'){
+                //     return redirect('/kasir/transaksi/'.$transaksi->id.'/invoice');
+                // }else{
+                //     return redirect()->route('kasir.home');
+                // }
+                return redirect()->route('kasir.home');
 
             }
 
@@ -327,7 +325,34 @@ class TransaksiController extends Controller
 
         }else{
             return back()
-            ->withErrors(['sistem', 'Gagal menambahkan data pelanggan'])
+            ->withErrors(['sistem', 'Gagal menambahkan data transaksi'])
+            ->withInput();
+        }
+    }
+
+    public function cancel(Request $request, $id){
+        $find = Transaksi::findOrFail($id);
+
+        $find->status ='cancel_request';
+        if($find->save()){
+           \Session::flash('msg', "Sukses melakukan request");
+
+            $cancel = new TransaksiCancelRequest();
+            $cancel->id_user = \Auth::guard('kasir')->user()->id;
+            $cancel->id_transaksi = $id;
+            $cancel->alasan = $request->alasan;
+            if($cancel->save()){
+                return back();
+
+            }else{
+                return back()
+                ->withErrors(['sistem', 'Gagal melakukan request'])
+                ->withInput();
+            }
+
+        }else{
+            return back()
+            ->withErrors(['sistem', 'Gagal melakukan request'])
             ->withInput();
         }
     }

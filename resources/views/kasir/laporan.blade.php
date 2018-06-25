@@ -2,6 +2,42 @@
 
 @section('content')
 
+
+<div id="mod-cancel" role="dialog" style="display: none;" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
+      </div>
+      <div class="modal-body">
+        <div class="err">
+        </div>
+        <form method="POST" ">
+          @csrf
+          <div class="text-center">
+
+            <h3>Request Pembatalan</h3>
+            <hr>
+            <div class="form-group">
+              <label>Alasan</label>
+              <input type="text" name="alasan" class="form-control" required>
+            </div>
+            <div class="xs-mt-20">
+
+
+              <button type="submit" class="btn btn-lg btn-space btn-success ">Submit</button>
+              <button type="button" data-dismiss="modal" class="btn btn-lg btn-space btn-default">Batal</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+</div>
+
+
 <div class="page-head">
   <h2 class="page-head-title">Laporan</h2>
   <ol class="breadcrumb page-head-nav">
@@ -65,11 +101,15 @@
               <td>{{$itm->total_harga}}</td>
               <td>{{$itm->jenis}}</td>
               <td> {{$itm->status}} </td>
-              
-              <td>
-                <p class="text-right">
-                  <a href="{{ url('kasir/transaksi/'.$itm->id.'/done') }}" class="btn btn-success" target="_blank">Cetak Invoice</a>
 
+              <td>
+                <p class="text-center">
+                  @if($itm->status != 'cancel_request')
+                    <a href="{{ url('kasir/transaksi/'.$itm->id.'/done') }}" class="btn btn-success" target="_blank">Cetak Invoice</a>
+                    <button data-toggle="modal" data-target="#mod-cancel" type="button"  data-url="{{ url('kasir/transaksi/'.$itm->id.'/cancel') }}" class="btn btn-warning btnCancel" >Batal Post</button>
+                  @else
+                    <span><b>Menunggu approval</b></span>
+                  @endif
                 </p>
               </td>
             </tr>
@@ -94,16 +134,11 @@
         'aTargets': [-1, -1] /* 1st one, start by the right */
       }]
     });
-    $('.btnDelete').click(function(){
-      var url = $(this).data('url');
-      $('#modal-delete').find('form').attr('action', url);
-    });
 
-    $('.btnStok').click(function(){
+    $('.btnCancel').click(function(){
       var url = $(this).data('url');
-      var stok = $(this).data('stok');
-      $('#modal-stok').find('form').attr('action', url);
-      $('#modal-stok').find('input').val(stok);
+      $('#mod-cancel').find('form').attr('action', url);
+
     });
   });
 </script>

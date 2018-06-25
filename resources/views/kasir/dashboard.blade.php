@@ -43,16 +43,16 @@
           @foreach($transaksi as $data)
           <tr>
             <td>{{ $no }}</td>
-            <td>{{ $data->pelanggan->nama }}</td>
+            <td>{{ isset($data->pelanggan)?$data->pelanggan->nama:'UMUM' }}</td>
             <td>{{ $data->jenis }}</td>
-            <td>{{ $data->montir->nama }}</td>
+            <td>{{ isset($data->montir)?$data->montir->nama:'' }}</td>
             <td>Rp. {{number_format($data->total_harga, 0, '', '.')}} </td>
             <td>{{ $data->created_at }}</td>
             <td>
 
               <div class="btn-group">
 
-                <a href="{{ url('kasir/transaksi/'.$data->id.'/edit') }}" class="btn btn-primary">Servis & Sparepart</a>
+                <a href="{{ url('kasir/transaksi/'.$data->id.'/edit') }}" class="btn btn-primary">Servis/Sparepart</a>
                 <a target="_blank" href="{{ url('kasir/transaksi/'.$data->id.'/done') }}" class="btn btn-success">Selesai & Cetak</a>
                 <a href="{{ url('kasir/transaksi/'.$data->id.'/delete') }}" class="btn btn-danger">Hapus</a>
               </div>

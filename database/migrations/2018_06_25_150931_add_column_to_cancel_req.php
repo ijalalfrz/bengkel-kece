@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddStatusTransaksi extends Migration
+class AddColumnToCancelReq extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class AddStatusTransaksi extends Migration
     public function up()
     {
         //
-        Schema::table('transaksis', function (Blueprint $table) {
-            $table->enum('status',['done','ongoing', 'cancel_request']);
+        Schema::table('transaksi_cancel_requests', function (Blueprint $table) {
+            $table->enum('status',['disetujui','ditolak'])->nullable();
 
         });
     }
@@ -28,7 +28,7 @@ class AddStatusTransaksi extends Migration
     public function down()
     {
         //
-         Schema::table('transaksis', function (Blueprint $table) {
+         Schema::table('transaksi_cancel_requests', function (Blueprint $table) {
             $table->dropColumn(['status']);
         });
     }
