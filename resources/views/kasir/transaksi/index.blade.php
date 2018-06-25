@@ -30,7 +30,7 @@
                   <option>Pilih Part</option>
 
                   @foreach($part as $data)
-                  <option data-stok='{{$data->stok}}' value="{{$data->id}}">{{$data->kode}} - {{$data->nama}} ({{$data->stok==0?'HABIS':$data->stok}})</option>
+                  <option data-stok='{{$data->stok}}' value="{{$data->id}}">{{$data->kode}} - {{$data->nama}} ({{$data->stok<0?'HABIS':$data->stok}})</option>
                   @endforeach
                 </select>
               </div>

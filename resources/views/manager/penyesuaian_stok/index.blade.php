@@ -28,41 +28,11 @@
   </div>
 </div>
 
-<div id="modal-stok" tabindex="-1" role="dialog" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
-      </div>
-      <div class="modal-body">
-        <div class="text-center">
-          <h3>Ubah Stok</h3>
-          <div class="xs-mt-50">
-            <form method="POST" >
-              @csrf
-              <input type="hidden" name="_method" value="PUT" >
-              <div class="text-center">
-                <label><strong>Stok</strong></label>
-
-                <input type="number" name="stok" class="form-control">
-              </div>
-              <br>
-              <button type="submit"  class="btn btn-lg btn-space btn-info">Simpan</button>
-
-            </form>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer"></div>
-    </div>
-  </div>
-</div>
-
 <div class="page-head">
-  <h2 class="page-head-title">Sparepart</h2>
+  <h2 class="page-head-title">Penyesuaian Stok</h2>
   <ol class="breadcrumb page-head-nav">
     <li><a href="#">Home</a></li>
-    <li class="active">Sparepart</li>
+    <li class="active">Penyesuaian Stok</li>
   </ol>
 </div>
 <div class="main-content container-fluid">
@@ -75,8 +45,8 @@
   @endif
   <div class="panel panel-default">
     <div class="panel-heading panel-heading-divider">
-      Daftar Sparepart
-      <a href="{{ url('/manager/sparepart/create') }}" class="btn btn-lg btn-success pull-right">Tambah</a>
+      Daftar Penyesuaian Stok
+      <a href="{{ url('/manager/penyesuaian_stok/create') }}" class="btn btn-lg btn-success pull-right">Tambah</a>
       <div class="clearfix"></div>
     </div>
     <div class="panel-body">
@@ -84,34 +54,26 @@
         <thead>
           <tr>
             <th>No</th>
-            <th>Nama</th>
-            <th>Satuan</th>
-            <th>Kode</th>
-            <th>Harga Satuan</th>
-            <th>Stok</th>
-            <th></th>
+            <th>Part</th>
+            <th>Jenis</th>
+            <th>Deskripsi</th>
+            <th>Nilai</th>
+            <th>Tanggal Penyesuaian</th>
           </tr>
         </thead>
         <tbody>
           @php
             $i = 1;
           @endphp
-          @foreach($part as $itm)
+          @foreach($penyesuaian_stok as $itm)
             <tr>
-              <td> {{$i}}</td>
-              <td>{{$itm->nama}}</td>
-              <td>{{$itm->satuan}}</td>
-              <td>{{$itm->kode}}</td>
-              <td>Rp {{number_format($itm->harga, 0, '', '.')}}</td>
-              <td>{{ $itm->stok }}</td>
-              <td>
-                <p class="text-right">
-                  {{-- <a href="javascript:void(0);" data-stok='{{$itm->stok}}' data-url="{{ url('/manager/sparepart/'.$itm->id.'/stok') }}" title="Ganti Stok" data-toggle='modal' data-target='#modal-stok' class="btnStok btn btn-success"><span class="mdi mdi-plus"></span></a> --}}
-                  <a href="{{ url('/manager/sparepart/'.$itm->id.'/edit') }}" class="btn btn-info"><span class="mdi mdi-edit"></span></a>
-                  <a href="javascript:void(0);" data-url="{{ url('/manager/sparepart/'.$itm->id) }}" data-toggle='modal' data-target='#modal-delete' class="btnDelete btn btn-danger"><span class="mdi mdi-delete"></span></a>
+              <td>{{$i}}</td>
+              <td>{{$itm->part->nama}}</td>
+              <td>{{$itm->jenis}}</td>
+              <td>{{$itm->deskripsi}}</td>
+              <td>{{$itm->nilai}}</td>
+              <td>{{$itm->created_at}}</td>
 
-                </p>
-              </td>
             </tr>
             @php
               $i++;
@@ -142,8 +104,8 @@
     $('.btnStok').click(function(){
       var url = $(this).data('url');
       var stok = $(this).data('stok');
-      $('#modal-stok').find('input[name=stok]').val(stok);
       $('#modal-stok').find('form').attr('action', url);
+      $('#modal-stok').find('input').val(stok);
     });
   });
 </script>
