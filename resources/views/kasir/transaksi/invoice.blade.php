@@ -88,11 +88,7 @@
 						</td>
 						<td>1</td>
 						<td>
-							@foreach ($service as $serv)
-								@if ($serv->id == $det_service->id_service)
-									Rp {{number_format($serv->harga_jual, 0, '', '.')}}
-								@endif
-							@endforeach
+							Rp {{number_format($det_service->harga_jual, 0, '', '.')}}
 						</td>
 	      	</tr>
 					@php
@@ -123,11 +119,8 @@
 							{{ $det_part->jumlah }}
 						</td>
 						<td>
-							@foreach ($part as $pr)
-								@if ($pr->id == $det_part->id_part)
-									Rp {{number_format($pr->harga, 0, '', '.')}}
-								@endif
-							@endforeach
+							Rp {{number_format($det_part->harga_jual, 0, '', '.')}}
+
 						</td>
 					</tr>
 					@php

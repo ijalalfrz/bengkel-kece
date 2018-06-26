@@ -28,7 +28,7 @@
 	    	@csrf
 	    	<div class="form-group">
 	        <label>Part</label>
-	        <select name="id_part" class="form-control" required>
+	        <select name="id_part" class="select2 form-control" required>
 	        	<option disabled selected>Pilih part</option>
 	        	@foreach ($data as $itm)
 	        	<option value="{{$itm->id}}"> {{$itm->kode}} - {{$itm->nama}} ({{$itm->stok}})</option>

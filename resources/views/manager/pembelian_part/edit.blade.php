@@ -35,7 +35,7 @@
 	      </div>
 	      <div class="form-group">
           <label>Harga Satuan</label>
-          <input type="number" name="harga" class="form-control" required value="{{ $data->harga }}">
+          <input type="number" name="harga" class="form-control" required value="{{ (int) $data->harga }}">
         </div>
         <div class="form-group">
           <label>Satuan</label>
@@ -51,7 +51,7 @@
         </div>
         <div class="form-group">
           <label>Total Harga</label>
-          <input type="number" name="total_harga" class="form-control" required value="{{ $data->total_harga }}">
+          <input type="number" name="total_harga" class="form-control" required value="{{ (int) $data->total_harga }}">
         </div>
         <p class="text-right">
           <button step="1" min="1" type="submit" class="btn btn-space btn-primary">Simpan</button>
